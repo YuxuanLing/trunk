@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\x264dll.c" />
+    <ClCompile Include="..\..\x264.c" />
+    <ClCompile Include="..\..\common\bitstream.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\cabac.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\common.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\cpu.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\dct.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\deblock.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\frame.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\macroblock.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\mc.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\mvpred.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\opencl.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\osdep.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\pixel.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\predict.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\quant.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\rectangle.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\set.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\threadpool.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\vlc.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\win32thread.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\x86\mc-c.c">
+      <Filter>common\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\x86\predict-c.c">
+      <Filter>common\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\encoder\analyse.c">
+      <Filter>encoder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\encoder\cabac.c">
+      <Filter>encoder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\encoder\cavlc.c">
+      <Filter>encoder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\encoder\encoder.c">
+      <Filter>encoder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\encoder\lookahead.c">
+      <Filter>encoder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\encoder\macroblock.c">
+      <Filter>encoder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\encoder\me.c">
+      <Filter>encoder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\encoder\ratecontrol.c">
+      <Filter>encoder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\encoder\rdo.c">
+      <Filter>encoder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\encoder\set.c">
+      <Filter>encoder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\encoder\slicetype.c">
+      <Filter>encoder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\encoder\slicetype-cl.c">
+      <Filter>encoder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\extras\getopt.c">
+      <Filter>extras</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\filters\filters.c">
+      <Filter>filters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\filters\video\cache.c">
+      <Filter>filters\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\filters\video\crop.c">
+      <Filter>filters\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\filters\video\depth.c">
+      <Filter>filters\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\filters\video\fix_vfr_pts.c">
+      <Filter>filters\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\filters\video\internal.c">
+      <Filter>filters\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\filters\video\resize.c">
+      <Filter>filters\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\filters\video\select_every.c">
+      <Filter>filters\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\filters\video\source.c">
+      <Filter>filters\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\filters\video\video.c">
+      <Filter>filters\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\input\avs.c">
+      <Filter>input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\input\ffms.c">
+      <Filter>input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\input\input.c">
+      <Filter>input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\input\lavf.c">
+      <Filter>input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\input\raw.c">
+      <Filter>input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\input\thread.c">
+      <Filter>input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\input\timecode.c">
+      <Filter>input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\input\y4m.c">
+      <Filter>input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tools\checkasm.c">
+      <Filter>tools</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\output\flv.c">
+      <Filter>output</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\output\flv_bytestream.c">
+      <Filter>output</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\output\matroska.c">
+      <Filter>output</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\output\matroska_ebml.c">
+      <Filter>output</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\output\mp4.c">
+      <Filter>output</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\output\mp4_lsmash.c">
+      <Filter>output</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\output\raw.c">
+      <Filter>output</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="common">
+      <UniqueIdentifier>{07cb9dac-7df7-4fb6-8d8a-b9a540dd77e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="encoder">
+      <UniqueIdentifier>{0433cd81-1334-4b93-b821-cb1e94f9d076}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="extras">
+      <UniqueIdentifier>{ecd97635-c853-4071-bf89-381626045887}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="filters">
+      <UniqueIdentifier>{8bd51a57-9aed-4c44-8354-11f1cc10e3b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="input">
+      <UniqueIdentifier>{acae37f0-c738-4aea-bd59-1f1ebfac45b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="output">
+      <UniqueIdentifier>{5863cd9c-dba5-4a6d-8d18-0a3b5298ca22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools">
+      <UniqueIdentifier>{96f78c3c-34eb-4116-b0af-396a9f30c40e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\x86">
+      <UniqueIdentifier>{1630e626-4fbc-42c7-b0ed-9b7ff89e9432}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="filters\video">
+      <UniqueIdentifier>{e8f37591-433e-46b5-98a8-0c4fee2a7cd2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\common\x86\dct.h">
+      <Filter>common\x86</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\x86\mc.h">
+      <Filter>common\x86</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\x86\pixel.h">
+      <Filter>common\x86</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\x86\predict.h">
+      <Filter>common\x86</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\x86\quant.h">
+      <Filter>common\x86</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\x86\util.h">
+      <Filter>common\x86</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
