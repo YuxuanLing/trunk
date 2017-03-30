@@ -1,0 +1,140 @@
+Determining if files inttypes.h exist failed with the following output:
+Change Dir: E:/work/home/homework/git/x265/build/vc11-x86_64/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/Windows/Microsoft.NET/Framework/v4.0.30319/MSBuild.exe" "cmTC_7a10c.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=11.0"
+Microsoft(R) 生成引擎版本 4.6.1055.0
+[Microsoft .NET Framework 版本 4.0.30319.42000]
+版权所有 (C) Microsoft Corporation。保留所有权利。
+
+生成启动时间为 2017/3/30 22:14:02。
+节点 1 上的项目“E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\CMakeTmp\cmTC_7a10c.vcxproj”(默认目标)。
+PrepareForBuild:
+  正在创建目录“cmTC_7a10c.dir\Debug\”。
+  正在创建目录“E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\CMakeTmp\Debug\”。
+InitializeBuildStatus:
+  正在创建“cmTC_7a10c.dir\Debug\cmTC_7a10c.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Program Files (x86)\Visual Leak Detector\include" /Zi /W3 /WX- /Od /Ob0 /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"cmTC_7a10c.dir\Debug\\" /Fd"cmTC_7a10c.dir\Debug\vc110.pdb" /Gd /TC /errorReport:queue "E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\CMakeTmp\CheckIncludeFiles.c"
+  Microsoft (R) C/C++ Optimizing Compiler Version 17.00.50727.1 for x64
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /I"C:\Program Files (x86)\Visual Leak Detector\include" /Zi /W3 /WX- /Od /Ob0 /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"cmTC_7a10c.dir\Debug\\" /Fd"cmTC_7a10c.dir\Debug\vc110.pdb" /Gd /TC /errorReport:queue "E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\CMakeTmp\CheckIncludeFiles.c"
+  
+  CheckIncludeFiles.c
+E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\CMakeTmp\CheckIncludeFiles.c(2): fatal error C1083: Cannot open include file: 'inttypes.h': No such file or directory [E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\CMakeTmp\cmTC_7a10c.vcxproj]
+已完成生成项目“E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\CMakeTmp\cmTC_7a10c.vcxproj”(默认目标)的操作 - 失败。
+
+生成失败。
+
+“E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\CMakeTmp\cmTC_7a10c.vcxproj”(默认目标) (1) ->
+(ClCompile 目标) -> 
+  E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\CMakeTmp\CheckIncludeFiles.c(2): fatal error C1083: Cannot open include file: 'inttypes.h': No such file or directory [E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\CMakeTmp\cmTC_7a10c.vcxproj]
+
+    0 个警告
+    1 个错误
+
+已用时间 00:00:00.62
+
+Source:
+/* */
+#include <inttypes.h>
+
+
+int main(void){return 0;}
+
+Determining if the strtok_r exist failed with the following output:
+Change Dir: E:/work/home/homework/git/x265/build/vc11-x86_64/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/Windows/Microsoft.NET/Framework/v4.0.30319/MSBuild.exe" "cmTC_93f89.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=11.0"
+Microsoft(R) 生成引擎版本 4.6.1055.0
+[Microsoft .NET Framework 版本 4.0.30319.42000]
+版权所有 (C) Microsoft Corporation。保留所有权利。
+
+生成启动时间为 2017/3/30 22:14:06。
+节点 1 上的项目“E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\CMakeTmp\cmTC_93f89.vcxproj”(默认目标)。
+PrepareForBuild:
+  正在创建目录“cmTC_93f89.dir\Debug\”。
+  正在创建目录“E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\CMakeTmp\Debug\”。
+InitializeBuildStatus:
+  正在创建“cmTC_93f89.dir\Debug\cmTC_93f89.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Program Files (x86)\Visual Leak Detector\include" /Zi /W3 /WX- /Od /Ob0 /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"cmTC_93f89.dir\Debug\\" /Fd"cmTC_93f89.dir\Debug\vc110.pdb" /Gd /TC /errorReport:queue "E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\CMakeTmp\CheckSymbolExists.c"
+  Microsoft (R) C/C++ Optimizing Compiler Version 17.00.50727.1 for x64
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /I"C:\Program Files (x86)\Visual Leak Detector\include" /Zi /W3 /WX- /Od /Ob0 /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"cmTC_93f89.dir\Debug\\" /Fd"cmTC_93f89.dir\Debug\vc110.pdb" /Gd /TC /errorReport:queue "E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\CMakeTmp\CheckSymbolExists.c"
+  
+  CheckSymbolExists.c
+E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\CMakeTmp\CheckSymbolExists.c(8): error C2065: 'strtok_r' : undeclared identifier [E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\CMakeTmp\cmTC_93f89.vcxproj]
+已完成生成项目“E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\CMakeTmp\cmTC_93f89.vcxproj”(默认目标)的操作 - 失败。
+
+生成失败。
+
+“E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\CMakeTmp\cmTC_93f89.vcxproj”(默认目标) (1) ->
+(ClCompile 目标) -> 
+  E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\CMakeTmp\CheckSymbolExists.c(8): error C2065: 'strtok_r' : undeclared identifier [E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\CMakeTmp\cmTC_93f89.vcxproj]
+
+    0 个警告
+    1 个错误
+
+已用时间 00:00:00.90
+
+File E:/work/home/homework/git/x265/build/vc11-x86_64/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <string.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef strtok_r
+  return ((int*)(&strtok_r))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if files getopt.h exist failed with the following output:
+Change Dir: E:/work/home/homework/git/x265/build/vc11-x86_64/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/Windows/Microsoft.NET/Framework/v4.0.30319/MSBuild.exe" "cmTC_9d803.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=11.0"
+Microsoft(R) 生成引擎版本 4.6.1055.0
+[Microsoft .NET Framework 版本 4.0.30319.42000]
+版权所有 (C) Microsoft Corporation。保留所有权利。
+
+生成启动时间为 2017/3/30 22:14:07。
+节点 1 上的项目“E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\CMakeTmp\cmTC_9d803.vcxproj”(默认目标)。
+PrepareForBuild:
+  正在创建目录“cmTC_9d803.dir\Debug\”。
+  正在创建目录“E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\CMakeTmp\Debug\”。
+InitializeBuildStatus:
+  正在创建“cmTC_9d803.dir\Debug\cmTC_9d803.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Program Files (x86)\Visual Leak Detector\include" /Zi /W3 /WX- /Od /Ob0 /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"cmTC_9d803.dir\Debug\\" /Fd"cmTC_9d803.dir\Debug\vc110.pdb" /Gd /TC /errorReport:queue "E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\CMakeTmp\CheckIncludeFiles.c"
+  Microsoft (R) C/C++ Optimizing Compiler Version 17.00.50727.1 for x64
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /I"C:\Program Files (x86)\Visual Leak Detector\include" /Zi /W3 /WX- /Od /Ob0 /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"cmTC_9d803.dir\Debug\\" /Fd"cmTC_9d803.dir\Debug\vc110.pdb" /Gd /TC /errorReport:queue "E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\CMakeTmp\CheckIncludeFiles.c"
+  
+  CheckIncludeFiles.c
+E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\CMakeTmp\CheckIncludeFiles.c(2): fatal error C1083: Cannot open include file: 'getopt.h': No such file or directory [E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\CMakeTmp\cmTC_9d803.vcxproj]
+已完成生成项目“E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\CMakeTmp\cmTC_9d803.vcxproj”(默认目标)的操作 - 失败。
+
+生成失败。
+
+“E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\CMakeTmp\cmTC_9d803.vcxproj”(默认目标) (1) ->
+(ClCompile 目标) -> 
+  E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\CMakeTmp\CheckIncludeFiles.c(2): fatal error C1083: Cannot open include file: 'getopt.h': No such file or directory [E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\CMakeTmp\cmTC_9d803.vcxproj]
+
+    0 个警告
+    1 个错误
+
+已用时间 00:00:00.57
+
+Source:
+/* */
+#include <getopt.h>
+
+
+int main(void){return 0;}
+

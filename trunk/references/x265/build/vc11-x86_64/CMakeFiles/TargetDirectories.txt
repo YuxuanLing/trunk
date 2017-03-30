@@ -1,0 +1,12 @@
+E:/work/home/homework/git/x265/build/vc11-x86_64/CMakeFiles/x265-static.dir
+E:/work/home/homework/git/x265/build/vc11-x86_64/CMakeFiles/x265-shared.dir
+E:/work/home/homework/git/x265/build/vc11-x86_64/CMakeFiles/cli.dir
+E:/work/home/homework/git/x265/build/vc11-x86_64/CMakeFiles/INSTALL.dir
+E:/work/home/homework/git/x265/build/vc11-x86_64/CMakeFiles/ALL_BUILD.dir
+E:/work/home/homework/git/x265/build/vc11-x86_64/CMakeFiles/ZERO_CHECK.dir
+E:/work/home/homework/git/x265/build/vc11-x86_64/profile/PPA/CMakeFiles/PPA.dir
+E:/work/home/homework/git/x265/build/vc11-x86_64/profile/PPA/CMakeFiles/INSTALL.dir
+E:/work/home/homework/git/x265/build/vc11-x86_64/encoder/CMakeFiles/encoder.dir
+E:/work/home/homework/git/x265/build/vc11-x86_64/encoder/CMakeFiles/INSTALL.dir
+E:/work/home/homework/git/x265/build/vc11-x86_64/common/CMakeFiles/common.dir
+E:/work/home/homework/git/x265/build/vc11-x86_64/common/CMakeFiles/INSTALL.dir

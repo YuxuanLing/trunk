@@ -1,0 +1,60 @@
+﻿Build started 2017/3/30 22:16:15.
+     1>Project "E:\work\home\homework\git\x265\build\vc11-x86_64\x265-static.vcxproj" on node 3 (Rebuild target(s)).
+     1>CustomBuild:
+         Building Custom Rule E:/work/home/homework/git/x265/source/CMakeLists.txt
+         CMake does not need to re-run because E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\generate.stamp is up-to-date.
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\Lib.exe /OUT:"E:\work\home\homework\git\x265\build\vc11-x86_64\Debug\x265-static.lib" /LIBPATH:"C:\Program Files (x86)\Visual Leak Detector\lib\Win64" /NOLOGO /MACHINE:X64  /machine:x64 "E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\Debug\analysis.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\Debug\search.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\Debug\bitcost.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\Debug\motion.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\Debug\slicetype.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\Debug\frameencoder.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\Debug\framefilter.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\Debug\level.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\Debug\nal.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\Debug\sei.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\Debug\sao.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\Debug\entropy.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\Debug\dpb.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\Debug\ratecontrol.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\Debug\reference.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\Debug\encoder.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\Debug\api.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\Debug\weightPrediction.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\Debug\winxp.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\Debug\primitives.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\Debug\pixel.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\Debug\dct.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\Debug\ipfilter.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\Debug\intrapred.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\Debug\loopfilter.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\Debug\constants.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\Debug\cpu.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\Debug\version.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\Debug\threading.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\Debug\threadpool.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\Debug\wavefront.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\Debug\md5.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\Debug\bitstream.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\Debug\yuv.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\Debug\shortyuv.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\Debug\picyuv.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\Debug\common.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\Debug\param.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\Debug\frame.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\Debug\framedata.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\Debug\cudata.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\Debug\slice.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\Debug\lowres.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\Debug\piclist.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\Debug\predict.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\Debug\scalinglist.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\Debug\quant.obj"
+         "E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\Debug\deblock.obj"
+         x265-static.vcxproj -> E:\work\home\homework\git\x265\build\vc11-x86_64\Debug\x265-static.lib
+     1>Done Building Project "E:\work\home\homework\git\x265\build\vc11-x86_64\x265-static.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:05.68

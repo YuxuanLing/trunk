@@ -1,0 +1,392 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGUID>{4B652BF0-AC8C-349B-B730-7F45FE4B7C9F}</ProjectGUID>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>x265-shared</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+    <PropertyGroup>
+      <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">E:\work\home\homework\git\x265\build\vc11-x86_64\Debug\</OutDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">x265-shared.dir\Debug\</IntDir>
+      <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">libx265</TargetName>
+      <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.dll</TargetExt>
+      <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+      <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">E:\work\home\homework\git\x265\build\vc11-x86_64\Release\</OutDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">x265-shared.dir\Release\</IntDir>
+      <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">libx265</TargetName>
+      <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.dll</TargetExt>
+      <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+      <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">E:\work\home\homework\git\x265\build\vc11-x86_64\MinSizeRel\</OutDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">x265-shared.dir\MinSizeRel\</IntDir>
+      <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">libx265</TargetName>
+      <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.dll</TargetExt>
+      <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+      <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">E:\work\home\homework\git\x265\build\vc11-x86_64\RelWithDebInfo\</OutDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">x265-shared.dir\RelWithDebInfo\</IntDir>
+      <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">libx265</TargetName>
+      <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.dll</TargetExt>
+      <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+      <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+    </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>E:\work\home\homework\git\x265\source\.;E:\work\home\homework\git\x265\source\common;E:\work\home\homework\git\x265\source\encoder;E:\work\home\homework\git\x265\build\vc11-x86_64;E:\work\home\homework\git\x265\source\compat\getopt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Debug/</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;X265_ARCH_X86=1;X86_64=1;_CRT_SECURE_NO_WARNINGS;CHECKED_BUILD=1;HIGH_BIT_DEPTH=1;X265_DEPTH=10;EXPORT_C_API=1;X265_NS=x265;_WIN32_WINNT=_WIN32_WINNT_WIN7;ENABLE_PPA;CMAKE_INTDIR="Debug";x265_shared_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;X265_ARCH_X86=1;X86_64=1;_CRT_SECURE_NO_WARNINGS;CHECKED_BUILD=1;HIGH_BIT_DEPTH=1;X265_DEPTH=10;EXPORT_C_API=1;X265_NS=x265;_WIN32_WINNT=_WIN32_WINNT_WIN7;ENABLE_PPA;CMAKE_INTDIR=\"Debug\";x265_shared_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\work\home\homework\git\x265\source\.;E:\work\home\homework\git\x265\source\common;E:\work\home\homework\git\x265\source\encoder;E:\work\home\homework\git\x265\build\vc11-x86_64;E:\work\home\homework\git\x265\source\compat\getopt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>E:\work\home\homework\git\x265\source\.;E:\work\home\homework\git\x265\source\common;E:\work\home\homework\git\x265\source\encoder;E:\work\home\homework\git\x265\build\vc11-x86_64;E:\work\home\homework\git\x265\source\compat\getopt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalOptions> /machine:x64 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;profile\PPA\Debug\PPA.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>E:/work/home/homework/git/x265/build/vc11-x86_64/Debug/libx265.lib</ImportLibrary>
+      <ModuleDefinitionFile>E:/work/home/homework/git/x265/build/vc11-x86_64/x265.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>E:/work/home/homework/git/x265/build/vc11-x86_64/Debug/libx265.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+      <Version></Version>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>E:\work\home\homework\git\x265\source\.;E:\work\home\homework\git\x265\source\common;E:\work\home\homework\git\x265\source\encoder;E:\work\home\homework\git\x265\build\vc11-x86_64;E:\work\home\homework\git\x265\source\compat\getopt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Release/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;X265_ARCH_X86=1;X86_64=1;_CRT_SECURE_NO_WARNINGS;CHECKED_BUILD=1;HIGH_BIT_DEPTH=1;X265_DEPTH=10;EXPORT_C_API=1;X265_NS=x265;_WIN32_WINNT=_WIN32_WINNT_WIN7;ENABLE_PPA;CMAKE_INTDIR="Release";x265_shared_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat></DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;X265_ARCH_X86=1;X86_64=1;_CRT_SECURE_NO_WARNINGS;CHECKED_BUILD=1;HIGH_BIT_DEPTH=1;X265_DEPTH=10;EXPORT_C_API=1;X265_NS=x265;_WIN32_WINNT=_WIN32_WINNT_WIN7;ENABLE_PPA;CMAKE_INTDIR=\"Release\";x265_shared_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\work\home\homework\git\x265\source\.;E:\work\home\homework\git\x265\source\common;E:\work\home\homework\git\x265\source\encoder;E:\work\home\homework\git\x265\build\vc11-x86_64;E:\work\home\homework\git\x265\source\compat\getopt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>E:\work\home\homework\git\x265\source\.;E:\work\home\homework\git\x265\source\common;E:\work\home\homework\git\x265\source\encoder;E:\work\home\homework\git\x265\build\vc11-x86_64;E:\work\home\homework\git\x265\source\compat\getopt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalOptions> /machine:x64 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;profile\PPA\Release\PPA.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>E:/work/home/homework/git/x265/build/vc11-x86_64/Release/libx265.lib</ImportLibrary>
+      <ModuleDefinitionFile>E:/work/home/homework/git/x265/build/vc11-x86_64/x265.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>E:/work/home/homework/git/x265/build/vc11-x86_64/Release/libx265.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+      <Version></Version>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>E:\work\home\homework\git\x265\source\.;E:\work\home\homework\git\x265\source\common;E:\work\home\homework\git\x265\source\encoder;E:\work\home\homework\git\x265\build\vc11-x86_64;E:\work\home\homework\git\x265\source\compat\getopt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;X265_ARCH_X86=1;X86_64=1;_CRT_SECURE_NO_WARNINGS;CHECKED_BUILD=1;HIGH_BIT_DEPTH=1;X265_DEPTH=10;EXPORT_C_API=1;X265_NS=x265;_WIN32_WINNT=_WIN32_WINNT_WIN7;ENABLE_PPA;CMAKE_INTDIR="MinSizeRel";x265_shared_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat></DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;X265_ARCH_X86=1;X86_64=1;_CRT_SECURE_NO_WARNINGS;CHECKED_BUILD=1;HIGH_BIT_DEPTH=1;X265_DEPTH=10;EXPORT_C_API=1;X265_NS=x265;_WIN32_WINNT=_WIN32_WINNT_WIN7;ENABLE_PPA;CMAKE_INTDIR=\"MinSizeRel\";x265_shared_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\work\home\homework\git\x265\source\.;E:\work\home\homework\git\x265\source\common;E:\work\home\homework\git\x265\source\encoder;E:\work\home\homework\git\x265\build\vc11-x86_64;E:\work\home\homework\git\x265\source\compat\getopt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>E:\work\home\homework\git\x265\source\.;E:\work\home\homework\git\x265\source\common;E:\work\home\homework\git\x265\source\encoder;E:\work\home\homework\git\x265\build\vc11-x86_64;E:\work\home\homework\git\x265\source\compat\getopt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalOptions> /machine:x64 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;profile\PPA\MinSizeRel\PPA.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>E:/work/home/homework/git/x265/build/vc11-x86_64/MinSizeRel/libx265.lib</ImportLibrary>
+      <ModuleDefinitionFile>E:/work/home/homework/git/x265/build/vc11-x86_64/x265.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>E:/work/home/homework/git/x265/build/vc11-x86_64/MinSizeRel/libx265.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+      <Version></Version>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>E:\work\home\homework\git\x265\source\.;E:\work\home\homework\git\x265\source\common;E:\work\home\homework\git\x265\source\encoder;E:\work\home\homework\git\x265\build\vc11-x86_64;E:\work\home\homework\git\x265\source\compat\getopt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>RelWithDebInfo/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;X265_ARCH_X86=1;X86_64=1;_CRT_SECURE_NO_WARNINGS;CHECKED_BUILD=1;HIGH_BIT_DEPTH=1;X265_DEPTH=10;EXPORT_C_API=1;X265_NS=x265;_WIN32_WINNT=_WIN32_WINNT_WIN7;ENABLE_PPA;CMAKE_INTDIR="RelWithDebInfo";x265_shared_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;X265_ARCH_X86=1;X86_64=1;_CRT_SECURE_NO_WARNINGS;CHECKED_BUILD=1;HIGH_BIT_DEPTH=1;X265_DEPTH=10;EXPORT_C_API=1;X265_NS=x265;_WIN32_WINNT=_WIN32_WINNT_WIN7;ENABLE_PPA;CMAKE_INTDIR=\"RelWithDebInfo\";x265_shared_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\work\home\homework\git\x265\source\.;E:\work\home\homework\git\x265\source\common;E:\work\home\homework\git\x265\source\encoder;E:\work\home\homework\git\x265\build\vc11-x86_64;E:\work\home\homework\git\x265\source\compat\getopt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>E:\work\home\homework\git\x265\source\.;E:\work\home\homework\git\x265\source\common;E:\work\home\homework\git\x265\source\encoder;E:\work\home\homework\git\x265\build\vc11-x86_64;E:\work\home\homework\git\x265\source\compat\getopt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalOptions> /machine:x64 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;profile\PPA\RelWithDebInfo\PPA.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>E:/work/home/homework/git/x265/build/vc11-x86_64/RelWithDebInfo/libx265.lib</ImportLibrary>
+      <ModuleDefinitionFile>E:/work/home/homework/git/x265/build/vc11-x86_64/x265.def</ModuleDefinitionFile>
+      <ProgramDataBaseFile>E:/work/home/homework/git/x265/build/vc11-x86_64/RelWithDebInfo/libx265.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+      <Version></Version>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="E:\work\home\homework\git\x265\source\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule E:/work/home/homework/git/x265/source/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HE:/work/home/homework/git/x265/source -BE:/work/home/homework/git/x265/build/vc11-x86_64 --check-stamp-file E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">E:/work/home/homework/git/x265/source/CMakeLists.txt;E:\work\home\homework\git\x265\source\CMakeLists.txt;E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\3.7.0\CMakeSystem.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeSystemSpecificInitialize.cmake;E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\3.7.0\CMakeCCompiler.cmake;E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\3.7.0\CMakeCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC.cmake;E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\3.7.0\CMakeRCCompiler.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CheckIncludeFiles.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CheckFunctionExists.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CheckSymbolExists.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CheckCXXCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CheckCXXSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;E:\work\home\homework\git\x265\source\x265.def.in;E:\work\home\homework\git\x265\source\x265_config.h.in;E:\work\home\homework\git\x265\source\cmake\FindYasm.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;E:\work\home\homework\git\x265\source\cmake\FindVLD.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;E:\work\home\homework\git\x265\source\cmake\version.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindHg.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindGit.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;E:\work\home\homework\git\x265\source\cmake\FindVtune.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;E:\work\home\homework\git\x265\source\x265.rc.in;E:\work\home\homework\git\x265\source\x265.pc.in;E:\work\home\homework\git\x265\source\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule E:/work/home/homework/git/x265/source/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HE:/work/home/homework/git/x265/source -BE:/work/home/homework/git/x265/build/vc11-x86_64 --check-stamp-file E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">E:/work/home/homework/git/x265/source/CMakeLists.txt;E:\work\home\homework\git\x265\source\CMakeLists.txt;E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\3.7.0\CMakeSystem.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeSystemSpecificInitialize.cmake;E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\3.7.0\CMakeCCompiler.cmake;E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\3.7.0\CMakeCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC.cmake;E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\3.7.0\CMakeRCCompiler.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CheckIncludeFiles.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CheckFunctionExists.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CheckSymbolExists.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CheckCXXCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CheckCXXSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;E:\work\home\homework\git\x265\source\x265.def.in;E:\work\home\homework\git\x265\source\x265_config.h.in;E:\work\home\homework\git\x265\source\cmake\FindYasm.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;E:\work\home\homework\git\x265\source\cmake\FindVLD.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;E:\work\home\homework\git\x265\source\cmake\version.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindHg.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindGit.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;E:\work\home\homework\git\x265\source\cmake\FindVtune.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;E:\work\home\homework\git\x265\source\x265.rc.in;E:\work\home\homework\git\x265\source\x265.pc.in;E:\work\home\homework\git\x265\source\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule E:/work/home/homework/git/x265/source/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HE:/work/home/homework/git/x265/source -BE:/work/home/homework/git/x265/build/vc11-x86_64 --check-stamp-file E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">E:/work/home/homework/git/x265/source/CMakeLists.txt;E:\work\home\homework\git\x265\source\CMakeLists.txt;E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\3.7.0\CMakeSystem.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeSystemSpecificInitialize.cmake;E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\3.7.0\CMakeCCompiler.cmake;E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\3.7.0\CMakeCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC.cmake;E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\3.7.0\CMakeRCCompiler.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CheckIncludeFiles.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CheckFunctionExists.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CheckSymbolExists.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CheckCXXCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CheckCXXSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;E:\work\home\homework\git\x265\source\x265.def.in;E:\work\home\homework\git\x265\source\x265_config.h.in;E:\work\home\homework\git\x265\source\cmake\FindYasm.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;E:\work\home\homework\git\x265\source\cmake\FindVLD.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;E:\work\home\homework\git\x265\source\cmake\version.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindHg.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindGit.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;E:\work\home\homework\git\x265\source\cmake\FindVtune.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;E:\work\home\homework\git\x265\source\x265.rc.in;E:\work\home\homework\git\x265\source\x265.pc.in;E:\work\home\homework\git\x265\source\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule E:/work/home/homework/git/x265/source/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HE:/work/home/homework/git/x265/source -BE:/work/home/homework/git/x265/build/vc11-x86_64 --check-stamp-file E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">E:/work/home/homework/git/x265/source/CMakeLists.txt;E:\work\home\homework\git\x265\source\CMakeLists.txt;E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\3.7.0\CMakeSystem.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeSystemSpecificInitialize.cmake;E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\3.7.0\CMakeCCompiler.cmake;E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\3.7.0\CMakeCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC.cmake;E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\3.7.0\CMakeRCCompiler.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CheckIncludeFiles.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CheckFunctionExists.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CheckSymbolExists.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CheckCXXCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CheckCXXSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;E:\work\home\homework\git\x265\source\x265.def.in;E:\work\home\homework\git\x265\source\x265_config.h.in;E:\work\home\homework\git\x265\source\cmake\FindYasm.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;E:\work\home\homework\git\x265\source\cmake\FindVLD.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;E:\work\home\homework\git\x265\source\cmake\version.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindHg.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindGit.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;E:\work\home\homework\git\x265\source\cmake\FindVtune.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;E:\work\home\homework\git\x265\source\x265.rc.in;E:\work\home\homework\git\x265\source\x265.pc.in;E:\work\home\homework\git\x265\source\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="E:\work\home\homework\git\x265\build\vc11-x86_64\x265.rc"  />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\$(Configuration)\analysis.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\$(Configuration)\search.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\$(Configuration)\bitcost.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\$(Configuration)\motion.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\$(Configuration)\slicetype.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\$(Configuration)\frameencoder.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\$(Configuration)\framefilter.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\$(Configuration)\level.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\$(Configuration)\nal.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\$(Configuration)\sei.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\$(Configuration)\sao.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\$(Configuration)\entropy.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\$(Configuration)\dpb.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\$(Configuration)\ratecontrol.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\$(Configuration)\reference.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\$(Configuration)\encoder.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\$(Configuration)\api.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\$(Configuration)\weightPrediction.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\$(Configuration)\winxp.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\$(Configuration)\primitives.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\$(Configuration)\pixel.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\$(Configuration)\dct.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\$(Configuration)\ipfilter.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\$(Configuration)\intrapred.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\$(Configuration)\loopfilter.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\$(Configuration)\constants.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\$(Configuration)\cpu.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\$(Configuration)\version.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\$(Configuration)\threading.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\$(Configuration)\threadpool.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\$(Configuration)\wavefront.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\$(Configuration)\md5.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\$(Configuration)\bitstream.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\$(Configuration)\yuv.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\$(Configuration)\shortyuv.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\$(Configuration)\picyuv.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\$(Configuration)\common.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\$(Configuration)\param.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\$(Configuration)\frame.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\$(Configuration)\framedata.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\$(Configuration)\cudata.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\$(Configuration)\slice.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\$(Configuration)\lowres.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\$(Configuration)\piclist.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\$(Configuration)\predict.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\$(Configuration)\scalinglist.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\$(Configuration)\quant.obj" />
+    <Object Include="E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\$(Configuration)\deblock.obj" />
+    <None Include="E:\work\home\homework\git\x265\build\vc11-x86_64\x265.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="E:/work/home/homework/git/x265/build/vc11-x86_64/ZERO_CHECK.vcxproj">
+      <Project>4FE367A1-AF82-3E11-AB05-6C244E1CF2F0</Project>
+    </ProjectReference>
+    <ProjectReference Include="E:/work/home/homework/git/x265/build/vc11-x86_64/profile/PPA/PPA.vcxproj">
+      <Project>35AF777E-3171-3325-8548-DED9427F80FF</Project>
+    </ProjectReference>
+    <ProjectReference Include="E:/work/home/homework/git/x265/build/vc11-x86_64/common/common.vcxproj">
+      <Project>DFE33AEA-33B0-33D9-8EF3-9E5DE3148BB9</Project>
+    </ProjectReference>
+    <ProjectReference Include="E:/work/home/homework/git/x265/build/vc11-x86_64/encoder/encoder.vcxproj">
+      <Project>F6236092-223F-3343-933A-338EDDA7B970</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

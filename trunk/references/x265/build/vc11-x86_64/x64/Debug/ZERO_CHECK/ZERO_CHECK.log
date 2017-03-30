@@ -1,0 +1,13 @@
+﻿Build started 2017/3/30 22:16:08.
+     1>Project "E:\work\home\homework\git\x265\build\vc11-x86_64\ZERO_CHECK.vcxproj" on node 2 (Rebuild target(s)).
+     1>CustomBuild:
+         Checking Build System
+         CMake does not need to re-run because E:/work/home/homework/git/x265/build/vc11-x86_64/CMakeFiles/generate.stamp is up-to-date.
+         CMake does not need to re-run because E:/work/home/homework/git/x265/build/vc11-x86_64/profile/PPA/CMakeFiles/generate.stamp is up-to-date.
+         CMake does not need to re-run because E:/work/home/homework/git/x265/build/vc11-x86_64/encoder/CMakeFiles/generate.stamp is up-to-date.
+         CMake does not need to re-run because E:/work/home/homework/git/x265/build/vc11-x86_64/common/CMakeFiles/generate.stamp is up-to-date.
+     1>Done Building Project "E:\work\home\homework\git\x265\build\vc11-x86_64\ZERO_CHECK.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.46

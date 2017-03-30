@@ -49,6 +49,17 @@ void generate_partern_table(IN char *partern, IN int len, OUT int *table)
 	}
 }
 
+
+int  search_partern(IN char *partern, IN int len)
+{
+	int *table = new int[len];
+	int ret = -1;
+
+
+	return ret;
+
+}
+
 void main()
 {
 	char *partern = "ABCDABD";
