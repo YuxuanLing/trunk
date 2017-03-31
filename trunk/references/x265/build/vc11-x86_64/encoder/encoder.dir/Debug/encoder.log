@@ -1,0 +1,50 @@
+﻿Build started 2017/3/30 22:16:09.
+     1>Project "E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.vcxproj" on node 3 (Rebuild target(s)).
+     1>CustomBuild:
+         Building Custom Rule E:/work/home/homework/git/x265/source/encoder/CMakeLists.txt
+         CMake does not need to re-run because E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\CMakeFiles\generate.stamp is up-to-date.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\CL.exe /c /IE:\work\home\homework\git\x265\source\. /IE:\work\home\homework\git\x265\source\common /IE:\work\home\homework\git\x265\source\encoder /I"E:\work\home\homework\git\x265\build\vc11-x86_64" /I"C:\Program Files (x86)\Visual Leak Detector\include" /Zi /nologo /W4 /WX- /MP /Od /Ob2 /D WIN32 /D _WINDOWS /D _DEBUG /D X265_ARCH_X86=1 /D X86_64=1 /D _CRT_SECURE_NO_WARNINGS /D CHECKED_BUILD=1 /D HIGH_BIT_DEPTH=1 /D X265_DEPTH=10 /D EXPORT_C_API=1 /D X265_NS=x265 /D _WIN32_WINNT=_WIN32_WINNT_WIN7 /D ENABLE_PPA /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"encoder.dir\Debug\\" /Fd"encoder.dir\Debug\vc110.pdb" /Gd /TP /wd4701 /errorReport:prompt E:\work\home\homework\git\x265\source\encoder\analysis.cpp E:\work\home\homework\git\x265\source\encoder\search.cpp E:\work\home\homework\git\x265\source\encoder\bitcost.cpp E:\work\home\homework\git\x265\source\encoder\motion.cpp E:\work\home\homework\git\x265\source\encoder\slicetype.cpp E:\work\home\homework\git\x265\source\encoder\frameencoder.cpp E:\work\home\homework\git\x265\source\encoder\framefilter.cpp E:\work\home\homework\git\x265\source\encoder\level.cpp E:\work\home\homework\git\x265\source\encoder\nal.cpp E:\work\home\homework\git\x265\source\encoder\sei.cpp E:\work\home\homework\git\x265\source\encoder\sao.cpp E:\work\home\homework\git\x265\source\encoder\entropy.cpp E:\work\home\homework\git\x265\source\encoder\dpb.cpp E:\work\home\homework\git\x265\source\encoder\ratecontrol.cpp E:\work\home\homework\git\x265\source\encoder\reference.cpp E:\work\home\homework\git\x265\source\encoder\encoder.cpp E:\work\home\homework\git\x265\source\encoder\api.cpp E:\work\home\homework\git\x265\source\encoder\weightPrediction.cpp
+         analysis.cpp
+         search.cpp
+         bitcost.cpp
+         motion.cpp
+         slicetype.cpp
+         frameencoder.cpp
+         framefilter.cpp
+         level.cpp
+         nal.cpp
+         sei.cpp
+         sao.cpp
+         entropy.cpp
+         dpb.cpp
+         ratecontrol.cpp
+         reference.cpp
+         encoder.cpp
+         api.cpp
+         weightPrediction.cpp
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\Lib.exe /OUT:"encoder.dir\Debug\encoder.lib" /LIBPATH:"C:\Program Files (x86)\Visual Leak Detector\lib\Win64" /NOLOGO /MACHINE:X64  /machine:x64 encoder.dir\Debug\analysis.obj
+         encoder.dir\Debug\search.obj
+         encoder.dir\Debug\bitcost.obj
+         encoder.dir\Debug\motion.obj
+         encoder.dir\Debug\slicetype.obj
+         encoder.dir\Debug\frameencoder.obj
+         encoder.dir\Debug\framefilter.obj
+         encoder.dir\Debug\level.obj
+         encoder.dir\Debug\nal.obj
+         encoder.dir\Debug\sei.obj
+         encoder.dir\Debug\sao.obj
+         encoder.dir\Debug\entropy.obj
+         encoder.dir\Debug\dpb.obj
+         encoder.dir\Debug\ratecontrol.obj
+         encoder.dir\Debug\reference.obj
+         encoder.dir\Debug\encoder.obj
+         encoder.dir\Debug\api.obj
+         encoder.dir\Debug\weightPrediction.obj
+         encoder.vcxproj -> E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.dir\Debug\encoder.lib
+     1>Done Building Project "E:\work\home\homework\git\x265\build\vc11-x86_64\encoder\encoder.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:05.05

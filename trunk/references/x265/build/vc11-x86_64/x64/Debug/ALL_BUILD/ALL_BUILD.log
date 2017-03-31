@@ -1,0 +1,10 @@
+﻿Build started 2017/3/30 22:16:31.
+     1>Project "E:\work\home\homework\git\x265\build\vc11-x86_64\ALL_BUILD.vcxproj" on node 32 (Rebuild target(s)).
+     1>CustomBuild:
+         Building Custom Rule E:/work/home/homework/git/x265/source/CMakeLists.txt
+         CMake does not need to re-run because E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\generate.stamp is up-to-date.
+     1>Done Building Project "E:\work\home\homework\git\x265\build\vc11-x86_64\ALL_BUILD.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.65

@@ -1,0 +1,75 @@
+﻿Build started 2017/3/30 22:16:09.
+     1>Project "E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.vcxproj" on node 2 (Rebuild target(s)).
+     1>CustomBuild:
+         Building Custom Rule E:/work/home/homework/git/x265/source/common/CMakeLists.txt
+         CMake does not need to re-run because E:\work\home\homework\git\x265\build\vc11-x86_64\common\CMakeFiles\generate.stamp is up-to-date.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\CL.exe /c /IE:\work\home\homework\git\x265\source\. /IE:\work\home\homework\git\x265\source\common /IE:\work\home\homework\git\x265\source\encoder /I"E:\work\home\homework\git\x265\build\vc11-x86_64" /I"C:\Program Files (x86)\Visual Leak Detector\include" /Zi /nologo /W4 /WX- /MP /Od /Ob2 /D WIN32 /D _WINDOWS /D _DEBUG /D X265_ARCH_X86=1 /D X86_64=1 /D _CRT_SECURE_NO_WARNINGS /D CHECKED_BUILD=1 /D HIGH_BIT_DEPTH=1 /D X265_DEPTH=10 /D EXPORT_C_API=1 /D X265_NS=x265 /D _WIN32_WINNT=_WIN32_WINNT_WIN7 /D ENABLE_PPA /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"common.dir\Debug\\" /Fd"common.dir\Debug\vc110.pdb" /Gd /TP /errorReport:prompt E:\work\home\homework\git\x265\source\common\winxp.cpp E:\work\home\homework\git\x265\source\common\primitives.cpp E:\work\home\homework\git\x265\source\common\pixel.cpp E:\work\home\homework\git\x265\source\common\dct.cpp E:\work\home\homework\git\x265\source\common\ipfilter.cpp E:\work\home\homework\git\x265\source\common\intrapred.cpp E:\work\home\homework\git\x265\source\common\loopfilter.cpp E:\work\home\homework\git\x265\source\common\constants.cpp E:\work\home\homework\git\x265\source\common\cpu.cpp E:\work\home\homework\git\x265\source\common\threading.cpp E:\work\home\homework\git\x265\source\common\threadpool.cpp E:\work\home\homework\git\x265\source\common\wavefront.cpp E:\work\home\homework\git\x265\source\common\md5.cpp E:\work\home\homework\git\x265\source\common\bitstream.cpp E:\work\home\homework\git\x265\source\common\yuv.cpp E:\work\home\homework\git\x265\source\common\shortyuv.cpp E:\work\home\homework\git\x265\source\common\picyuv.cpp E:\work\home\homework\git\x265\source\common\common.cpp E:\work\home\homework\git\x265\source\common\param.cpp E:\work\home\homework\git\x265\source\common\frame.cpp E:\work\home\homework\git\x265\source\common\framedata.cpp E:\work\home\homework\git\x265\source\common\cudata.cpp E:\work\home\homework\git\x265\source\common\slice.cpp E:\work\home\homework\git\x265\source\common\lowres.cpp E:\work\home\homework\git\x265\source\common\piclist.cpp E:\work\home\homework\git\x265\source\common\predict.cpp E:\work\home\homework\git\x265\source\common\scalinglist.cpp E:\work\home\homework\git\x265\source\common\quant.cpp E:\work\home\homework\git\x265\source\common\deblock.cpp
+         winxp.cpp
+         primitives.cpp
+         pixel.cpp
+         dct.cpp
+         ipfilter.cpp
+         intrapred.cpp
+         loopfilter.cpp
+         constants.cpp
+         cpu.cpp
+         threading.cpp
+         threadpool.cpp
+         wavefront.cpp
+         md5.cpp
+         bitstream.cpp
+         yuv.cpp
+         shortyuv.cpp
+         picyuv.cpp
+         common.cpp
+         param.cpp
+         frame.cpp
+         framedata.cpp
+         cudata.cpp
+         slice.cpp
+         lowres.cpp
+         piclist.cpp
+         predict.cpp
+         scalinglist.cpp
+         quant.cpp
+         deblock.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\CL.exe /c /IE:\work\home\homework\git\x265\source\. /IE:\work\home\homework\git\x265\source\common /IE:\work\home\homework\git\x265\source\encoder /I"E:\work\home\homework\git\x265\build\vc11-x86_64" /I"C:\Program Files (x86)\Visual Leak Detector\include" /Zi /nologo /W4 /WX- /MP /Od /Ob2 /D "X265_VERSION=2.3+27-7e137e3ae083" /D WIN32 /D _WINDOWS /D _DEBUG /D X265_ARCH_X86=1 /D X86_64=1 /D _CRT_SECURE_NO_WARNINGS /D CHECKED_BUILD=1 /D HIGH_BIT_DEPTH=1 /D X265_DEPTH=10 /D EXPORT_C_API=1 /D X265_NS=x265 /D _WIN32_WINNT=_WIN32_WINNT_WIN7 /D ENABLE_PPA /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"common.dir\Debug\\" /Fd"common.dir\Debug\vc110.pdb" /Gd /TP /errorReport:prompt E:\work\home\homework\git\x265\source\common\version.cpp
+         version.cpp
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\Lib.exe /OUT:"common.dir\Debug\common.lib" /LIBPATH:"C:\Program Files (x86)\Visual Leak Detector\lib\Win64" /NOLOGO /MACHINE:X64  /machine:x64 common.dir\Debug\winxp.obj
+         common.dir\Debug\primitives.obj
+         common.dir\Debug\pixel.obj
+         common.dir\Debug\dct.obj
+         common.dir\Debug\ipfilter.obj
+         common.dir\Debug\intrapred.obj
+         common.dir\Debug\loopfilter.obj
+         common.dir\Debug\constants.obj
+         common.dir\Debug\cpu.obj
+         common.dir\Debug\version.obj
+         common.dir\Debug\threading.obj
+         common.dir\Debug\threadpool.obj
+         common.dir\Debug\wavefront.obj
+         common.dir\Debug\md5.obj
+         common.dir\Debug\bitstream.obj
+         common.dir\Debug\yuv.obj
+         common.dir\Debug\shortyuv.obj
+         common.dir\Debug\picyuv.obj
+         common.dir\Debug\common.obj
+         common.dir\Debug\param.obj
+         common.dir\Debug\frame.obj
+         common.dir\Debug\framedata.obj
+         common.dir\Debug\cudata.obj
+         common.dir\Debug\slice.obj
+         common.dir\Debug\lowres.obj
+         common.dir\Debug\piclist.obj
+         common.dir\Debug\predict.obj
+         common.dir\Debug\scalinglist.obj
+         common.dir\Debug\quant.obj
+         common.dir\Debug\deblock.obj
+         common.vcxproj -> E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.dir\Debug\common.lib
+     1>Done Building Project "E:\work\home\homework\git\x265\build\vc11-x86_64\common\common.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:06.42

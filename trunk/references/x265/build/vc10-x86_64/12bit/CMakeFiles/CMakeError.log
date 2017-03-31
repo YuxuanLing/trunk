@@ -1,0 +1,43 @@
+Determining if the C compiler works failed with the following output:
+Change Dir: E:/work/home/homework/git/x265/build/vc10-x86_64/12bit/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/Windows/Microsoft.NET/Framework/v4.0.30319/MSBuild.exe" "cmTC_92f2e.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=10.0"
+Microsoft(R) 生成引擎版本 4.6.1055.0
+[Microsoft .NET Framework 版本 4.0.30319.42000]
+版权所有 (C) Microsoft Corporation。保留所有权利。
+
+生成启动时间为 2017/3/30 22:12:36。
+节点 1 上的项目“E:\work\home\homework\git\x265\build\vc10-x86_64\12bit\CMakeFiles\CMakeTmp\cmTC_92f2e.vcxproj”(默认目标)。
+PrepareForBuild:
+  正在创建目录“cmTC_92f2e.dir\Debug\”。
+  正在创建目录“E:\work\home\homework\git\x265\build\vc10-x86_64\12bit\CMakeFiles\CMakeTmp\Debug\”。
+InitializeBuildStatus:
+  正在创建“cmTC_92f2e.dir\Debug\cmTC_92f2e.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Program Files (x86)\Visual Leak Detector\include" /Zi /W3 /WX- /Od /Ob0 /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"cmTC_92f2e.dir\Debug\\" /Fd"cmTC_92f2e.dir\Debug\vc100.pdb" /Gd /TC /errorReport:queue testCCompiler.c
+  Microsoft (R) C/C++ Optimizing Compiler Version 16.00.30319.01 for x64
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /I"C:\Program Files (x86)\Visual Leak Detector\include" /Zi /W3 /WX- /Od /Ob0 /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"cmTC_92f2e.dir\Debug\\" /Fd"cmTC_92f2e.dir\Debug\vc100.pdb" /Gd /TC /errorReport:queue testCCompiler.c
+  
+  testCCompiler.c
+ManifestResourceCompile:
+  C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"cmTC_92f2e.dir\Debug\cmTC_92f2e.exe.embed.manifest.res" cmTC_92f2e.dir\Debug\cmTC_92f2e_manifest.rc 
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:QUEUE /OUT:"E:\work\home\homework\git\x265\build\vc10-x86_64\12bit\CMakeFiles\CMakeTmp\Debug\cmTC_92f2e.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files (x86)\Visual Leak Detector\lib\Win64" kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /ManifestFile:"cmTC_92f2e.dir\Debug\cmTC_92f2e.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"E:/work/home/homework/git/x265/build/vc10-x86_64/12bit/CMakeFiles/CMakeTmp/Debug/cmTC_92f2e.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:/work/home/homework/git/x265/build/vc10-x86_64/12bit/CMakeFiles/CMakeTmp/Debug/cmTC_92f2e.lib" /MACHINE:X64 cmTC_92f2e.dir\Debug\cmTC_92f2e.exe.embed.manifest.res
+  cmTC_92f2e.dir\Debug\testCCompiler.obj  /machine:x64 
+LINK : fatal error LNK1123: failure during conversion to COFF: file invalid or corrupt [E:\work\home\homework\git\x265\build\vc10-x86_64\12bit\CMakeFiles\CMakeTmp\cmTC_92f2e.vcxproj]
+已完成生成项目“E:\work\home\homework\git\x265\build\vc10-x86_64\12bit\CMakeFiles\CMakeTmp\cmTC_92f2e.vcxproj”(默认目标)的操作 - 失败。
+
+生成失败。
+
+“E:\work\home\homework\git\x265\build\vc10-x86_64\12bit\CMakeFiles\CMakeTmp\cmTC_92f2e.vcxproj”(默认目标) (1) ->
+(Link 目标) -> 
+  LINK : fatal error LNK1123: failure during conversion to COFF: file invalid or corrupt [E:\work\home\homework\git\x265\build\vc10-x86_64\12bit\CMakeFiles\CMakeTmp\cmTC_92f2e.vcxproj]
+
+    0 个警告
+    1 个错误
+
+已用时间 00:00:01.30
+
+

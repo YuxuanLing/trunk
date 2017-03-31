@@ -1,0 +1,45 @@
+﻿Build started 2017/3/30 22:16:21.
+     1>Project "E:\work\home\homework\git\x265\build\vc11-x86_64\cli.vcxproj" on node 16 (Rebuild target(s)).
+     1>CustomBuild:
+         Building Custom Rule E:/work/home/homework/git/x265/source/CMakeLists.txt
+         CMake does not need to re-run because E:\work\home\homework\git\x265\build\vc11-x86_64\CMakeFiles\generate.stamp is up-to-date.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\CL.exe /c /IE:\work\home\homework\git\x265\source\. /IE:\work\home\homework\git\x265\source\common /IE:\work\home\homework\git\x265\source\encoder /I"E:\work\home\homework\git\x265\build\vc11-x86_64" /IE:\work\home\homework\git\x265\source\compat\getopt /I"C:\Program Files (x86)\Visual Leak Detector\include" /Zi /nologo /W4 /WX- /MP /Od /Ob2 /D WIN32 /D _WINDOWS /D _DEBUG /D X265_ARCH_X86=1 /D X86_64=1 /D _CRT_SECURE_NO_WARNINGS /D CHECKED_BUILD=1 /D HIGH_BIT_DEPTH=1 /D X265_DEPTH=10 /D EXPORT_C_API=1 /D X265_NS=x265 /D _WIN32_WINNT=_WIN32_WINNT_WIN7 /D ENABLE_PPA /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"cli.dir\Debug\\" /Fd"cli.dir\Debug\vc110.pdb" /Gd /TP /errorReport:prompt E:\work\home\homework\git\x265\source\input\input.cpp E:\work\home\homework\git\x265\source\output\output.cpp E:\work\home\homework\git\x265\source\output\reconplay.cpp E:\work\home\homework\git\x265\source\output\raw.cpp E:\work\home\homework\git\x265\source\x265.cpp "E:\work\home\homework\git\x265\source\x265-extras.cpp"
+         input.cpp
+         output.cpp
+         reconplay.cpp
+         raw.cpp
+         x265.cpp
+         x265-extras.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\CL.exe /c /IE:\work\home\homework\git\x265\source\. /IE:\work\home\homework\git\x265\source\common /IE:\work\home\homework\git\x265\source\encoder /I"E:\work\home\homework\git\x265\build\vc11-x86_64" /IE:\work\home\homework\git\x265\source\compat\getopt /I"C:\Program Files (x86)\Visual Leak Detector\include" /Zi /nologo /W4 /WX- /MP /Od /Ob2 /D WIN32 /D _WINDOWS /D _DEBUG /D X265_ARCH_X86=1 /D X86_64=1 /D _CRT_SECURE_NO_WARNINGS /D CHECKED_BUILD=1 /D HIGH_BIT_DEPTH=1 /D X265_DEPTH=10 /D EXPORT_C_API=1 /D X265_NS=x265 /D _WIN32_WINNT=_WIN32_WINNT_WIN7 /D ENABLE_PPA /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"cli.dir\Debug\/input/yuv.cpp.obj" /Fd"cli.dir\Debug\vc110.pdb" /Gd /TP /errorReport:prompt E:\work\home\homework\git\x265\source\input\yuv.cpp
+         yuv.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\CL.exe /c /IE:\work\home\homework\git\x265\source\. /IE:\work\home\homework\git\x265\source\common /IE:\work\home\homework\git\x265\source\encoder /I"E:\work\home\homework\git\x265\build\vc11-x86_64" /IE:\work\home\homework\git\x265\source\compat\getopt /I"C:\Program Files (x86)\Visual Leak Detector\include" /Zi /nologo /W4 /WX- /MP /Od /Ob2 /D WIN32 /D _WINDOWS /D _DEBUG /D X265_ARCH_X86=1 /D X86_64=1 /D _CRT_SECURE_NO_WARNINGS /D CHECKED_BUILD=1 /D HIGH_BIT_DEPTH=1 /D X265_DEPTH=10 /D EXPORT_C_API=1 /D X265_NS=x265 /D _WIN32_WINNT=_WIN32_WINNT_WIN7 /D ENABLE_PPA /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"cli.dir\Debug\/input/y4m.cpp.obj" /Fd"cli.dir\Debug\vc110.pdb" /Gd /TP /errorReport:prompt E:\work\home\homework\git\x265\source\input\y4m.cpp
+         y4m.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\CL.exe /c /IE:\work\home\homework\git\x265\source\. /IE:\work\home\homework\git\x265\source\common /IE:\work\home\homework\git\x265\source\encoder /I"E:\work\home\homework\git\x265\build\vc11-x86_64" /IE:\work\home\homework\git\x265\source\compat\getopt /I"C:\Program Files (x86)\Visual Leak Detector\include" /Zi /nologo /W4 /WX- /MP /Od /Ob2 /D WIN32 /D _WINDOWS /D _DEBUG /D X265_ARCH_X86=1 /D X86_64=1 /D _CRT_SECURE_NO_WARNINGS /D CHECKED_BUILD=1 /D HIGH_BIT_DEPTH=1 /D X265_DEPTH=10 /D EXPORT_C_API=1 /D X265_NS=x265 /D _WIN32_WINNT=_WIN32_WINNT_WIN7 /D ENABLE_PPA /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"cli.dir\Debug\/output/yuv.cpp.obj" /Fd"cli.dir\Debug\vc110.pdb" /Gd /TP /errorReport:prompt E:\work\home\homework\git\x265\source\output\yuv.cpp
+         yuv.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\CL.exe /c /IE:\work\home\homework\git\x265\source\. /IE:\work\home\homework\git\x265\source\common /IE:\work\home\homework\git\x265\source\encoder /I"E:\work\home\homework\git\x265\build\vc11-x86_64" /IE:\work\home\homework\git\x265\source\compat\getopt /I"C:\Program Files (x86)\Visual Leak Detector\include" /Zi /nologo /W4 /WX- /MP /Od /Ob2 /D WIN32 /D _WINDOWS /D _DEBUG /D X265_ARCH_X86=1 /D X86_64=1 /D _CRT_SECURE_NO_WARNINGS /D CHECKED_BUILD=1 /D HIGH_BIT_DEPTH=1 /D X265_DEPTH=10 /D EXPORT_C_API=1 /D X265_NS=x265 /D _WIN32_WINNT=_WIN32_WINNT_WIN7 /D ENABLE_PPA /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"cli.dir\Debug\/output/y4m.cpp.obj" /Fd"cli.dir\Debug\vc110.pdb" /Gd /TP /errorReport:prompt E:\work\home\homework\git\x265\source\output\y4m.cpp
+         y4m.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\CL.exe /c /IE:\work\home\homework\git\x265\source\. /IE:\work\home\homework\git\x265\source\common /IE:\work\home\homework\git\x265\source\encoder /I"E:\work\home\homework\git\x265\build\vc11-x86_64" /IE:\work\home\homework\git\x265\source\compat\getopt /I"C:\Program Files (x86)\Visual Leak Detector\include" /Zi /nologo /W4 /WX- /MP /Od /Ob2 /D HAVE_STRING_H=1 /D WIN32 /D _WINDOWS /D _DEBUG /D X265_ARCH_X86=1 /D X86_64=1 /D _CRT_SECURE_NO_WARNINGS /D CHECKED_BUILD=1 /D HIGH_BIT_DEPTH=1 /D X265_DEPTH=10 /D EXPORT_C_API=1 /D X265_NS=x265 /D _WIN32_WINNT=_WIN32_WINNT_WIN7 /D ENABLE_PPA /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"cli.dir\Debug\\" /Fd"cli.dir\Debug\vc110.pdb" /Gd /TC /wd4100 /wd4131 /errorReport:prompt E:\work\home\homework\git\x265\source\compat\getopt\getopt.c
+         getopt.c
+       ResourceCompile:
+         C:\Program Files (x86)\Windows Kits\8.0\bin\x86\rc.exe /D WIN32 /D _WINDOWS /D _DEBUG /D X265_ARCH_X86=1 /D X86_64=1 /D _CRT_SECURE_NO_WARNINGS /D CHECKED_BUILD=1 /D HIGH_BIT_DEPTH=1 /D X265_DEPTH=10 /D EXPORT_C_API=1 /D X265_NS=x265 /D _WIN32_WINNT=_WIN32_WINNT_WIN7 /D ENABLE_PPA /D "CMAKE_INTDIR=\\\"Debug\\\"" /l"0x0409" /IE:\work\home\homework\git\x265\source\. /IE:\work\home\homework\git\x265\source\common /IE:\work\home\homework\git\x265\source\encoder /I"E:\work\home\homework\git\x265\build\vc11-x86_64" /IE:\work\home\homework\git\x265\source\compat\getopt /nologo /fo"cli.dir\Debug\x265.res" E:\work\home\homework\git\x265\build\vc11-x86_64\x265.rc 
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"E:\work\home\homework\git\x265\build\vc11-x86_64\Debug\x265.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files (x86)\Visual Leak Detector\lib\Win64" kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib "Debug\x265-static.lib" profile\PPA\Debug\PPA.lib /DEF:"E:/work/home/homework/git/x265/build/vc11-x86_64/x265.def" /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:/work/home/homework/git/x265/build/vc11-x86_64/Debug/x265.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:/work/home/homework/git/x265/build/vc11-x86_64/Debug/x265.lib" /MACHINE:X64  /machine:x64 cli.dir\Debug\x265.res
+         cli.dir\Debug\input.obj
+         cli.dir\Debug\output.obj
+         cli.dir\Debug\reconplay.obj
+         cli.dir\Debug\raw.obj
+         cli.dir\Debug\getopt.obj
+         cli.dir\Debug\x265.obj
+         "cli.dir\Debug\x265-extras.obj"
+         cli.dir\Debug\/input/yuv.cpp.obj
+         cli.dir\Debug\/input/y4m.cpp.obj
+         cli.dir\Debug\/output/yuv.cpp.obj
+         cli.dir\Debug\/output/y4m.cpp.obj
+            Creating library E:/work/home/homework/git/x265/build/vc11-x86_64/Debug/x265.lib and object E:/work/home/homework/git/x265/build/vc11-x86_64/Debug/x265.exp
+         cli.vcxproj -> E:\work\home\homework\git\x265\build\vc11-x86_64\Debug\x265.exe
+     1>Done Building Project "E:\work\home\homework\git\x265\build\vc11-x86_64\cli.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:09.65

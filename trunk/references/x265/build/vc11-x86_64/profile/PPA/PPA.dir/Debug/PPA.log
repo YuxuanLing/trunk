@@ -1,0 +1,16 @@
+﻿Build started 2017/3/30 22:16:09.
+     1>Project "E:\work\home\homework\git\x265\build\vc11-x86_64\profile\PPA\PPA.vcxproj" on node 4 (Rebuild target(s)).
+     1>CustomBuild:
+         Building Custom Rule E:/work/home/homework/git/x265/source/profile/PPA/CMakeLists.txt
+         CMake does not need to re-run because E:\work\home\homework\git\x265\build\vc11-x86_64\profile\PPA\CMakeFiles\generate.stamp is up-to-date.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\CL.exe /c /IE:\work\home\homework\git\x265\source\. /IE:\work\home\homework\git\x265\source\common /IE:\work\home\homework\git\x265\source\encoder /I"E:\work\home\homework\git\x265\build\vc11-x86_64" /I"C:\Program Files (x86)\Visual Leak Detector\include" /Zi /nologo /W4 /WX- /MP /Od /Ob2 /D WIN32 /D _WINDOWS /D _DEBUG /D X265_ARCH_X86=1 /D X86_64=1 /D _CRT_SECURE_NO_WARNINGS /D CHECKED_BUILD=1 /D HIGH_BIT_DEPTH=1 /D X265_DEPTH=10 /D EXPORT_C_API=1 /D X265_NS=x265 /D _WIN32_WINNT=_WIN32_WINNT_WIN7 /D ENABLE_PPA /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"PPA.dir\Debug\\" /Fd"PPA.dir\Debug\vc110.pdb" /Gd /TP /errorReport:prompt E:\work\home\homework\git\x265\source\profile\PPA\ppa.cpp
+         ppa.cpp
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\Lib.exe /OUT:"E:\work\home\homework\git\x265\build\vc11-x86_64\profile\PPA\Debug\PPA.lib" /LIBPATH:"C:\Program Files (x86)\Visual Leak Detector\lib\Win64" /NOLOGO /MACHINE:X64  /machine:x64 PPA.dir\Debug\ppa.obj
+         PPA.vcxproj -> E:\work\home\homework\git\x265\build\vc11-x86_64\profile\PPA\Debug\PPA.lib
+     1>Done Building Project "E:\work\home\homework\git\x265\build\vc11-x86_64\profile\PPA\PPA.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:04.85
