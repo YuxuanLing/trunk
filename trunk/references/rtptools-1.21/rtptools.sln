@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rtpdump", "rtpdump.vcproj", "{F2FC63D5-BAB7-4026-8D70-0D413BDD271A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rtpplay", "rtpplay.vcproj", "{658D0FBC-16C7-4A4B-A668-2C962E3357C4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rtpsend", "rtpsend.vcproj", "{98DC0E8D-3A54-4DE9-A760-22033B708FF2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rtptrans", "rtptrans.vcproj", "{44B8F83E-AFBB-4E1F-9C9D-BE914D9AC4B2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F2FC63D5-BAB7-4026-8D70-0D413BDD271A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F2FC63D5-BAB7-4026-8D70-0D413BDD271A}.Debug|Win32.Build.0 = Debug|Win32
+		{658D0FBC-16C7-4A4B-A668-2C962E3357C4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{658D0FBC-16C7-4A4B-A668-2C962E3357C4}.Debug|Win32.Build.0 = Debug|Win32
+		{98DC0E8D-3A54-4DE9-A760-22033B708FF2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{98DC0E8D-3A54-4DE9-A760-22033B708FF2}.Debug|Win32.Build.0 = Debug|Win32
+		{44B8F83E-AFBB-4E1F-9C9D-BE914D9AC4B2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{44B8F83E-AFBB-4E1F-9C9D-BE914D9AC4B2}.Debug|Win32.Build.0 = Debug|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
