@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #coding:utf-8
-import thread 
+import thread
 from time import sleep, time
 
 loops=[4,2]
