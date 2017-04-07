@@ -29,4 +29,10 @@ class Nude(object):
         self.image = new_img
         self.image.filename = f
 
+    #存储对应图像所有像素的全部Skin 对象
+    self.skin_map=[]
+    self.detected_regions=[]
+    self.merge_regions=[]
+
+
 
