@@ -1,7 +1,6 @@
-#!/usr/bin/python
 import sys
 import os
-import _is
+import _io
 from collections import namedtuple
 from PIL import Image
 
@@ -17,28 +16,28 @@ class Nude(object):
             self.image = Image.open(path_or_image)
 
 
-    #获取图片所有颜色通道，RBG HEV 还是YUV
-    bands = self.image.getbands()
-    #判断是否为单通道，如果是则转换为RGB
-    if len(bands) == 1:
-        new_img = Image.new("RGB",self.image.size)
-        #拷贝到新图，PIL自动颜色通道转换
-        new_img.paste(self.image)
-        f = self.image.filename
-        #替换self.image
-        self.image = new_img
-        self.image.filename = f
+        #获取图片所有颜色通道，RBG HEV 还是YUV
+        bands = self.image.getbands()
+        #判断是否为单通道，如果是则转换为RGB
+        if len(bands) == 1:
+            new_img = Image.new("RGB",self.image.size)
+            #拷贝到新图，PIL自动颜色通道转换
+            new_img.paste(self.image)
+            f = self.image.filename
+            #替换self.image
+            self.image = new_img
+            self.image.filename = f
 
-    #存储对应图像所有像素的全部Skin 对象
-    self.skin_map=[]
-    self.detected_regions=[]
-    self.merge_regions=[]
-    self.skin_regions=[]
-    self.last_from, self.last_to = -1, -1
-    self.result = None
-    self.mesage = None
-    self.width, self.height = self.image.size
-    self.total_pixels=self.width * self.height
+        #存储对应图像所有像素的全部Skin 对象
+        self.skin_map=[]
+        self.detected_regions=[]
+        self.merge_regions=[]
+        self.skin_regions=[]
+        self.last_from, self.last_to = -1, -1
+        self.result = None
+        self.mesage = None
+        self.width, self.height = self.image.size
+        self.total_pixels=self.width * self.height
 
 
     def resize(self, maxwidth=1000,maxheight=1000):
@@ -52,7 +51,7 @@ class Nude(object):
                 hsize    = int((self.height*wpercent))
                 fname = self.image.filename
                 #LANCZOS 是重采样滤波器，用于抗锯齿
-                self.image = self.image.resize((maxwidth,hsize), image.LANCZOS)
+                self.image = self.image.resize((maxwidth,hsize), Image.LANCZOS)
                 self.image.filename = fname
                 self.width, self.height = self.image.size
                 self.total_pixels = self.width * self.height
@@ -64,7 +63,7 @@ class Nude(object):
                 wsize    = int((self.width*hpercent))
                 fname = self.image.filename
                 #LANCZOS 是重采样滤波器，用于抗锯齿
-                self.image = self.image.resize((wsize,maxheight), image.LANCZOS)
+                self.image = self.image.resize((wsize,maxheight), Image.LANCZOS)
                 self.image.filename = fname
                 self.width, self.height = self.image.size
                 self.total_pixels = self.width * self.height
@@ -85,7 +84,7 @@ class Nude(object):
                 g =  pixels[x,y][1]
                 b =  pixels[x,y][2]
 
-                isSkin = True if self._classfiy_skin(r,g,b) else False
+                isSkin = True if self._classify_skin(r,g,b) else False
                 _id = x + y*self.width + 1
                 self.skin_map.append(self.Skin(_id, isSkin, None, x, y))
                 if not isSkin:
@@ -119,13 +118,13 @@ class Nude(object):
                         _skin = self.skin_map[_id - 1]._replace(region=len(self.detected_regions))
                         self.skin_map[_id - 1]=_skin
                         #将此肤色像素所在区域创建为新区域
-                        self.detected_regions.append([self.skin_map[_id]])
+                        self.detected_regions.append([self.skin_map[_id - 1]])
                     elif region != None:
                         #将此像素的区域号更改为与相邻的像素相同
-                        _skin=self.skin_map[_idi - 1]._replace(region=region)
+                        _skin=self.skin_map[_id - 1]._replace(region=region)
                         self.skin_map[_id - 1]=_skin
                         #向这个区域的像素列表中添加此像素
-                        self.detected_regions[region].append(self.skin_map[_id])
+                        self.detected_regions[region].append(self.skin_map[_id - 1])
 
         #完成所有区域的合并任务，合并整理后的区域存储到self.skin_regions
         self._merge(self.detected_regions, self.merge_regions)
@@ -260,6 +259,109 @@ class Nude(object):
 
         #清理
         self._clear_regions(new_detected_regions)
+
+    def _clear_regions(self,detected_regions):
+        for region in detected_regions:
+            if len(region) > 30:
+                self.skin_regions.append(region)
+
+
+    def _analyse_regions(self):
+        if len(self.skin_regions) <3:
+            self.message = "Less than 3 skin regions ({_skin_regions_size})".fromat(
+                _skin_regions_size=len(self.skin_regions))
+            self.result = False
+            return self.result
+
+        #为皮肤区域排序
+        self.skin_regions = sorted(self.skin_regions, key=lambda s:len(s),
+                                   reverse = True)
+
+
+        #计算皮肤总像素
+        total_skin = float(sum([len(skin_region) for skin_region in self.skin_regions]))
+        #如果皮肤区域和整个图像的比值小鱼15% 那么不是色情图片
+        if total_skin/self.total_pixels * 100 < 15:
+            self.message = "Total skin percentage lower than 15 ({:.2f})".format(
+                total_skin/self.total_pixels*100)
+            self.result = False
+            return self.result
+
+        #如果最大皮肤区域小于总皮肤的45% 不是色情图
+        if len(self.skin_regions[0])/total_skin*100 < 45:
+            self.message = "The Biggest region contains less than 45({:.2f})".format(
+                len(self.skin_regions[0])/total_skin*100)
+            self.result = False
+            return self.result
+
+
+        #皮肤区域数量超过60个 不是色情图片
+        if len(self.skin_regions) > 60:
+            self.message = "More than 60 skin regions ({})".format(len(self.skin_regions))
+            self.result = False
+            return self.result
+
+        self.message = "Nude!!"
+        self.result = True
+        return self.result
+
+    def inspect(self):
+        _image = '{} {} {}x{}'.format(self.image.filename, self.image.format, self.width,self.height)
+        return "{_image}: result={_result} message='{_message}'".format(_image=_image,
+                                                                        _result=self.result,
+                                                                        _message=self.message)
+
+    def showSkinRegions(self):
+        if self.result is None:
+            return
+
+        skinIdSet = set()
+        simage = self.image
+        simageData = simage.load()
+        #将皮肤像素的ID存入skinset
+        for sr in self.skin_regions:
+            for pixel in sr:
+                skinIdSet.add(pixel.id)
+
+        #
+        for  pixel in self.skin_map:
+            if pixel.id not in skinIdSet:
+                simageData[pixel.x, pixel.y]=0,0,0
+            else:
+                simageData[pixel.x, pixel.y]=255,255,255
+
+        filePath = os.path.abspath(self.image.filename)
+        fileDirectory = os.path.dirname(filePath) + '/'
+        fileFullName  = os.path.basename(filePath)
+        fileName, fileExtName = os.path.splitext(fileFullName)
+        simage.save('{}{}_{}{}'.format(fileDirectory, fileName, 'Nude' if self.result
+                                       else 'Normal', fileExtName))
+
+
+if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser(description='Detect nudity in images.')
+    parser.add_argument('files', metavar='image',nargs='+',
+                        help='Images you wish to test')
+    parser.add_argument('-r','--resize',action='store_true',
+                        help='Reduce image size to increase speed of scanning')
+    parser.add_argument('-v','--visualization',action='store_true',
+                        help='Generation areas of skin image')
+
+    args = parser.parse_args()
+
+
+    for fname in args.files:
+        if os.path.isfile(fname):
+            n=Nude(fname)
+            if args.resize:
+                n.resize(maxheight = 800, maxwidth = 600)
+            n.parse()
+            if args.visualization:
+                n.showSkinRegions()
+            print(n.result,n.inspect())
+        else:
+            print(fname, "is not a file")
 
 
 
