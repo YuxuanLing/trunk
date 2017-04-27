@@ -1,0 +1,1 @@
+gcc test_class.cpp -lstdc++ -o test_class
