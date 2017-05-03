@@ -22,7 +22,18 @@ class B{
 		}
 };
 
+class C{
+	public:
+		C(){
+			cout<<"C start"<<endl;
+		}
+		~C(){
+			cout<<"C destroy"<<endl;
+		}
+	private:
+		A a;
 
+};
 
 void test_func()
 {
@@ -30,9 +41,18 @@ void test_func()
 	B testB;
 }
 
+void test_func1()
+{
+  C c;
+
+}
+
 int main()
 {
-    test_func();
-
+    //test_func();
+   // test_func1();
+  C c;
+	
+	cout<<"main end"<<endl;
 	return 0;
 }
