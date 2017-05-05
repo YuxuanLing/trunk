@@ -1,17 +1,18 @@
 #include "gst\gst.h"
 
 //#include <gst/gst.h>  
-
+/**/
 int main(int argc, char *argv[]) {
 	GstElement *pipeline;
 	GstBus *bus;
 	GstMessage *msg;
+	GError *error = NULL; //(GError *)malloc(sizeof(GError));
 
 	/* Initialize GStreamer */
 	gst_init(&argc, &argv);
 
 	/* Build the pipeline */
-	pipeline = gst_parse_launch("playbin2 uri=http://docs.gstreamer.com/media/sintel_trailer-480p.webm", NULL);
+	pipeline = gst_parse_launch("playbin2 url=https://gstreamer.freedesktop.org/media/small/720p-60frames.avi", &error);
 
 	/* Start playing */
 	gst_element_set_state(pipeline, GST_STATE_PLAYING);
@@ -28,3 +29,5 @@ int main(int argc, char *argv[]) {
 	gst_object_unref(pipeline);
 	return 0;
 }
+
+
