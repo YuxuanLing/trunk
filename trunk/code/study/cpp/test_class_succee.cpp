@@ -22,7 +22,7 @@ class B{
 		}
 };
 
-class C :public B{
+class C :public B, public  A{
 	public:
 		C(){
 			cout<<"C start"<<endl;
@@ -31,7 +31,7 @@ class C :public B{
 			cout<<"C destroy"<<endl;
 		}
 	private:
-		A a;
+		B a;
 
 };
 
