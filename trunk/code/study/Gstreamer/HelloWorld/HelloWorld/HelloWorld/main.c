@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
 	gst_init(&argc, &argv);
 
 	/* Build the pipeline */
-	pipeline = gst_parse_launch("playbin2 url=https://gstreamer.freedesktop.org/media/small/720p-60frames.avi", &error);
+	pipeline = gst_parse_launch("playbin uri=https://gstreamer.freedesktop.org/media/small/720p-60frames.avi", &error);
 
 	/* Start playing */
 	gst_element_set_state(pipeline, GST_STATE_PLAYING);
