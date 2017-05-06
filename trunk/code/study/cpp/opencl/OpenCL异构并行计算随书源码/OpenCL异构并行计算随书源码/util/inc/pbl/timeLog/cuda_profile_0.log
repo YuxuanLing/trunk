@@ -1,0 +1,12 @@
+# CUDA_PROFILE_LOG_VERSION 2.0
+# CUDA_DEVICE 0 Atlas C-Series
+# CUDA_CONTEXT 1
+# TIMESTAMPFACTOR 13070dc69fc36e8d
+method,gputime,cputime,occupancy
+method=[ memcpyHtoD ] gputime=[ 43.936 ] cputime=[ 29.591 ] 
+method=[ memcpyHtoD ] gputime=[ 43.712 ] cputime=[ 27.100 ] 
+method=[ _Z4vxvjIdEviPKT_S2_PS0_ ] gputime=[ 12759.072 ] cputime=[ 16.107 ] occupancy=[ 1.000 ] 
+method=[ _Z4vxviIdEviPKT_S2_PS0_ ] gputime=[ 218392.484 ] cputime=[ 5.057 ] occupancy=[ 1.000 ] 
+method=[ _Z8vxvjsmemIdEviPKT_S2_PS0_ ] gputime=[ 12561.984 ] cputime=[ 4.624 ] occupancy=[ 1.000 ] 
+method=[ _Z5checkIdEviPKT_S2_ ] gputime=[ 5.792 ] cputime=[ 322.104 ] occupancy=[ 1.000 ] 
+method=[ _Z5checkIdEviPKT_S2_ ] gputime=[ 3.936 ] cputime=[ 5.241 ] occupancy=[ 1.000 ] 

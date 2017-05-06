@@ -1,0 +1,82 @@
+﻿  stdafx.cpp
+  ocl_query.c
+e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(170): warning C4996: 'clCreateCommandQueue': 被声明为已否决
+  c:\program files (x86)\intel\opencl sdk\6.3\include\cl\cl.h(1428): note: 参见“clCreateCommandQueue”的声明
+e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(301): warning C4477: “sprintf”: 格式字符串“%u”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“std::size_t”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(301): note: 请考虑在格式字符串中使用“%zu”
+e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(301): warning C4477: “sprintf”: 格式字符串“%u”需要类型“unsigned int”的参数，但可变参数 2 拥有了类型“std::size_t”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(301): note: 请考虑在格式字符串中使用“%zu”
+e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(301): warning C4477: “sprintf”: 格式字符串“%u”需要类型“unsigned int”的参数，但可变参数 3 拥有了类型“std::size_t”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(301): note: 请考虑在格式字符串中使用“%zu”
+e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(306): warning C4477: “sprintf”: 格式字符串“%u”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“cl_ulong”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(306): note: 请考虑在格式字符串中使用“%llu”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(306): note: 请考虑在格式字符串中使用“%Iu”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(306): note: 请考虑在格式字符串中使用“%I64u”
+e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(395): warning C4477: “sprintf”: 格式字符串“%u”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“cl_ulong”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(395): note: 请考虑在格式字符串中使用“%llu”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(395): note: 请考虑在格式字符串中使用“%Iu”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(395): note: 请考虑在格式字符串中使用“%I64u”
+e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(425): warning C4477: “sprintf”: 格式字符串“%u”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“cl_ulong”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(425): note: 请考虑在格式字符串中使用“%llu”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(425): note: 请考虑在格式字符串中使用“%Iu”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(425): note: 请考虑在格式字符串中使用“%I64u”
+e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(431): warning C4477: “sprintf”: 格式字符串“%u”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“cl_ulong”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(431): note: 请考虑在格式字符串中使用“%llu”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(431): note: 请考虑在格式字符串中使用“%Iu”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(431): note: 请考虑在格式字符串中使用“%I64u”
+e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(437): warning C4477: “sprintf”: 格式字符串“%u”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“cl_ulong”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(437): note: 请考虑在格式字符串中使用“%llu”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(437): note: 请考虑在格式字符串中使用“%Iu”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(437): note: 请考虑在格式字符串中使用“%I64u”
+e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(443): warning C4477: “sprintf”: 格式字符串“%u”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“cl_ulong”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(443): note: 请考虑在格式字符串中使用“%llu”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(443): note: 请考虑在格式字符串中使用“%Iu”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(443): note: 请考虑在格式字符串中使用“%I64u”
+e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(449): warning C4477: “sprintf”: 格式字符串“%u”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“cl_ulong”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(449): note: 请考虑在格式字符串中使用“%llu”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(449): note: 请考虑在格式字符串中使用“%Iu”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(449): note: 请考虑在格式字符串中使用“%I64u”
+e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(455): warning C4477: “sprintf”: 格式字符串“%u”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“cl_ulong”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(455): note: 请考虑在格式字符串中使用“%llu”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(455): note: 请考虑在格式字符串中使用“%Iu”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(455): note: 请考虑在格式字符串中使用“%I64u”
+e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(461): warning C4477: “sprintf”: 格式字符串“%u”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“cl_ulong”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(461): note: 请考虑在格式字符串中使用“%llu”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(461): note: 请考虑在格式字符串中使用“%Iu”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(461): note: 请考虑在格式字符串中使用“%I64u”
+e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(503): warning C4477: “sprintf”: 格式字符串“%u”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“cl_ulong”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(503): note: 请考虑在格式字符串中使用“%llu”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(503): note: 请考虑在格式字符串中使用“%Iu”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(503): note: 请考虑在格式字符串中使用“%I64u”
+e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(649): warning C4477: “sprintf”: 格式字符串“%u”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“cl_ulong”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(649): note: 请考虑在格式字符串中使用“%llu”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(649): note: 请考虑在格式字符串中使用“%Iu”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(649): note: 请考虑在格式字符串中使用“%I64u”
+e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(655): warning C4477: “sprintf”: 格式字符串“%u”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“cl_ulong”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(655): note: 请考虑在格式字符串中使用“%llu”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(655): note: 请考虑在格式字符串中使用“%Iu”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(655): note: 请考虑在格式字符串中使用“%I64u”
+e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(661): warning C4477: “sprintf”: 格式字符串“%u”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“cl_ulong”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(661): note: 请考虑在格式字符串中使用“%llu”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(661): note: 请考虑在格式字符串中使用“%Iu”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(661): note: 请考虑在格式字符串中使用“%I64u”
+e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(673): warning C4477: “sprintf”: 格式字符串“%u”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“std::size_t”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(673): note: 请考虑在格式字符串中使用“%zu”
+e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(679): warning C4477: “sprintf”: 格式字符串“%u”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“std::size_t”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(679): note: 请考虑在格式字符串中使用“%zu”
+e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(704): warning C4477: “sprintf”: 格式字符串“%u”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“cl_ulong”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(704): note: 请考虑在格式字符串中使用“%llu”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(704): note: 请考虑在格式字符串中使用“%Iu”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(704): note: 请考虑在格式字符串中使用“%I64u”
+e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(716): warning C4477: “sprintf”: 格式字符串“%u”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“std::size_t”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(716): note: 请考虑在格式字符串中使用“%zu”
+e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(816): warning C4477: “sprintf”: 格式字符串“%u”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“std::size_t”
+  e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.c(816): note: 请考虑在格式字符串中使用“%zu”
+  main.c
+e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\main.c : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+e:\work\home\homework\homework_git\trunk\coding\opencl\opencl异构并行计算随书源码\opencl异构并行计算随书源码\a.windows\openclquery\ocl_query.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  正在生成代码...
+  OpenCLQuery.vcxproj -> E:\work\home\homework\homework_git\trunk\coding\opencl\OpenCL异构并行计算随书源码\OpenCL异构并行计算随书源码\A.Windows\x64\Debug\OpenCLQuery.exe
+  OpenCLQuery.vcxproj -> E:\work\home\homework\homework_git\trunk\coding\opencl\OpenCL异构并行计算随书源码\OpenCL异构并行计算随书源码\A.Windows\x64\Debug\OpenCLQuery.pdb (Full PDB)

@@ -1,0 +1,83 @@
+__kernel void GenerateRoundVertices(__global float *pVertices, __global float *pColors)
+{
+    int index = get_global_id(0);
+    
+    float theta = radians((float)(index - 1));
+    
+    // radius is 0.8
+    float x = 0.8f * cos(theta);
+    float y = 0.8f * sin(theta);
+    
+    // origin point coordinate is (0, 0)
+    if(index == 0)
+        x = 0.0f;
+    if(index == 0)
+        y = 0.0f;
+    
+    pVertices[index * 4 + 0] = x;
+    pVertices[index * 4 + 1] = y;
+    pVertices[index * 4 + 2] = 0.0f;
+    pVertices[index * 4 + 3] = 1.0f;
+    
+    float r, g, b;
+    if(index == 0)
+    {
+        r = 0.0f;
+        g = 0.0f;
+        b = 0.0f;
+    }
+    else if(index <= 45)
+    {
+        r = 0.1f;
+        g = 0.9f;
+        b = 0.1f;
+    }
+    else if(index <= 90)
+    {
+        r = 0.1f;
+        g = 0.1f;
+        b = 0.9f;
+    }
+    else if(index < 180)
+    {
+        r = 0.9f;
+        g = 0.9f;
+        b = 0.1f;
+    }
+    else if(index < 270)
+    {
+        r = 0.9f;
+        g = 0.1f;
+        b = 0.9f;
+    }
+    else
+    {
+        r = 0.1f;
+        g = 0.9f;
+        b = 0.9f;
+    }
+    
+    pColors[index * 4 + 0] = r;
+    pColors[index * 4 + 1] = g;
+    pColors[index * 4 + 2] = b;
+    pColors[index * 4 + 3] = 1.0f;
+}
+
+__kernel void ImageProcessing(__write_only image2d_t imageDst,
+                              __read_only image2d_t imageSrc, sampler_t sampler)
+{
+    int x = get_global_id(0);
+    int y = get_global_id(1);
+    
+    float4 transVector = (float4)(0.299f, 0.587f, 0.114f, 0.0f);
+    
+    float4 color = read_imagef(imageSrc, sampler, (int2)(x, y));
+    
+    float alpha = color.w;
+    float yComp = dot(color, transVector);
+    
+    color = (float4)(yComp, yComp, yComp, 1.0f);
+    
+    write_imagef(imageDst, (int2)(x, y), color);
+}
+

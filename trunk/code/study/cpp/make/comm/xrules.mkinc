@@ -1,0 +1,190 @@
+################################################################################
+# DESCRIPTION:  Common Rules for GNU Make
+# AUTHOR:       yxling
+# DATE:         12/17/2016
+################################################################################
+
+
+################################################################################
+# Common Settings
+################################################################################
+
+VPATH           += $(SRC_DIRS)
+
+DEF_TMP_DIR      = mk.tmp
+
+TMP_DIR         ?= $(DEF_TMP_DIR)
+RM_TMP_DIR       = $(shell if [ "$(TMP_DIR)" == "$(DEF_TMP_DIR)" -o \
+                   ! -d "$(TMP_DIR)" ]; then echo 1; fi )
+
+SRC_TYPES       ?= C CPP
+
+
+DFLAGS          += $(XOPTS) $(DEFS) $(SRC_DIRS:%=-I %)
+CFLAGS          += $(XOPTS) $(DEFS) $(SRC_DIRS:%=-I %)
+CXXFLAGS        += $(XOPTS) $(DEFS) $(SRC_DIRS:%=-I %)
+
+ifneq ($(filter C, $(SRC_TYPES)),)
+SRC_S           += $(filter %.s,    $(SRC))
+SRC_C           += $(filter %.c,    $(SRC))
+SRC_CXX         += $(filter %.cxx,  $(SRC))
+SRC_CPP         += $(filter %.cpp,  $(SRC))
+SRC_O           += $(filter %.o,    $(SRC))
+SRC_A           += $(filter %.a,    $(SRC))
+SRC_AX          += $(wildcard       $(notdir $(SRC_A)))
+SRC_AA          += $(filter-out $(SRC_AX), $(SRC_A))
+SRC_SO          += $(filter %.so,   $(SRC))
+endif
+
+OBJ_AX           = $(SRC_AX:%.a=$(TMP_DIR)/%.a.x/stub.a)
+OBJ_S            = $(SRC_S:%.s=$(TMP_DIR)/%.o)
+OBJ_C            = $(SRC_C:%.c=$(TMP_DIR)/%.o)
+OBJ_CXX          = $(SRC_CXX:%.cxx=$(TMP_DIR)/%.o)
+OBJ_CPP          = $(SRC_CPP:%.cpp=$(TMP_DIR)/%.o)
+OBJ              = $(OBJ_S) $(OBJ_C) $(OBJ_CXX) $(OBJ_CPP)
+
+OUT_A           += $(filter %.a,    $(OUT))
+OUT_SO          += $(filter %.so,   $(OUT))
+OUT_EXE         += $(filter-out %.a %.so, $(OUT))
+
+DEP              = $(OBJ:.o=.d)
+TMP_S            = $(OBJ:.o=.s)
+
+MKTMP            = if [ ! -d $(TMP_DIR) ]; then mkdir $(TMP_DIR); fi
+
+# Rules for object file (.o) and dependency file (.d) generation
+
+$(OBJ_C): $(TMP_DIR)/%.o: %.c
+	@echo "[C] compiling: $<"
+	$(MKTMP)
+	$(CC) $(CFLAGS) -o $@ $<
+	$(MKDEP)
+	touch $@
+
+$(OBJ_CXX): $(TMP_DIR)/%.o: %.cxx
+	@echo "[C++] compiling: $<"
+	$(MKTMP)
+	$(CXX) $(CXXFLAGS) -o $@ $<
+	$(MKDEP)
+	touch $@
+
+$(OBJ_CPP): $(TMP_DIR)/%.o: %.cpp
+	@echo "[C++] compiling: $<"
+	$(MKTMP)
+	$(CXX) $(CXXFLAGS) -o $@ $<
+	$(MKDEP)
+	touch $@
+
+
+# Rules for executable, library (.a), shared library (.so) generation
+
+$(OUT_EXE): $(OBJ) $(SRC_O) $(SRC_A) $(SRC_SO)
+	@echo "[LD] creating executable: $@"
+	$(MKTMP)
+	$(LD) -o $@ $^ $(LDFLAGS)
+
+$(OUT_A): $(OBJ) $(OBJ_AX) $(SRC_O) $(SRC_AA) $(SRC_SO)
+	@echo "[AR] creating library: $@"
+	$(MKTMP)
+	rm -f $@
+	$(AR) cr $@ $^ $(wildcard $(addsuffix *.o, $(dir $(filter %.a.x/stub.a, $^))))
+	$(RANLIB) $@
+
+$(OUT_SO): $(OBJ) $(OBJ_AX) $(SRC_O) $(SRC_AA) $(SRC_SO)
+	@echo "[LD] creating shared library: $@"
+	$(MKTMP)
+	$(LD_SHARED) -o $@ $^ $(wildcard $(addsuffix *.o, $(dir $(filter %.a.x/stub.a, $^)))) $(LDFLAGS)
+
+
+	
+# Default rules for final targets
+
+.PHONY: default_all
+default_all: $(DOCC_OUT) $(NANO_OUT) $(FASM_OUT) $(OUT)
+
+# Default rule to clean up all output/object files
+
+.PHONY: default_clean
+default_clean:
+	@echo "cleaning ..."
+	rm -f $(OBJ) $(DEP) $(TMP_S) $(DOCC_OUT) $(NANO_OUT) $(FASM_OUT) $(OUT)
+	rm -f $(addprefix $(TMP_DIR)/, $(notdir $(FASM_OUT:.h=.h.dbg*.fasm)))
+	rm -f $(TMP_DIR)/make.opts
+	if [ -n "$(RM_TMP_DIR)" ]; then rm -fr $(TMP_DIR); fi
+
+# Other rules
+
+.PHONY: check_make_opts
+check_make_opts:
+	@make_clean=1; \
+	if [ -f $(TMP_DIR)/make.opts ]; then \
+	  prev_opts=`cat $(TMP_DIR)/make.opts`; \
+	  if [ "$(MAKE_OPTS)" == "$$prev_opts" ]; then \
+	    make_clean=0; \
+	  fi; \
+	fi; \
+	if [ "$$make_clean" == "1" ]; then \
+	  make clean; \
+	  if [ ! -d $(TMP_DIR) ]; then mkdir $(TMP_DIR); fi; \
+	  echo "$(MAKE_OPTS)" > $(TMP_DIR)/make.opts; \
+	fi
+
+.PHONY: echo
+echo: $(MAKEFILE_LIST)
+	@echo; echo "WA_ROOT        = $(WA_ROOT)"
+	@echo; echo "GCC_VER        = $(GCC_VER)"
+	@echo; echo "CUR_DIR        = $(CUR_DIR)"
+	@echo; echo "SRC_S          = $(SRC_S)"
+	@echo; echo "SRC_C          = $(SRC_C)"
+	@echo; echo "SRC_CXX        = $(SRC_CXX)"
+	@echo; echo "SRC_CPP        = $(SRC_CPP)"
+	@echo; echo "SRC_SO         = $(SRC_SO)"
+	@echo; echo "OBJ_AX         = $(OBJ_AX)"
+	@echo; echo "OBJ            = $(OBJ)"
+	@echo; echo "OUT            = $(OUT)"
+	@echo; echo "XOPTS          = $(XOPTS)"
+	@echo; echo "DEFS           = $(DEFS)"
+	@echo; echo "DFLAGS         = $(DFLAGS)"
+	@echo; echo "CFLAGS         = $(CFLAGS)"
+	@echo; echo "CXXFLAGS       = $(CXXFLAGS)"
+	@echo; echo "LDFLAGS        = $(LDFLAGS)"
+	@echo; echo "VPATH          = $(VPATH)"
+	@echo; echo "DEP            = $(DEP)"
+	@echo; echo "MAKEFILE_LIST  = $^"
+	@echo
+	
+define def__echo_var
+	@echo "$(1)=$(if $(findstring def__,$(1)),(multi-line),{$($(1))})"
+
+endef # do not delete the empty line above
+
+.PHONY: echo_all
+echo_all: $(MAKEFILE_LIST)
+	@echo; echo "MAKEFILE_LIST($$^)={$^}"
+	$(foreach x,$(sort $(.VARIABLES)),$(if $(findstring file,\
+	$(origin $(x))),$(call def__echo_var,$(x)),))
+
+# Rules to maintain dependencies
+
+ifneq ($(NO_MKDEP),1)
+MAKEFILE_DEP     = $(MAKEFILE_LIST)
+endif
+
+
+$(OBJ): %.o: %.d $(MAKEFILE_DEP)
+
+$(DEP): 
+
+-include $(DEP)
+
+ifneq ($(MKDBG),1)
+.SILENT:
+endif
+
+################################################################################
+# End of File
+################################################################################
+	
+	
+	
+	

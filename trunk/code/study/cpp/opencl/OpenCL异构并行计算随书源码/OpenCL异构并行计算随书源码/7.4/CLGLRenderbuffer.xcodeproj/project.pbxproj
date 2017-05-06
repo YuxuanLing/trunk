@@ -1,0 +1,464 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		42201E2C1B097CC900F44E60 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 42201E2B1B097CC900F44E60 /* AppDelegate.m */; };
+		42201E2E1B097CC900F44E60 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 42201E2D1B097CC900F44E60 /* main.m */; };
+		42201E301B097CC900F44E60 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 42201E2F1B097CC900F44E60 /* Images.xcassets */; };
+		42201E331B097CC900F44E60 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42201E311B097CC900F44E60 /* MainMenu.xib */; };
+		42201E3F1B097CC900F44E60 /* CLGLRenderbufferTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 42201E3E1B097CC900F44E60 /* CLGLRenderbufferTests.m */; };
+		42201E4C1B097DD000F44E60 /* compute.ocl in Resources */ = {isa = PBXBuildFile; fileRef = 42201E491B097DD000F44E60 /* compute.ocl */; };
+		42201E4D1B097DD000F44E60 /* shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 42201E4A1B097DD000F44E60 /* shader.fsh */; };
+		42201E4E1B097DD000F44E60 /* shader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 42201E4B1B097DD000F44E60 /* shader.vsh */; };
+		42201E511B097DDF00F44E60 /* MyGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 42201E501B097DDF00F44E60 /* MyGLView.m */; };
+		42201E541B09A63C00F44E60 /* draw.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 42201E521B09A63C00F44E60 /* draw.fsh */; };
+		42201E551B09A63C00F44E60 /* draw.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 42201E531B09A63C00F44E60 /* draw.vsh */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		42201E391B097CC900F44E60 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 42201E1D1B097CC900F44E60 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 42201E241B097CC900F44E60;
+			remoteInfo = CLGLRenderbuffer;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		42201E251B097CC900F44E60 /* CLGLRenderbuffer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CLGLRenderbuffer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		42201E291B097CC900F44E60 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		42201E2A1B097CC900F44E60 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		42201E2B1B097CC900F44E60 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		42201E2D1B097CC900F44E60 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		42201E2F1B097CC900F44E60 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		42201E321B097CC900F44E60 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		42201E381B097CC900F44E60 /* CLGLRenderbufferTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CLGLRenderbufferTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		42201E3D1B097CC900F44E60 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		42201E3E1B097CC900F44E60 /* CLGLRenderbufferTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CLGLRenderbufferTests.m; sourceTree = "<group>"; };
+		42201E491B097DD000F44E60 /* compute.ocl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = compute.ocl; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.opencl; };
+		42201E4A1B097DD000F44E60 /* shader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = shader.fsh; sourceTree = "<group>"; };
+		42201E4B1B097DD000F44E60 /* shader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = shader.vsh; sourceTree = "<group>"; };
+		42201E4F1B097DDF00F44E60 /* MyGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyGLView.h; sourceTree = "<group>"; };
+		42201E501B097DDF00F44E60 /* MyGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyGLView.m; sourceTree = "<group>"; };
+		42201E521B09A63C00F44E60 /* draw.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = draw.fsh; sourceTree = "<group>"; };
+		42201E531B09A63C00F44E60 /* draw.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = draw.vsh; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		42201E221B097CC900F44E60 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		42201E351B097CC900F44E60 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		42201E1C1B097CC900F44E60 = {
+			isa = PBXGroup;
+			children = (
+				42201E271B097CC900F44E60 /* CLGLRenderbuffer */,
+				42201E3B1B097CC900F44E60 /* CLGLRenderbufferTests */,
+				42201E261B097CC900F44E60 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		42201E261B097CC900F44E60 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				42201E251B097CC900F44E60 /* CLGLRenderbuffer.app */,
+				42201E381B097CC900F44E60 /* CLGLRenderbufferTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		42201E271B097CC900F44E60 /* CLGLRenderbuffer */ = {
+			isa = PBXGroup;
+			children = (
+				42201E481B097DD000F44E60 /* shaders */,
+				42201E2A1B097CC900F44E60 /* AppDelegate.h */,
+				42201E2B1B097CC900F44E60 /* AppDelegate.m */,
+				42201E4F1B097DDF00F44E60 /* MyGLView.h */,
+				42201E501B097DDF00F44E60 /* MyGLView.m */,
+				42201E2F1B097CC900F44E60 /* Images.xcassets */,
+				42201E311B097CC900F44E60 /* MainMenu.xib */,
+				42201E281B097CC900F44E60 /* Supporting Files */,
+			);
+			path = CLGLRenderbuffer;
+			sourceTree = "<group>";
+		};
+		42201E281B097CC900F44E60 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				42201E291B097CC900F44E60 /* Info.plist */,
+				42201E2D1B097CC900F44E60 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		42201E3B1B097CC900F44E60 /* CLGLRenderbufferTests */ = {
+			isa = PBXGroup;
+			children = (
+				42201E3E1B097CC900F44E60 /* CLGLRenderbufferTests.m */,
+				42201E3C1B097CC900F44E60 /* Supporting Files */,
+			);
+			path = CLGLRenderbufferTests;
+			sourceTree = "<group>";
+		};
+		42201E3C1B097CC900F44E60 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				42201E3D1B097CC900F44E60 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		42201E481B097DD000F44E60 /* shaders */ = {
+			isa = PBXGroup;
+			children = (
+				42201E491B097DD000F44E60 /* compute.ocl */,
+				42201E521B09A63C00F44E60 /* draw.fsh */,
+				42201E531B09A63C00F44E60 /* draw.vsh */,
+				42201E4A1B097DD000F44E60 /* shader.fsh */,
+				42201E4B1B097DD000F44E60 /* shader.vsh */,
+			);
+			path = shaders;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		42201E241B097CC900F44E60 /* CLGLRenderbuffer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 42201E421B097CC900F44E60 /* Build configuration list for PBXNativeTarget "CLGLRenderbuffer" */;
+			buildPhases = (
+				42201E211B097CC900F44E60 /* Sources */,
+				42201E221B097CC900F44E60 /* Frameworks */,
+				42201E231B097CC900F44E60 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CLGLRenderbuffer;
+			productName = CLGLRenderbuffer;
+			productReference = 42201E251B097CC900F44E60 /* CLGLRenderbuffer.app */;
+			productType = "com.apple.product-type.application";
+		};
+		42201E371B097CC900F44E60 /* CLGLRenderbufferTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 42201E451B097CC900F44E60 /* Build configuration list for PBXNativeTarget "CLGLRenderbufferTests" */;
+			buildPhases = (
+				42201E341B097CC900F44E60 /* Sources */,
+				42201E351B097CC900F44E60 /* Frameworks */,
+				42201E361B097CC900F44E60 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				42201E3A1B097CC900F44E60 /* PBXTargetDependency */,
+			);
+			name = CLGLRenderbufferTests;
+			productName = CLGLRenderbufferTests;
+			productReference = 42201E381B097CC900F44E60 /* CLGLRenderbufferTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		42201E1D1B097CC900F44E60 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0630;
+				ORGANIZATIONNAME = "GreenGames Studio";
+				TargetAttributes = {
+					42201E241B097CC900F44E60 = {
+						CreatedOnToolsVersion = 6.3.1;
+					};
+					42201E371B097CC900F44E60 = {
+						CreatedOnToolsVersion = 6.3.1;
+						TestTargetID = 42201E241B097CC900F44E60;
+					};
+				};
+			};
+			buildConfigurationList = 42201E201B097CC900F44E60 /* Build configuration list for PBXProject "CLGLRenderbuffer" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 42201E1C1B097CC900F44E60;
+			productRefGroup = 42201E261B097CC900F44E60 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				42201E241B097CC900F44E60 /* CLGLRenderbuffer */,
+				42201E371B097CC900F44E60 /* CLGLRenderbufferTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		42201E231B097CC900F44E60 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				42201E4E1B097DD000F44E60 /* shader.vsh in Resources */,
+				42201E551B09A63C00F44E60 /* draw.vsh in Resources */,
+				42201E541B09A63C00F44E60 /* draw.fsh in Resources */,
+				42201E4D1B097DD000F44E60 /* shader.fsh in Resources */,
+				42201E4C1B097DD000F44E60 /* compute.ocl in Resources */,
+				42201E301B097CC900F44E60 /* Images.xcassets in Resources */,
+				42201E331B097CC900F44E60 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		42201E361B097CC900F44E60 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		42201E211B097CC900F44E60 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				42201E2E1B097CC900F44E60 /* main.m in Sources */,
+				42201E511B097DDF00F44E60 /* MyGLView.m in Sources */,
+				42201E2C1B097CC900F44E60 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		42201E341B097CC900F44E60 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				42201E3F1B097CC900F44E60 /* CLGLRenderbufferTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		42201E3A1B097CC900F44E60 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 42201E241B097CC900F44E60 /* CLGLRenderbuffer */;
+			targetProxy = 42201E391B097CC900F44E60 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		42201E311B097CC900F44E60 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				42201E321B097CC900F44E60 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		42201E401B097CC900F44E60 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		42201E411B097CC900F44E60 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		42201E431B097CC900F44E60 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				INFOPLIST_FILE = CLGLRenderbuffer/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		42201E441B097CC900F44E60 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				INFOPLIST_FILE = CLGLRenderbuffer/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		42201E461B097CC900F44E60 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = CLGLRenderbufferTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CLGLRenderbuffer.app/Contents/MacOS/CLGLRenderbuffer";
+			};
+			name = Debug;
+		};
+		42201E471B097CC900F44E60 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = CLGLRenderbufferTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CLGLRenderbuffer.app/Contents/MacOS/CLGLRenderbuffer";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		42201E201B097CC900F44E60 /* Build configuration list for PBXProject "CLGLRenderbuffer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				42201E401B097CC900F44E60 /* Debug */,
+				42201E411B097CC900F44E60 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		42201E421B097CC900F44E60 /* Build configuration list for PBXNativeTarget "CLGLRenderbuffer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				42201E431B097CC900F44E60 /* Debug */,
+				42201E441B097CC900F44E60 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		42201E451B097CC900F44E60 /* Build configuration list for PBXNativeTarget "CLGLRenderbufferTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				42201E461B097CC900F44E60 /* Debug */,
+				42201E471B097CC900F44E60 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 42201E1D1B097CC900F44E60 /* Project object */;
+}

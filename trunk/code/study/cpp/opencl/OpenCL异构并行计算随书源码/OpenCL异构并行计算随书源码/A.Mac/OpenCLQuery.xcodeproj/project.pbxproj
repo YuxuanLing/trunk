@@ -1,0 +1,335 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		42DAA861181981EC00636A51 /* gran.ocl in Resources */ = {isa = PBXBuildFile; fileRef = 42DAA860181981EC00636A51 /* gran.ocl */; };
+		42E8223417DD9CE400967662 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42E8223317DD9CE400967662 /* Cocoa.framework */; };
+		42E8223E17DD9CE400967662 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 42E8223C17DD9CE400967662 /* InfoPlist.strings */; };
+		42E8224017DD9CE400967662 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E8223F17DD9CE400967662 /* main.m */; };
+		42E8224417DD9CE400967662 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 42E8224217DD9CE400967662 /* Credits.rtf */; };
+		42E8224717DD9CE400967662 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E8224617DD9CE400967662 /* AppDelegate.m */; };
+		42E8224A17DD9CE400967662 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E8224817DD9CE400967662 /* MainMenu.xib */; };
+		42E8225117DDA60100967662 /* OpenCL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42E8225017DDA60100967662 /* OpenCL.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		42DAA860181981EC00636A51 /* gran.ocl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = gran.ocl; path = OpenCLQuery/kernels/gran.ocl; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.opencl; };
+		42E8223017DD9CE400967662 /* OpenCLQuery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenCLQuery.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		42E8223317DD9CE400967662 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		42E8223617DD9CE400967662 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		42E8223717DD9CE400967662 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		42E8223817DD9CE400967662 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		42E8223B17DD9CE400967662 /* OpenCLQuery-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenCLQuery-Info.plist"; sourceTree = "<group>"; };
+		42E8223D17DD9CE400967662 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		42E8223F17DD9CE400967662 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		42E8224117DD9CE400967662 /* OpenCLQuery-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OpenCLQuery-Prefix.pch"; sourceTree = "<group>"; };
+		42E8224317DD9CE400967662 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		42E8224517DD9CE400967662 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		42E8224617DD9CE400967662 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		42E8224917DD9CE400967662 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		42E8225017DDA60100967662 /* OpenCL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenCL.framework; path = System/Library/Frameworks/OpenCL.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		42E8222D17DD9CE400967662 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				42E8225117DDA60100967662 /* OpenCL.framework in Frameworks */,
+				42E8223417DD9CE400967662 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		42DAA85618197C3400636A51 /* kernels */ = {
+			isa = PBXGroup;
+			children = (
+				42DAA860181981EC00636A51 /* gran.ocl */,
+			);
+			name = kernels;
+			sourceTree = "<group>";
+		};
+		42E8222717DD9CE400967662 = {
+			isa = PBXGroup;
+			children = (
+				42DAA85618197C3400636A51 /* kernels */,
+				42E8223917DD9CE400967662 /* OpenCLQuery */,
+				42E8223217DD9CE400967662 /* Frameworks */,
+				42E8223117DD9CE400967662 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		42E8223117DD9CE400967662 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				42E8223017DD9CE400967662 /* OpenCLQuery.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		42E8223217DD9CE400967662 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				42E8225017DDA60100967662 /* OpenCL.framework */,
+				42E8223317DD9CE400967662 /* Cocoa.framework */,
+				42E8223517DD9CE400967662 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		42E8223517DD9CE400967662 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				42E8223617DD9CE400967662 /* AppKit.framework */,
+				42E8223717DD9CE400967662 /* CoreData.framework */,
+				42E8223817DD9CE400967662 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		42E8223917DD9CE400967662 /* OpenCLQuery */ = {
+			isa = PBXGroup;
+			children = (
+				42E8224517DD9CE400967662 /* AppDelegate.h */,
+				42E8224617DD9CE400967662 /* AppDelegate.m */,
+				42E8224817DD9CE400967662 /* MainMenu.xib */,
+				42E8223A17DD9CE400967662 /* Supporting Files */,
+			);
+			path = OpenCLQuery;
+			sourceTree = "<group>";
+		};
+		42E8223A17DD9CE400967662 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				42E8223B17DD9CE400967662 /* OpenCLQuery-Info.plist */,
+				42E8223C17DD9CE400967662 /* InfoPlist.strings */,
+				42E8223F17DD9CE400967662 /* main.m */,
+				42E8224117DD9CE400967662 /* OpenCLQuery-Prefix.pch */,
+				42E8224217DD9CE400967662 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		42E8222F17DD9CE400967662 /* OpenCLQuery */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 42E8224D17DD9CE400967662 /* Build configuration list for PBXNativeTarget "OpenCLQuery" */;
+			buildPhases = (
+				42E8222C17DD9CE400967662 /* Sources */,
+				42E8222D17DD9CE400967662 /* Frameworks */,
+				42E8222E17DD9CE400967662 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OpenCLQuery;
+			productName = OpenCLQuery;
+			productReference = 42E8223017DD9CE400967662 /* OpenCLQuery.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		42E8222817DD9CE400967662 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = "Zenny Chen";
+			};
+			buildConfigurationList = 42E8222B17DD9CE400967662 /* Build configuration list for PBXProject "OpenCLQuery" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 42E8222717DD9CE400967662;
+			productRefGroup = 42E8223117DD9CE400967662 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				42E8222F17DD9CE400967662 /* OpenCLQuery */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		42E8222E17DD9CE400967662 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				42DAA861181981EC00636A51 /* gran.ocl in Resources */,
+				42E8223E17DD9CE400967662 /* InfoPlist.strings in Resources */,
+				42E8224417DD9CE400967662 /* Credits.rtf in Resources */,
+				42E8224A17DD9CE400967662 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		42E8222C17DD9CE400967662 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				42E8224017DD9CE400967662 /* main.m in Sources */,
+				42E8224717DD9CE400967662 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		42E8223C17DD9CE400967662 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				42E8223D17DD9CE400967662 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		42E8224217DD9CE400967662 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				42E8224317DD9CE400967662 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		42E8224817DD9CE400967662 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				42E8224917DD9CE400967662 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		42E8224B17DD9CE400967662 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		42E8224C17DD9CE400967662 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		42E8224E17DD9CE400967662 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OpenCLQuery/OpenCLQuery-Prefix.pch";
+				INFOPLIST_FILE = "OpenCLQuery/OpenCLQuery-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				OPENCL_COMPILER_VERSION = CL1.2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		42E8224F17DD9CE400967662 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OpenCLQuery/OpenCLQuery-Prefix.pch";
+				INFOPLIST_FILE = "OpenCLQuery/OpenCLQuery-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				OPENCL_COMPILER_VERSION = CL1.2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		42E8222B17DD9CE400967662 /* Build configuration list for PBXProject "OpenCLQuery" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				42E8224B17DD9CE400967662 /* Debug */,
+				42E8224C17DD9CE400967662 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		42E8224D17DD9CE400967662 /* Build configuration list for PBXNativeTarget "OpenCLQuery" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				42E8224E17DD9CE400967662 /* Debug */,
+				42E8224F17DD9CE400967662 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 42E8222817DD9CE400967662 /* Project object */;
+}
