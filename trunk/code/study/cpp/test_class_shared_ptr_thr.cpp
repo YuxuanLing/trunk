@@ -41,7 +41,7 @@ int main()
               << ", p.use_count() = " << p.use_count() << '\n';
     std::thread t1(thr, p, 0), t2(thr, p, 1), t3(thr, p, 2);
     //std::thread  t2(thr, p, 1), t3(thr, p, 2);
-   // p.reset(); // 从 main 中释放所有权
+    p.reset(); // 从 main 中释放所有权
     std::cout << "Shared ownership between 3 threads and released\n"
               << "ownership from main:\n"
               << "  p.get() = " << p.get()
