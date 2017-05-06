@@ -20,15 +20,17 @@ struct Derived: public Base
 void thr(std::shared_ptr<Base> p, int n)
 {
     std::this_thread::sleep_for(std::chrono::seconds(1));
+	//std::cout << "thread num:" << n << '\n';
     std::shared_ptr<Base> lp = p; // 类型安全，即使
                                   // 共享的 use_count 增加
-    {
+	
+	{
         static std::mutex io_mutex;
         std::lock_guard<std::mutex> lk(io_mutex);
-	//std::shared_ptr<Base> lp = p; // 类型安全，即使
+        std::shared_ptr<Base> lp = p; // 类型安全，即使
      	std::cout << "local pointer in a thread:"<<n<<'\n'
-                  << "  lp.get() = " << lp.get()
-                  << ", lp.use_count() = " << lp.use_count() << '\n';
+                  << "  lp.get() = " << p.get()
+                  << ", lp.use_count() = " << p.use_count() << '\n';
     }
 }
  
@@ -41,11 +43,12 @@ int main()
               << ", p.use_count() = " << p.use_count() << '\n';
     std::thread t1(thr, p, 0), t2(thr, p, 1), t3(thr, p, 2);
     //std::thread  t2(thr, p, 1), t3(thr, p, 2);
-    p.reset(); // 从 main 中释放所有权
+    //p.reset(); // 从 main 中释放所有权
     std::cout << "Shared ownership between 3 threads and released\n"
               << "ownership from main:\n"
               << "  p.get() = " << p.get()
               << ", p.use_count() = " << p.use_count() << '\n';
     t1.join(); t2.join(); t3.join();
     std::cout << "All threads completed, the last one deleted Derived\n";
+	getchar();
 }

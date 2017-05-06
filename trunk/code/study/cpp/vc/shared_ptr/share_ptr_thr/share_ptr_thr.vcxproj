@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{8C0CCAB9-BFC1-4611-A9FA-F8279E483E6E}</ProjectGuid>
-    <RootNamespace>shared_prt_test</RootNamespace>
+    <ProjectGuid>{108C79FA-73B6-4CCC-A9A9-E429351542EF}</ProjectGuid>
+    <RootNamespace>share_ptr_thr</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -74,7 +74,6 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\..\;C:\Program Files (x86)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -111,10 +110,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="test_class_shared_ptr_local.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="test_class_shared_ptr_local.hpp" />
+    <ClCompile Include="..\..\..\test_class_shared_ptr_thr.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
