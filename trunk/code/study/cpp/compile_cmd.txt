@@ -4,3 +4,7 @@ gcc test_class_shared_ptr.cpp -lstdc++ --std=c++11 -o test_class_shared_ptr
 
 gcc test_class_shared_ptr_local.cpp -lstdc++ --std=c++11 -o test_class_shared_ptr_local -g
 
+
+g++ test_class.cpp -I../../gtest/include -o test_class -g -L../../gtest/lib/linux  -lgtest_main -lgtest -lgmock -lgmock_main -lstdc++ --std=c++11 -lpthread
+gcc test_class.cpp -I../../gtest/include -o test_class -g -L../../gtest/lib/linux  -lgtest_main -lgtest -lstdc++ --std=c++11 -lpthread
+
