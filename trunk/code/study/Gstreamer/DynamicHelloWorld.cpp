@@ -1,4 +1,5 @@
-#include <gst/gst.h>  
+﻿#include <gst/gst.h> 
+#include<stdio.h>
 
 /* Structure to contain all our information, so we can pass it to callbacks */
 typedef struct _CustomData {
@@ -46,11 +47,14 @@ int main(int argc, char *argv[]) {
 	/* Set the URI to play */
 	g_object_set(data.source, "uri", "https://gstreamer.freedesktop.org/media/large/PSPGO_FINAL.MP4", NULL);
 
-	/* Connect to the pad-added signal */
+	/* Connect to the pad-added signal 使用g_signal_connect()方法把“pad-added”信号和我们的源（uridecodebin）联系了起来，并且注册了一个回调函数。GStreamer把&data这个指针的内容传给回调函数，这样CustomData这个数据结构中的数据也就传递了过去
+       	当我们的source element最后获得足够的数据时，它就会自动生成source pad，并且触发“pad-added”信号。这样我们的回调就会被调用了
+	*/
 	g_signal_connect(data.source, "pad-added", G_CALLBACK(pad_added_handler), &data);
 
 	/* Start playing */
 	ret = gst_element_set_state(data.pipeline, GST_STATE_PLAYING);
+	//ret = gst_element_set_state(data.pipeline, GST_STATE_READY);
 	if (ret == GST_STATE_CHANGE_FAILURE) {
 		g_printerr("Unable to set the pipeline to the playing state.\n");
 		gst_object_unref(data.pipeline);
@@ -103,6 +107,7 @@ int main(int argc, char *argv[]) {
 	gst_object_unref(bus);
 	gst_element_set_state(data.pipeline, GST_STATE_NULL);
 	gst_object_unref(data.pipeline);
+	getchar();
 	return 0;
 }
 
@@ -116,7 +121,7 @@ static void pad_added_handler(GstElement *src, GstPad *new_pad, CustomData *data
 
 	g_print("Received new pad '%s' from '%s':\n", GST_PAD_NAME(new_pad), GST_ELEMENT_NAME(src));
 
-	/* If our converter is already linked, we have nothing to do here */
+	/* If our converter is already linked, we have nothing to do here  uridecodebin会自动创建许多的pad，对于每一个pad，这个回调函数都会被调用。这段代码可以防止连接多次*/
 	if (gst_pad_is_linked(sink_pad)) {
 		g_print("  We are already linked. Ignoring.\n");
 		goto exit;
@@ -131,7 +136,7 @@ static void pad_added_handler(GstElement *src, GstPad *new_pad, CustomData *data
 		goto exit;
 	}
 
-	/* Attempt the link */
+	/* Attempt the link gst_pad_link()方法会把两个pad连接起来。就像gst_element_link()这个方法一样，连接必须是从source到sink，连接的两个pad必须在同一个bin里面。*/
 	ret = gst_pad_link(new_pad, sink_pad);
 	if (GST_PAD_LINK_FAILED(ret)) {
 		g_print("  Type is '%s' but link failed.\n", new_pad_type);
