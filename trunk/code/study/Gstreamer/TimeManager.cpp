@@ -81,7 +81,7 @@ int main(int argc, char *argv[]) {
 					GST_TIME_ARGS(current), GST_TIME_ARGS(data.duration));
 
 				/* If seeking is enabled, we have not done it yet, and the time is right, seek */
-				if (data.seek_enabled && !data.seek_done && current > 110 * GST_SECOND) {
+				if (data.seek_enabled && !data.seek_done && current > 15 * GST_SECOND) {
 					g_print("\nReached 10s, performing seek...\n");
 					gst_element_seek_simple(data.playbin2, GST_FORMAT_TIME,
 						GstSeekFlags(GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT), 330 * GST_SECOND);
