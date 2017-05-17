@@ -1,0 +1,2 @@
+..\..\include\ffmpeg\include;..\..\include\sdl1.x\include;..\..\include\sdl2.x\include;
+..\..\lib\ffmpeg\win_x86;..\..\lib\sdl1.x;..\..\lib\sdl2.x;
