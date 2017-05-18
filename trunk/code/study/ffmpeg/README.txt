@@ -6,6 +6,8 @@
 2 编译的时候需要安装msys或者cygwin, 通过相应VS的promot cmd 执行mays.bat 确保cl.exe 和 link.exe版本正确
 3 如果出现重复定义这种错，在相应的.c上加入定义WIN32_LEAN_AND_MEAN试试看
 4 $ ./configure --toolchain=msvc --arch=x86_64 --disable-yasm --enable-shared --enable-static
+   ./configure --toolchain=msvc --arch=x86 --disable-yasm --enable-shared --enabe-static --enable-postproc --enable-avresample --enable-avdevice --enable-avcodec --enable-avformat --enable-swscale --enable-avfilter
+   find ./ -name "*.lib" -exec cp {} g:/ \;  拷贝出来
 
 
 由于我将所有的需要用的dll都放在一个目录下，但是VS搜索Dll的时候是搜的PATH下的路径，所以需要将dll目录路径加到PATH里去
