@@ -1,7 +1,0 @@
-本目录主要是放一些ffmpeg和SDL学习用的code, base on (leixiaohua1020) http://blog.csdn.net/leixiaohua1020,斯人已逝留个纪念也好,已经全部重新编译通过vs2015,
-请确保SDL的lib和dll编译的VS版本一致,如果不一致可以用相应的VS版本编译SDL进行库的替换
-关于ffmpeg在window下的编译生成库函数的话有几点注意
-1 一定要用官方的release的版本，不要用git上clone下来的，会有很多奇怪的编译问题
-2 编译的时候需要安装msys或者cygwin, 通过相应VS的promot cmd 执行mays.bat 确保cl.exe 和 link.exe版本正确
-3 如果出现重复定义这种错，在相应的.c上加入定义WIN32_LEAN_AND_MEAN试试看
-4 $ ./configure --toolchain=msvc --arch=x86_64 --disable-yasm --enable-shared --enable-static
