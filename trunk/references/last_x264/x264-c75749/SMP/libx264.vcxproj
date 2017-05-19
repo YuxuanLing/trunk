@@ -166,7 +166,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(ProjectDir)..\msvc\</OutDir>
+    <OutDir>$(TargetPath)..\msvc\</OutDir>
     <IntDir>$(SolutionDir)obj\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
     <TargetName>libx264d</TargetName>
     <CustomBuildAfterTargets>Clean</CustomBuildAfterTargets>
