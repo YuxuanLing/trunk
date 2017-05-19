@@ -192,7 +192,7 @@ int main(int argc, char* argv[])
 		int stream_index=0;
 		AVStream *in_stream, *out_stream;
 
-		//Get an AVPacket
+		//Get an AVPacket ,video if before audio ,inset video
 		if(av_compare_ts(cur_pts_v,ifmt_ctx_v->streams[videoindex_v]->time_base,cur_pts_a,ifmt_ctx_a->streams[audioindex_a]->time_base) <= 0){
 			ifmt_ctx=ifmt_ctx_v;
 			stream_index=videoindex_out;
@@ -242,8 +242,8 @@ int main(int argc, char* argv[])
 							//Duration between 2 frames (us)
 							int64_t calc_duration=(double)AV_TIME_BASE/av_q2d(in_stream->r_frame_rate);
 							//Parameters
-							pkt.pts=(double)(frame_index*calc_duration)/(double)(av_q2d(time_base1)*AV_TIME_BASE);
-							pkt.dts=pkt.pts;
+							pkt.pts=(double)(frame_index*calc_duration)/(double)(av_q2d(time_base1)*AV_TIME_BASE);    //Presentation timestamp 
+							pkt.dts=pkt.pts;                                                                          //Decompression timestamp
 							pkt.duration=(double)calc_duration/(double)(av_q2d(time_base1)*AV_TIME_BASE);
 							frame_index++;
 						}
