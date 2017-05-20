@@ -123,7 +123,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IntDir>$(SolutionDir)obj\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
     <TargetName>x264clid</TargetName>
-    <OutDir>..\..\..\msvc\</OutDir>
+    <OutDir>$(ProjectDir)..\msvc\</OutDir>
     <LinkIncremental>false</LinkIncremental>
     <CustomBuildAfterTargets>Clean</CustomBuildAfterTargets>
   </PropertyGroup>
