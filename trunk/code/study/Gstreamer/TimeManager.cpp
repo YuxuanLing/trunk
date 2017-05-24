@@ -8,7 +8,10 @@ typedef struct _CustomData {
 	gboolean terminate;    /* Should we terminate execution? */
 	gboolean seek_enabled; /* Is seeking enabled for this media? */
 	gboolean seek_done;    /* Have we performed the seek already? */
+	gint64   seek_start = -1;
+	gint64   seek_end = -1;
 	gint64 duration;       /* How long does this media last, in nanoseconds */
+
 } CustomData;
 
 /* Forward definition of the message processing function */
@@ -40,6 +43,7 @@ int main(int argc, char *argv[]) {
 	/* Set the URI to play */
 	g_object_set(data.playbin2, "uri", "https://gstreamer.freedesktop.org/media/large/PSPGO_FINAL.MP4", NULL);
 
+	
 	/* Start playing */
 	ret = gst_element_set_state(data.playbin2, GST_STATE_PLAYING);
 	if (ret == GST_STATE_CHANGE_FAILURE) {
@@ -51,7 +55,7 @@ int main(int argc, char *argv[]) {
 	/* Listen to the bus */
 	bus = gst_element_get_bus(data.playbin2);
 	do {
-		msg = gst_bus_timed_pop_filtered(bus, 1000 * GST_MSECOND,
+		msg = gst_bus_timed_pop_filtered(bus, 1100 * GST_MSECOND,
 			GstMessageType(GST_MESSAGE_STATE_CHANGED | GST_MESSAGE_ERROR | GST_MESSAGE_EOS | GST_MESSAGE_DURATION));
 
 		/* Parse message */
@@ -62,7 +66,7 @@ int main(int argc, char *argv[]) {
 			/* We got no message, this means the timeout expired */
 			if (data.playing) {
 				GstFormat fmt = GST_FORMAT_TIME;
-				gint64 current = -1;
+				gint64 current = -1, seek_start_sec = -1, seek_to_sec = -1;
 
 				/* Query the current position of the stream */
 				if (!gst_element_query_position(data.playbin2, fmt, &current)) {
@@ -81,10 +85,15 @@ int main(int argc, char *argv[]) {
 					GST_TIME_ARGS(current), GST_TIME_ARGS(data.duration));
 
 				/* If seeking is enabled, we have not done it yet, and the time is right, seek */
-				if (data.seek_enabled && !data.seek_done && current > 15 * GST_SECOND) {
-					g_print("\nReached 10s, performing seek...\n");
+				seek_start_sec = 15;
+				seek_to_sec = 60;
+				if (data.seek_enabled && !data.seek_done &&
+					seek_start_sec >= data.seek_start && seek_start_sec < data.seek_end &&
+					seek_to_sec >= data.seek_start && seek_to_sec < data.seek_end &&
+					current > seek_start_sec * GST_SECOND) {
+					g_print("\nReached %d s, performing seek to %d s...\n", seek_start_sec, seek_to_sec);
 					gst_element_seek_simple(data.playbin2, GST_FORMAT_TIME,
-						GstSeekFlags(GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT), 330 * GST_SECOND);
+						GstSeekFlags(GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT), seek_to_sec * GST_SECOND);
 					data.seek_done = TRUE;
 				}
 			}
@@ -111,6 +120,7 @@ static void handle_message(CustomData *data, GstMessage *msg) {
 		g_clear_error(&err);
 		g_free(debug_info);
 		data->terminate = TRUE;
+
 		break;
 	case GST_MESSAGE_EOS:
 		g_print("End-Of-Stream reached.\n");
@@ -133,13 +143,12 @@ static void handle_message(CustomData *data, GstMessage *msg) {
 			if (data->playing) {
 				/* We just moved to PLAYING. Check if seeking is possible */
 				GstQuery *query;
-				gint64 start, end;
 				query = gst_query_new_seeking(GST_FORMAT_TIME);
 				if (gst_element_query(data->playbin2, query)) {
-					gst_query_parse_seeking(query, NULL, &data->seek_enabled, &start, &end);
+					gst_query_parse_seeking(query, NULL, &data->seek_enabled, &data->seek_start, &data->seek_end);
 					if (data->seek_enabled) {
 						g_print("Seeking is ENABLED from %" GST_TIME_FORMAT " to %" GST_TIME_FORMAT "\n",
-							GST_TIME_ARGS(start), GST_TIME_ARGS(end));
+							GST_TIME_ARGS(data->seek_start), GST_TIME_ARGS(data->seek_end));
 					}
 					else {
 						g_print("Seeking is DISABLED for this stream.\n");
