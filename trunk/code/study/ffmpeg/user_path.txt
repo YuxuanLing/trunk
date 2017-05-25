@@ -1,0 +1,1 @@
+C:\Program Files (x86)\MSBuild\14.0\Bin;%APPDATA%\Python\Scripts;C:\Users\yuxling\AppData\Roaming\npm;C:\gstreamer\1.0\x86_64\bin;C:\Program Files\CMake\bin;C:\Program Files (x86)\Graphviz2.38\bin;C:\Program Files (x86)\MSBuild\14.0\Bin
