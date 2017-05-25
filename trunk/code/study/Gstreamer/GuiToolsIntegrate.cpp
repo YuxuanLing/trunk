@@ -4,7 +4,8 @@
 
 
 
-#include <gst/interfaces/xoverlay.h>  
+//#include <gst/interfaces/xoverlay.h>  //0.1  this is gstreamer 0.1  replaced by videooverlay.h
+#include <gst/video/videooverlay.h>   //1.0  this is gstreamer 1.0 
 
 #include <gdk/gdk.h>  
 #if defined (GDK_WINDOWING_X11)  
@@ -14,6 +15,12 @@
 #elif defined (GDK_WINDOWING_QUARTZ)  
 #include <gdk/gdkquartz.h>  
 #endif  
+
+
+#ifdef GtkStock
+#undef GtkStock
+#endif
+typedef char * GtkStock;
 
 /* Structure to contain all our information, so we can pass it around */
 typedef struct _CustomData {
@@ -46,7 +53,7 @@ static void realize_cb(GtkWidget *widget, CustomData *data) {
 	window_handle = GDK_WINDOW_XID(window);
 #endif  
 	/* Pass it to playbin2, which implements XOverlay and will forward it to the video sink */
-	gst_x_overlay_set_window_handle(GST_X_OVERLAY(data->playbin2), window_handle);
+	gst_video_overlay_set_window_handle(GST_VIDEO_OVERLAY(data->playbin2), window_handle);
 }
 
 /* This function is called when the PLAY button is clicked */
@@ -76,13 +83,19 @@ static void delete_event_cb(GtkWidget *widget, GdkEvent *event, CustomData *data
 static gboolean expose_cb(GtkWidget *widget, GdkEventExpose *event, CustomData *data) {
 	if (data->state < GST_STATE_PAUSED) {
 		GtkAllocation allocation;
+		GdkDrawingContext *ct;
 		GdkWindow *window = gtk_widget_get_window(widget);
+		const cairo_region_t *crg;
 		cairo_t *cr;
 
 		/* Cairo is a 2D graphics library which we use here to clean the video window.
 		* It is used by GStreamer for other reasons, so it will always be available to us. */
 		gtk_widget_get_allocation(widget, &allocation);
-		cr = gdk_cairo_create(window);
+		//cr = gdk_cairo_create(window);
+		crg = gdk_window_get_visible_region(window);
+		ct = gdk_window_begin_draw_frame(window,crg);
+		cr = gdk_drawing_context_get_cairo_context(ct);
+
 		cairo_set_source_rgb(cr, 0, 0, 0);
 		cairo_rectangle(cr, 0, 0, allocation.width, allocation.height);
 		cairo_fill(cr);
@@ -96,7 +109,7 @@ static gboolean expose_cb(GtkWidget *widget, GdkEventExpose *event, CustomData *
 * new position here. */
 static void slider_cb(GtkRange *range, CustomData *data) {
 	gdouble value = gtk_range_get_value(GTK_RANGE(data->slider));
-	gst_element_seek_simple(data->playbin2, GST_FORMAT_TIME, GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT,
+	gst_element_seek_simple(data->playbin2, GST_FORMAT_TIME, (GstSeekFlags)(GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT),
 		(gint64)(value * GST_SECOND));
 }
 
@@ -113,37 +126,44 @@ static void create_ui(CustomData *data) {
 	g_signal_connect(G_OBJECT(main_window), "delete-event", G_CALLBACK(delete_event_cb), data);
 
 	video_window = gtk_drawing_area_new();
-	gtk_widget_set_double_buffered(video_window, FALSE);
+	//gtk_widget_set_double_buffered(video_window, FALSE);
 	g_signal_connect(video_window, "realize", G_CALLBACK(realize_cb), data);
 	g_signal_connect(video_window, "expose_event", G_CALLBACK(expose_cb), data);
 
-	play_button = gtk_button_new_from_stock(GTK_STOCK_MEDIA_PLAY);
+	//play_button = gtk_button_new_from_stock(GTK_STOCK_MEDIA_PLAY);
+	play_button = gtk_button_new_with_label(GTK_STOCK_MEDIA_PLAY);
 	g_signal_connect(G_OBJECT(play_button), "clicked", G_CALLBACK(play_cb), data);
 
-	pause_button = gtk_button_new_from_stock(GTK_STOCK_MEDIA_PAUSE);
+	//pause_button = gtk_button_new_from_stock(GTK_STOCK_MEDIA_PAUSE);
+	pause_button = gtk_button_new_with_label(GTK_STOCK_MEDIA_PAUSE);
 	g_signal_connect(G_OBJECT(pause_button), "clicked", G_CALLBACK(pause_cb), data);
 
-	stop_button = gtk_button_new_from_stock(GTK_STOCK_MEDIA_STOP);
+	//stop_button = gtk_button_new_from_stock(GTK_STOCK_MEDIA_STOP);
+	stop_button = gtk_button_new_with_label(GTK_STOCK_MEDIA_STOP);
 	g_signal_connect(G_OBJECT(stop_button), "clicked", G_CALLBACK(stop_cb), data);
 
-	data->slider = gtk_hscale_new_with_range(0, 100, 1);
+	//data->slider = gtk_hscale_new_with_range(0, 100, 1);
+	data->slider = gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL, 0, 100, 1);
 	gtk_scale_set_draw_value(GTK_SCALE(data->slider), 0);
 	data->slider_update_signal_id = g_signal_connect(G_OBJECT(data->slider), "value-changed", G_CALLBACK(slider_cb), data);
 
 	data->streams_list = gtk_text_view_new();
 	gtk_text_view_set_editable(GTK_TEXT_VIEW(data->streams_list), FALSE);
 
-	controls = gtk_hbox_new(FALSE, 0);
+	//controls = gtk_hbox_new(FALSE, 0);
+	controls = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	gtk_box_pack_start(GTK_BOX(controls), play_button, FALSE, FALSE, 2);
 	gtk_box_pack_start(GTK_BOX(controls), pause_button, FALSE, FALSE, 2);
 	gtk_box_pack_start(GTK_BOX(controls), stop_button, FALSE, FALSE, 2);
 	gtk_box_pack_start(GTK_BOX(controls), data->slider, TRUE, TRUE, 2);
 
-	main_hbox = gtk_hbox_new(FALSE, 0);
+	//main_hbox = gtk_hbox_new(FALSE, 0);
+	main_hbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	gtk_box_pack_start(GTK_BOX(main_hbox), video_window, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(main_hbox), data->streams_list, FALSE, FALSE, 2);
 
-	main_box = gtk_vbox_new(FALSE, 0);
+	//main_box = gtk_vbox_new(FALSE, 0);
+	main_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start(GTK_BOX(main_box), main_hbox, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(main_box), controls, FALSE, FALSE, 0);
 	gtk_container_add(GTK_CONTAINER(main_window), main_box);
@@ -163,7 +183,7 @@ static gboolean refresh_ui(CustomData *data) {
 
 	/* If we didn't know it yet, query the stream duration */
 	if (!GST_CLOCK_TIME_IS_VALID(data->duration)) {
-		if (!gst_element_query_duration(data->playbin2, &fmt, &data->duration)) {
+		if (!gst_element_query_duration(data->playbin2, fmt, &data->duration)) {
 			g_printerr("Could not query current duration.\n");
 		}
 		else {
@@ -172,7 +192,7 @@ static gboolean refresh_ui(CustomData *data) {
 		}
 	}
 
-	if (gst_element_query_position(data->playbin2, &fmt, ¤t)) {
+	if (gst_element_query_position(data->playbin2, fmt, &current)) {
 		/* Block the "value-changed" signal, so the slider_cb function is not called
 		* (which would trigger a seek the user has not requested) */
 		g_signal_handler_block(data->slider, data->slider_update_signal_id);
@@ -317,14 +337,15 @@ static void analyze_streams(CustomData *data) {
 /* This function is called when an "application" message is posted on the bus.
 * Here we retrieve the message posted by the tags_cb callback */
 static void application_cb(GstBus *bus, GstMessage *msg, CustomData *data) {
-	if (g_strcmp0(gst_structure_get_name(msg->structure), "tags-changed") == 0) {
+	//if (g_strcmp0(gst_structure_get_name(msg->structure), "tags-changed") == 0) {
+	if (g_strcmp0(gst_message_type_get_name(msg->type), "tags-changed") == 0) {
 		/* If the message is the "tags-changed" (only one we are currently issuing), update
 		* the stream info GUI */
 		analyze_streams(data);
 	}
 }
 
-int main(int argc, charchar *argv[]) {
+int main(int argc, char *argv[]) {
 	CustomData data;
 	GstStateChangeReturn ret;
 	GstBus *bus;

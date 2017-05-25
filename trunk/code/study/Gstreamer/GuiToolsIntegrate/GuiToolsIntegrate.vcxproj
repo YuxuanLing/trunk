@@ -84,7 +84,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(GSTREAMER_1_0_ROOT_X86_64_INCLUDE);$(MSYS2_X86_64_INCLUDE);C:\gstreamer\1.0\x86_64\include\glib-2.0\;C:\msys2_64\mingw64\include\gtk-3.0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(GSTREAMER_1_0_ROOT_X86_64_INCLUDE);$(MSYS2_X86_64_INCLUDE);C:\gstreamer\1.0\x86_64\include\glib-2.0\;C:\msys2_64\mingw64\include\gtk-3.0;C:\msys2_64\mingw64\include\pango-1.0;C:\msys2_64\mingw64\include\cairo;C:\msys2_64\mingw64\include\gdk-pixbuf-2.0;C:\msys2_64\mingw64\include\atk-1.0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
