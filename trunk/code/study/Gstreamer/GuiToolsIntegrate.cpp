@@ -4,6 +4,7 @@
 
 
 
+
 //#include <gst/interfaces/xoverlay.h>  //0.1  this is gstreamer 0.1  replaced by videooverlay.h
 #include <gst/video/videooverlay.h>   //1.0  this is gstreamer 1.0 
 
@@ -54,6 +55,7 @@ static void realize_cb(GtkWidget *widget, CustomData *data) {
 #endif  
 	/* Pass it to playbin2, which implements XOverlay and will forward it to the video sink */
 	gst_video_overlay_set_window_handle(GST_VIDEO_OVERLAY(data->playbin2), window_handle);
+	
 }
 
 /* This function is called when the PLAY button is clicked */
