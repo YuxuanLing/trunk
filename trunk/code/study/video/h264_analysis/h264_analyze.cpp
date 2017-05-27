@@ -141,7 +141,11 @@ int h264_analyze(int argc, char *argv[])
         rsz = fread(buf + sz, 1, BUFSIZE - sz, infile);
         if (rsz == 0)
         {
-            if (ferror(infile)) { fprintf( stderr, "!! Error: read failed: %s \n", strerror(errno)); break; }
+            if (ferror(infile)) {
+				strerror_s(errmsg, 94, errno);
+				fprintf( stderr, "!! Error: read failed: %s \n", errmsg); 
+				break; 
+			}
             break;  // if (feof(infile)) 
         }
 
@@ -227,7 +231,8 @@ char* probe_nal_unit(char* filename,int data_offset,int data_lenth){
 	int nal_start,nal_end;
 	memset(outputstr,'\0',100000);
 
-	FILE *fp=fopen(filename,"rb");
+	FILE *fp = NULL;
+	fp = fopen(filename, "rb");
 	fseek(fp,data_offset,SEEK_SET);
 	fread(nal_temp,data_lenth,1,fp);
 	// read some H264 data into buf
