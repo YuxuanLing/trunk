@@ -1,20 +1,17 @@
 /* 
- * H.264 分析器
- * H.264 Analysis
+ * MPEG2-TS格式分析器
+ * MPEG2-TS Format Analysis
  *
  * 雷霄骅 Lei Xiaohua
  * leixiaohua1020@126.com
  * 中国传媒大学/数字电视技术
  * Communication University of China / Digital TV Technology
  * http://blog.csdn.net/leixiaohua1020
- * 
- * H.264码流分析工具
- * H.264 Stream Analysis Tools
  *
  */
 #include "stdafx.h"
-#include "SpecialVH264.h"
-#include "SpecialVH264Dlg.h"
+#include "SpecialFTS.h"
+#include "SpecialFTSDlg.h"
 #include <io.h>
 
 #ifdef _DEBUG
@@ -22,16 +19,16 @@
 #endif
 
 
-// CSpecialVH264App
+// CSpecialFTSApp
 
-BEGIN_MESSAGE_MAP(CSpecialVH264App, CWinApp)
+BEGIN_MESSAGE_MAP(CSpecialFTSApp, CWinApp)
 	ON_COMMAND(ID_HELP, &CWinApp::OnHelp)
 END_MESSAGE_MAP()
 
 
-// CSpecialVH264App 构造
+// CSpecialFTSApp 构造
 
-CSpecialVH264App::CSpecialVH264App()
+CSpecialFTSApp::CSpecialFTSApp()
 {
 	// 支持重新启动管理器
 	m_dwRestartManagerSupportFlags = AFX_RESTART_MANAGER_SUPPORT_RESTART;
@@ -41,14 +38,14 @@ CSpecialVH264App::CSpecialVH264App()
 }
 
 
-// 唯一的一个 CSpecialVH264App 对象
+// 唯一的一个 CSpecialFTSApp 对象
 
-CSpecialVH264App theApp;
+CSpecialFTSApp theApp;
 
 
-// CSpecialVH264App 初始化
+// CSpecialFTSApp 初始化
 
-BOOL CSpecialVH264App::InitInstance()
+BOOL CSpecialFTSApp::InitInstance()
 {
 	// 如果一个运行在 Windows XP 上的应用程序清单指定要
 	// 使用 ComCtl32.dll 版本 6 或更高版本来启用可视化方式，
@@ -77,13 +74,10 @@ BOOL CSpecialVH264App::InitInstance()
 	// TODO: 应适当修改该字符串，
 	// 例如修改为公司或组织名
 	SetRegistryKey(_T("应用程序向导生成的本地应用程序"));
-
-	//多国语言设置
-	//SetThreadUILanguage(MAKELCID(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), SORT_DEFAULT));
+	//加载语言
 	LoadLaguage();
 
-
-	CSpecialVH264Dlg dlg;
+	CSpecialFTSDlg dlg;
 	m_pMainWnd = &dlg;
 	INT_PTR nResponse = dlg.DoModal();
 	if (nResponse == IDOK)
@@ -108,7 +102,7 @@ BOOL CSpecialVH264App::InitInstance()
 	return FALSE;
 }
 
-void CSpecialVH264App::LoadLaguage()
+void CSpecialFTSApp::LoadLaguage()
 {
 	//配置文件路径
 	char conf_path[300]={0};
@@ -117,7 +111,7 @@ void CSpecialVH264App::LoadLaguage()
 	//获得exe文家夹路径
 	strrchr( conf_path, '\\')[0]= '\0';//
 	printf("%s",conf_path);
-	strcat_s(conf_path,"\\configure.ini");
+	strcat(conf_path,"\\configure.ini");
 	//存储属性的字符串
 	char conf_val[300]={0};
 

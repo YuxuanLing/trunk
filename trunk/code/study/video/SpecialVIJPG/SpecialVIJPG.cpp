@@ -1,20 +1,17 @@
 /* 
- * H.264 分析器
- * H.264 Analysis
+ * JPEG分析器
+ * JPEG Analysis
  *
  * 雷霄骅 Lei Xiaohua
  * leixiaohua1020@126.com
  * 中国传媒大学/数字电视技术
  * Communication University of China / Digital TV Technology
  * http://blog.csdn.net/leixiaohua1020
- * 
- * H.264码流分析工具
- * H.264 Stream Analysis Tools
  *
  */
 #include "stdafx.h"
-#include "SpecialVH264.h"
-#include "SpecialVH264Dlg.h"
+#include "SpecialVIJPG.h"
+#include "SpecialVIJPGDlg.h"
 #include <io.h>
 
 #ifdef _DEBUG
@@ -22,16 +19,16 @@
 #endif
 
 
-// CSpecialVH264App
+// CSpecialVIJPGApp
 
-BEGIN_MESSAGE_MAP(CSpecialVH264App, CWinApp)
+BEGIN_MESSAGE_MAP(CSpecialVIJPGApp, CWinApp)
 	ON_COMMAND(ID_HELP, &CWinApp::OnHelp)
 END_MESSAGE_MAP()
 
 
-// CSpecialVH264App 构造
+// CSpecialVIJPGApp 构造
 
-CSpecialVH264App::CSpecialVH264App()
+CSpecialVIJPGApp::CSpecialVIJPGApp()
 {
 	// 支持重新启动管理器
 	m_dwRestartManagerSupportFlags = AFX_RESTART_MANAGER_SUPPORT_RESTART;
@@ -41,14 +38,14 @@ CSpecialVH264App::CSpecialVH264App()
 }
 
 
-// 唯一的一个 CSpecialVH264App 对象
+// 唯一的一个 CSpecialVIJPGApp 对象
 
-CSpecialVH264App theApp;
+CSpecialVIJPGApp theApp;
 
 
-// CSpecialVH264App 初始化
+// CSpecialVIJPGApp 初始化
 
-BOOL CSpecialVH264App::InitInstance()
+BOOL CSpecialVIJPGApp::InitInstance()
 {
 	// 如果一个运行在 Windows XP 上的应用程序清单指定要
 	// 使用 ComCtl32.dll 版本 6 或更高版本来启用可视化方式，
@@ -82,8 +79,7 @@ BOOL CSpecialVH264App::InitInstance()
 	//SetThreadUILanguage(MAKELCID(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), SORT_DEFAULT));
 	LoadLaguage();
 
-
-	CSpecialVH264Dlg dlg;
+	CSpecialVIJPGDlg dlg;
 	m_pMainWnd = &dlg;
 	INT_PTR nResponse = dlg.DoModal();
 	if (nResponse == IDOK)
@@ -108,7 +104,7 @@ BOOL CSpecialVH264App::InitInstance()
 	return FALSE;
 }
 
-void CSpecialVH264App::LoadLaguage()
+void CSpecialVIJPGApp::LoadLaguage()
 {
 	//配置文件路径
 	char conf_path[300]={0};
@@ -117,7 +113,7 @@ void CSpecialVH264App::LoadLaguage()
 	//获得exe文家夹路径
 	strrchr( conf_path, '\\')[0]= '\0';//
 	printf("%s",conf_path);
-	strcat_s(conf_path,"\\configure.ini");
+	strcat(conf_path,"\\configure.ini");
 	//存储属性的字符串
 	char conf_val[300]={0};
 
