@@ -10,9 +10,9 @@ extern char outputstr[100000];
 //#define printf(...) TRACE( __VA_ARGS__)
 //组合成适合MFC的字符串
 //注意MFC中EditControl的换行符是\r\n，需要单独添加
-#define printf(...) sprintf( tempstr,__VA_ARGS__);\
-	strcat(tempstr,"\r\n");						\
-	strcat(outputstr,tempstr);
+#define printf(...) sprintf_s( tempstr,__VA_ARGS__);\
+	strcat_s(tempstr,"\r\n");						\
+	strcat_s(outputstr,tempstr);
 
 
 

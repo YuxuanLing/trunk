@@ -129,7 +129,7 @@ BOOL CSpecialVH264Dlg::OnInitDialog()
 	//------------
 	m_vh264inputurl.EnableFileBrowseButton(
 		NULL,
-		_T("H.264 Files (*.264,*.h264, *.26l)|*.264;*.h264|All Files (*.*)|*.*||")
+		_T("H.264 Files (*.264,*.h264,*.26l)|*.264;*.h264;*.26l|All Files (*.*)|*.*||")
 		);
 	// ÉèÖÃ´Ë¶Ô»°¿òµÄÍ¼±ê¡£µ±Ó¦ÓÃ³ÌÐòÖ÷´°¿Ú²»ÊÇ¶Ô»°¿òÊ±£¬¿ò¼Ü½«×Ô¶¯
 	//  Ö´ÐÐ´Ë²Ù×÷
@@ -212,7 +212,7 @@ void CSpecialVH264Dlg::OnBnClickedVH264InputurlOpen()
 	USES_CONVERSION;
 	strcpy(fileurl,W2A(strFilePath));
 #else
-	strcpy(fileurl,strFilePath);
+	strcpy_s(fileurl,strFilePath);
 #endif
 	h264_nal_parse(this,fileurl);
 }
@@ -383,7 +383,7 @@ void CSpecialVH264Dlg::OnSelchangeVH264Lang()
 	strrchr( conf_path, '\\')[0]= '\0';//
 	//_getcwd(realpath,MYSQL_S_LENGTH);
 	printf("%s",conf_path);
-	strcat(conf_path,"\\configure.ini");
+	strcat_s(conf_path,"\\configure.ini");
 	//Ð´ÈëÅäÖÃÎÄ¼þ
 	switch(m_vh264lang.GetCurSel()){
 	case 0:WritePrivateProfileStringA("Settings","language","Chinese",conf_path);break;

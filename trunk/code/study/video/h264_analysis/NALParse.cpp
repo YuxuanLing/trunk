@@ -157,7 +157,7 @@ int GetAnnexbNALU (NALU_t *nalu)
 
 int h264_nal_parse(LPVOID lparam,char *fileurl)
 {
-	bits=fopen(fileurl, "r+b");
+	bits = fopen(fileurl, "r+b");
 	if ( bits== NULL){
 		AfxMessageBox(_T("Error open file"));
 		return -1;

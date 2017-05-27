@@ -74,6 +74,7 @@ void usage( )
 int h264_analyze(int argc, char *argv[])
 {
     FILE* infile;
+	char errmsg[94] = { 0 };
 
     uint8_t* buf = (uint8_t*)malloc( BUFSIZE );
 
@@ -119,7 +120,11 @@ int h264_analyze(int argc, char *argv[])
 
 #endif
 
-    if (infile == NULL) { fprintf( stderr, "!! Error: could not open file: %s \n", strerror(errno)); exit(EXIT_FAILURE); }
+    if (infile == NULL) { 
+		strerror_s(errmsg, 94, errno);
+		fprintf( stderr, "!! Error: could not open file: %s \n", errmsg); 
+		exit(EXIT_FAILURE); 
+	}
 
     if (h264_dbgfile == NULL) { h264_dbgfile = stdout; }
     
