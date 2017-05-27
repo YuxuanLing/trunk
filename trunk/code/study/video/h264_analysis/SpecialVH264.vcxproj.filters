@@ -84,6 +84,9 @@
     <ClInclude Include="h264_analyze.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="h264_debug.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SpecialVH264.cpp">
@@ -108,6 +111,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="h264_stream.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="h264_debug.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

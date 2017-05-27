@@ -35,7 +35,7 @@ avcc_t* avcc_new();
 void avcc_free(avcc_t* avcc);
 int read_avcc(avcc_t* avcc, h264_stream_t* h, bs_t* b);
 int write_avcc(avcc_t* avcc, h264_stream_t* h, bs_t* b);
-void debug_avcc(avcc_t* avcc);
+//void debug_avcc(avcc_t* avcc);
 
 #ifdef __cplusplus
 }

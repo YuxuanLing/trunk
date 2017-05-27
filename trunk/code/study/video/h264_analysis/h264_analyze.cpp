@@ -1,19 +1,16 @@
 /* 
- * H.264 分析器
  * H.264 Analysis
  *
- * 雷霄骅 Lei Xiaohua
+ * base on Lei Xiaohua' work
  * leixiaohua1020@126.com
- * 中国传媒大学/数字电视技术
  * Communication University of China / Digital TV Technology
- * http://blog.csdn.net/leixiaohua1020
+ * http://blog.csdn.net/leixiaohua1020 
  * 
- * H.264码流分析工具
  * H.264 Stream Analysis Tools
- *
+ * Yuxuan Ling  yuxuanl@gmail.com
  */
 /* 
- * h264bitstream - a library for reading and writing H.264 video
+ * h264bitstream - a library for reading and writing H.264 video 
  * Copyright (C) 2005-2007 Auroras Entertainment, LLC
  * 
  * Written by Alex Izvorski <aizvorski@gmail.com>
@@ -41,7 +38,7 @@
 #include <string.h>
 #include <errno.h>
 
-#define BUFSIZE 32*1024*1024
+#define BUFSIZE (32*1024*1024)
 
 #if (defined(__GNUC__))
 #define HAVE_GETOPT_LONG
@@ -213,24 +210,22 @@ int h264_analyze(int argc, char *argv[])
 
     return 0;
 }
-//存放解析出来的字符串
+
+
+//store nal unit 
 char tempstr[1000]={0};
-//char* outputstr=(char *)malloc(100000);
 char outputstr[100000]={'\0'};
-//自己写的，解析NAL数据的函数
+//analyze and store NAL data
 char* probe_nal_unit(char* filename,int data_offset,int data_lenth){
-	//清空字符串-----------------
-	memset(outputstr,'\0',100000);
-	//tempstr=(char *)malloc(10000);
-	//outputstr=(char *)malloc(100000);
-	//内存用于存放NAL（包含起始码）
+	//store , including NAL start code 
 	uint8_t *nal_temp=(uint8_t *)malloc(data_lenth);
-	//从文件读取
+	int nal_start,nal_end;
+	memset(outputstr,'\0',100000);
+
 	FILE *fp=fopen(filename,"rb");
 	fseek(fp,data_offset,SEEK_SET);
 	fread(nal_temp,data_lenth,1,fp);
 	// read some H264 data into buf
-	int nal_start,nal_end;
 	h264_stream_t* h = h264_new();
 	find_nal_unit(nal_temp, data_lenth, &nal_start, &nal_end);
 	read_nal_unit(h, &nal_temp[nal_start], nal_end - nal_start);

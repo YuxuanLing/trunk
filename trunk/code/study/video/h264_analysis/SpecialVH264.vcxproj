@@ -52,7 +52,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -113,6 +113,7 @@
     <ClInclude Include="bs.h" />
     <ClInclude Include="h264_analyze.h" />
     <ClInclude Include="h264_avcc.h" />
+    <ClInclude Include="h264_debug.h" />
     <ClInclude Include="h264_sei.h" />
     <ClInclude Include="h264_stream.h" />
     <ClInclude Include="NALParse.h" />
@@ -125,6 +126,7 @@
   <ItemGroup>
     <ClCompile Include="h264_analyze.cpp" />
     <ClCompile Include="h264_avcc.cpp" />
+    <ClCompile Include="h264_debug.cpp" />
     <ClCompile Include="h264_sei.cpp" />
     <ClCompile Include="h264_stream.cpp" />
     <ClCompile Include="NALParse.cpp" />
