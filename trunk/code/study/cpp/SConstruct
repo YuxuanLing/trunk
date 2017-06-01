@@ -1,0 +1,2 @@
+Program('test_weak_ptr','test_weak_ptr.cpp',LIBS = ['stdc++'], CCFLAGS = ['--std=c++11'])
+Program('test_virtual_func','test_virtual_func.cpp',LIBS = ['stdc++'], CCFLAGS = ['--std=c++11'])
