@@ -1,0 +1,22 @@
+import os, inspect
+
+GST_INCLUDE_FLAGS=os.popen('pkg-config --cflags gstreamer-1.0').read()
+GST_INCLUDE_FLAGS=Split(GST_INCLUDE_FLAGS)
+
+SRC_FILES_LST=[
+				'test2.c',
+				#'TimeManager.cpp',
+				#'basic-tutorial-1.c',
+				'DynamicHelloWorld.cpp'
+				]
+
+env = Environment(	LIBS=['stdc++','pthread','gstreamer-1.0','gobject-2.0','glib-2.0'],
+					# LIBPATH=['./lib/linux'], 
+					# CCFLAGS=['--std=c++11','-I/usr/local/include/gstreamer-1.0', '-I/usr/include/glib-2.0', '-I/usr/lib/x86_64-linux-gnu/glib-2.0/include']
+					CCFLAGS=['--std=c++11',GST_INCLUDE_FLAGS]
+					)
+					
+					
+for buildFile in SRC_FILES_LST:
+    exeFile=buildFile+'out'					
+    env.Program(exeFile,buildFile)
