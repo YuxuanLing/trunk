@@ -1,0 +1,16 @@
+include_dirs=Split("""
+					unit_test
+					include
+					../inc""")
+
+ut_src_files=Split("""
+                    unit_test/func_test.cpp
+					unit_test/struc_test.cpp
+					unit_test/unit_test.cpp""")
+					
+env = Environment(	LIBS=['stdc++','pthread','libgtest.a','libgmock.a','libgtest_main.a'],
+					LIBPATH=['./lib/linux'], 
+					CCFLAGS=['--std=c++11'],
+					CPPPATH=include_dirs)
+
+env.Program('ut_gtest',ut_src_files)

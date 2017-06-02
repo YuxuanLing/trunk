@@ -1,2 +1,7 @@
 Program('test_weak_ptr','test_weak_ptr.cpp',LIBS = ['stdc++'], CCFLAGS = ['--std=c++11'])
 Program('test_virtual_func','test_virtual_func.cpp',LIBS = ['stdc++'], CCFLAGS = ['--std=c++11'])
+Program('test_class_shared_ptr_local','test_class_shared_ptr_local.cpp',LIBS = ['stdc++'], CCFLAGS = ['--std=c++11'])
+Program('test_class_shared_ptr','test_class_shared_ptr.cpp',LIBS = ['stdc++'], CCFLAGS = ['--std=c++11'])
+Program('test_class','test_class.cpp',LIBS = ['stdc++'], CCFLAGS = ['--std=c++11'])
+Program('test_class_shared_ptr_thr','test_class_shared_ptr_thr.cpp',LIBS = ['stdc++','pthread'], CCFLAGS = ['--std=c++11'])
+Program('test_class_succee','test_class_succee.cpp',LIBS = ['stdc++'], CCFLAGS = ['--std=c++11'])
