@@ -1,0 +1,20 @@
+import os, inspect
+currDir=os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+print currDir
+
+include_dirs=Split("""
+					-Iinclude
+					-I../inc""")
+
+ut_src_files=Split("""
+                    unit_test/func_test.cpp
+					unit_test/struc_test.cpp
+					unit_test/unit_test.cpp
+					unit_test/gmock-generated-function-mockers_test.cc
+					""")
+					
+env = Environment(	LIBS=['stdc++','pthread','libgtest.a','libgmock.a','libgtest_main.a'],
+					LIBPATH=['./lib/linux'], 
+					CCFLAGS=['--std=c++11',include_dirs]
+					)
+env.Program('ut_gtest',ut_src_files)
