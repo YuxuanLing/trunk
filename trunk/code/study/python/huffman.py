@@ -18,6 +18,8 @@ class HuffNode(object):
 
 
 class LeafNode(object):
+    value = None
+    weight = None
     def __init__(self,val=0,freq=0):
         super(LeafNode,self).__init__()
         self.value = val
@@ -30,6 +32,9 @@ class LeafNode(object):
         return self.value
 
 class InterNode(HuffNode):
+    weight = None
+    left_child = None
+    right_child = None
     def __init__(self,l_child=None, r_child=None):
         super(InterNode,self).__init__()
         self.weight = l_child.get_weight() + r_child.get_weight()
@@ -46,6 +51,7 @@ class InterNode(HuffNode):
     
 
 class HuffTree(object):
+    root = None
     def __init__(self,flag,val=0,freq=0,l_tree=None,r_tree=None):
         super(HuffTree,self).__init__()
         if flag == 0:
@@ -55,7 +61,7 @@ class HuffTree(object):
     def get_root(self):
         return self.root
     def get_weight(self):
-        self.root.get_weight()
+        return self.get_root().get_weight()
     def traverse_huffman_tree(self,root,code,char_freq):
         """
         递归遍历
@@ -87,10 +93,10 @@ if __name__ == '__main__':
         print "please input inputfilename "
         exit(0)
     else:
-        INPUTFILE = sys.argv[1]
+        infile = sys.argv[1]
 
     #1. 以二进制的方式打开文件 
-    f = open(INPUTFILE,'rb')
+    f = open(infile,'rb')
     filedata = f.read()
     # 获取文件的字节总数
     filesize = f.tell()
@@ -117,8 +123,8 @@ if __name__ == '__main__':
         tem = HuffTree(0, x, char_freq[x], None, None)
         # 将其添加到数组 list_hufftrees 当中
         list_hufftrees.append(tem)
-    print len(list_hufftrees)
-    print dir(list_hufftrees[0])
+    print list_hufftrees[0].get_weight()
+    #print dir(list_hufftrees[0])
      # 5. 构造huffman编码树，并且获取到每个字符对应的 编码并且打印出来
     tem = buildHuffmanTree(list_hufftrees)
     tem.traverse_huffman_tree(tem.get_root(),'',char_freq)
