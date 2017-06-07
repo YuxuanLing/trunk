@@ -49,7 +49,7 @@ int main(int argc,char *argv[])
     sink = gst_element_factory_make("autoaudiosink","audio-output");
 
     if(!pipeline||!source||!decoder||!sink){
-        g_printerr("One element could not be created.Exiting.\n");
+        g_printerr("One element could not be created.Exiting.pipeline =%d, source =%d,decoder= %d, sink= %d\n", pipeline, source, decoder, sink);
         return -1;
     }
     //设置 source的location 参数。即 文件地址.
