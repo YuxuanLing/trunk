@@ -18,5 +18,8 @@ env = Environment(	LIBS=['stdc++','pthread','gstreamer-1.0','gobject-2.0','glib-
 					
 					
 for buildFile in SRC_FILES_LST:
-    exeFile=buildFile+'out'					
+    exeFile=buildFile+'out'
+    exeFile=str(buildFile[0:buildFile.find('.')]+'.exe')
+    print exeFile
+    print buildFile
     env.Program(exeFile,buildFile)
