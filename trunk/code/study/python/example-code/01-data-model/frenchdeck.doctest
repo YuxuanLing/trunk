@@ -27,9 +27,9 @@ Card(rank='Q', suit='hearts')
 ...
 >>> for n, card in enumerate(deck, 1):  # doctest: +ELLIPSIS
 ...   print(n, card)
-1 Card(rank='2', suit='spades')
-2 Card(rank='3', suit='spades')
-3 Card(rank='4', suit='spades')
+(1, Card(rank='2', suit='spades'))
+(2, Card(rank='3', suit='spades'))
+(3, Card(rank='4', suit='spades'))
 ...
 >>> suit_values = dict(spades=3, hearts=2, diamonds=1, clubs=0)
 >>> def spades_high(card):
