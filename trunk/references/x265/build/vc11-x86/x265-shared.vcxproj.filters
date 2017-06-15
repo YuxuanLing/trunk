@@ -1,0 +1,289 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="G:\personal\myGitHub\trunk\trunk\references\x265\source\CMakeLists.txt" />
+    <CustomBuild Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\CMakeFiles\6a0c74115bdcb5b85cab94b6d3f54788\pixel-a.asm.obj.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\CMakeFiles\6a0c74115bdcb5b85cab94b6d3f54788\const-a.asm.obj.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\CMakeFiles\6a0c74115bdcb5b85cab94b6d3f54788\cpu-a.asm.obj.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\CMakeFiles\6a0c74115bdcb5b85cab94b6d3f54788\ssd-a.asm.obj.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\CMakeFiles\6a0c74115bdcb5b85cab94b6d3f54788\mc-a.asm.obj.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\CMakeFiles\6a0c74115bdcb5b85cab94b6d3f54788\mc-a2.asm.obj.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\CMakeFiles\6a0c74115bdcb5b85cab94b6d3f54788\pixel-util8.asm.obj.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\CMakeFiles\6a0c74115bdcb5b85cab94b6d3f54788\blockcopy8.asm.obj.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\CMakeFiles\6a0c74115bdcb5b85cab94b6d3f54788\pixeladd8.asm.obj.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\CMakeFiles\6a0c74115bdcb5b85cab94b6d3f54788\dct8.asm.obj.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\CMakeFiles\6a0c74115bdcb5b85cab94b6d3f54788\sad-a.asm.obj.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\CMakeFiles\6a0c74115bdcb5b85cab94b6d3f54788\intrapred8.asm.obj.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\CMakeFiles\6a0c74115bdcb5b85cab94b6d3f54788\intrapred8_allangs.asm.obj.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\CMakeFiles\6a0c74115bdcb5b85cab94b6d3f54788\ipfilter8.asm.obj.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\CMakeFiles\6a0c74115bdcb5b85cab94b6d3f54788\loopfilter.asm.obj.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\CMakeFiles\6a0c74115bdcb5b85cab94b6d3f54788\pixel-32.asm.obj.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\x265.def">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\pixel-a.asm.obj">
+      <Filter>Object Files</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\const-a.asm.obj">
+      <Filter>Object Files</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\cpu-a.asm.obj">
+      <Filter>Object Files</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\ssd-a.asm.obj">
+      <Filter>Object Files</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\mc-a.asm.obj">
+      <Filter>Object Files</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\mc-a2.asm.obj">
+      <Filter>Object Files</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\pixel-util8.asm.obj">
+      <Filter>Object Files</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\blockcopy8.asm.obj">
+      <Filter>Object Files</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\pixeladd8.asm.obj">
+      <Filter>Object Files</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\dct8.asm.obj">
+      <Filter>Object Files</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\sad-a.asm.obj">
+      <Filter>Object Files</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\intrapred8.asm.obj">
+      <Filter>Object Files</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\intrapred8_allangs.asm.obj">
+      <Filter>Object Files</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\ipfilter8.asm.obj">
+      <Filter>Object Files</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\loopfilter.asm.obj">
+      <Filter>Object Files</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\pixel-32.asm.obj">
+      <Filter>Object Files</Filter>
+    </Object>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\x265.rc">
+      <Filter>Source Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\encoder\encoder.dir\$(Configuration)\analysis.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\encoder\encoder.dir\$(Configuration)\search.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\encoder\encoder.dir\$(Configuration)\bitcost.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\encoder\encoder.dir\$(Configuration)\motion.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\encoder\encoder.dir\$(Configuration)\slicetype.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\encoder\encoder.dir\$(Configuration)\frameencoder.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\encoder\encoder.dir\$(Configuration)\framefilter.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\encoder\encoder.dir\$(Configuration)\level.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\encoder\encoder.dir\$(Configuration)\nal.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\encoder\encoder.dir\$(Configuration)\sei.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\encoder\encoder.dir\$(Configuration)\sao.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\encoder\encoder.dir\$(Configuration)\entropy.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\encoder\encoder.dir\$(Configuration)\dpb.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\encoder\encoder.dir\$(Configuration)\ratecontrol.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\encoder\encoder.dir\$(Configuration)\reference.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\encoder\encoder.dir\$(Configuration)\encoder.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\encoder\encoder.dir\$(Configuration)\api.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\encoder\encoder.dir\$(Configuration)\weightPrediction.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\asm-primitives.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\vec-primitives.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\dct-sse3.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\dct-ssse3.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\dct-sse41.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\winxp.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\primitives.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\pixel.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\dct.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\ipfilter.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\intrapred.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\loopfilter.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\constants.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\cpu.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\version.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\threading.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\threadpool.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\wavefront.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\md5.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\bitstream.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\yuv.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\shortyuv.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\picyuv.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\common.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\param.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\frame.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\framedata.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\cudata.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\slice.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\lowres.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\piclist.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\predict.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\scalinglist.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\quant.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="G:\personal\myGitHub\trunk\trunk\references\x265\build\vc11-x86\common\common.dir\$(Configuration)\deblock.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{83AF6F15-F6D7-3319-A3D8-F44F2A07C04D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{F6CF982F-9543-3EA0-9FC8-08E64E631D6C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object Files">
+      <UniqueIdentifier>{EAC49836-75A9-31F5-BA48-C7E0C2F7846C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object Libraries">
+      <UniqueIdentifier>{7145C3CF-E603-3AA7-830E-460D398A9434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
