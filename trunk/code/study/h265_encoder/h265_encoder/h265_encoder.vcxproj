@@ -1,0 +1,262 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A5DEB75F-CA0A-4373-AB3C-0F84A7749CAB}</ProjectGuid>
+    <RootNamespace>h265_encoder</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\src;..\include;..\</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>HAVE_STRING_H=1;WIN32;_WINDOWS;X265_ARCH_X86=1;_CRT_SECURE_NO_WARNINGS;HAVE_INT_TYPES_H=1;HIGH_BIT_DEPTH=0;X265_DEPTH=8;EXPORT_C_API=1;X265_NS=x265;_WIN32_WINNT=_WIN32_WINNT_WINXP;_WIN32_WINNT_WIN7=0x0601;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\input\input.cpp" />
+    <ClCompile Include="..\input\inputy4m.cpp" />
+    <ClCompile Include="..\input\inputyuv.cpp" />
+    <ClCompile Include="..\output\output.cpp" />
+    <ClCompile Include="..\output\raw.cpp" />
+    <ClCompile Include="..\output\reconplay.cpp" />
+    <ClCompile Include="..\output\outputy4m.cpp" />
+    <ClCompile Include="..\output\outputyuv.cpp" />
+    <ClCompile Include="..\src\analysis.cpp" />
+    <ClCompile Include="..\src\api.cpp" />
+    <ClCompile Include="..\src\bitcost.cpp" />
+    <ClCompile Include="..\src\bitstream.cpp" />
+    <ClCompile Include="..\src\common.cpp" />
+    <ClCompile Include="..\src\constants.cpp" />
+    <ClCompile Include="..\src\cpu.cpp" />
+    <ClCompile Include="..\src\cudata.cpp" />
+    <ClCompile Include="..\src\dct.cpp" />
+    <ClCompile Include="..\src\deblock.cpp" />
+    <ClCompile Include="..\src\dpb.cpp" />
+    <ClCompile Include="..\src\encoder.cpp" />
+    <ClCompile Include="..\src\entropy.cpp" />
+    <ClCompile Include="..\src\frame.cpp" />
+    <ClCompile Include="..\src\framedata.cpp" />
+    <ClCompile Include="..\src\frameencoder.cpp" />
+    <ClCompile Include="..\src\framefilter.cpp" />
+    <ClCompile Include="..\src\getopt.c" />
+    <ClCompile Include="..\src\intrapred.cpp" />
+    <ClCompile Include="..\src\ipfilter.cpp" />
+    <ClCompile Include="..\src\level.cpp" />
+    <ClCompile Include="..\src\loopfilter.cpp" />
+    <ClCompile Include="..\src\lowres.cpp" />
+    <ClCompile Include="..\src\md5.cpp" />
+    <ClCompile Include="..\src\motion.cpp" />
+    <ClCompile Include="..\src\nal.cpp" />
+    <ClCompile Include="..\src\param.cpp" />
+    <ClCompile Include="..\src\piclist.cpp" />
+    <ClCompile Include="..\src\picyuv.cpp" />
+    <ClCompile Include="..\src\pixel.cpp" />
+    <ClCompile Include="..\src\predict.cpp" />
+    <ClCompile Include="..\src\primitives.cpp" />
+    <ClCompile Include="..\src\quant.cpp" />
+    <ClCompile Include="..\src\ratecontrol.cpp" />
+    <ClCompile Include="..\src\reference.cpp" />
+    <ClCompile Include="..\src\sao.cpp" />
+    <ClCompile Include="..\src\scalinglist.cpp" />
+    <ClCompile Include="..\src\search.cpp" />
+    <ClCompile Include="..\src\sei.cpp" />
+    <ClCompile Include="..\src\shortyuv.cpp" />
+    <ClCompile Include="..\src\slice.cpp" />
+    <ClCompile Include="..\src\slicetype.cpp" />
+    <ClCompile Include="..\src\threading.cpp" />
+    <ClCompile Include="..\src\threadpool.cpp" />
+    <ClCompile Include="..\src\version.cpp" />
+    <ClCompile Include="..\src\wavefront.cpp" />
+    <ClCompile Include="..\src\weightPrediction.cpp" />
+    <ClCompile Include="..\src\winxp.cpp" />
+    <ClCompile Include="..\src\x265-extras.cpp" />
+    <ClCompile Include="..\src\x265.cpp" />
+    <ClCompile Include="..\src\yuv.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\analysis.h" />
+    <ClInclude Include="..\include\bitcost.h" />
+    <ClInclude Include="..\include\bitstream.h" />
+    <ClInclude Include="..\include\blockcopy8.h" />
+    <ClInclude Include="..\include\common.h" />
+    <ClInclude Include="..\include\constants.h" />
+    <ClInclude Include="..\include\contexts.h" />
+    <ClInclude Include="..\include\cpu.h" />
+    <ClInclude Include="..\include\cudata.h" />
+    <ClInclude Include="..\include\dct8.h" />
+    <ClInclude Include="..\include\deblock.h" />
+    <ClInclude Include="..\include\dpb.h" />
+    <ClInclude Include="..\include\encoder.h" />
+    <ClInclude Include="..\include\entropy.h" />
+    <ClInclude Include="..\include\frame.h" />
+    <ClInclude Include="..\include\framedata.h" />
+    <ClInclude Include="..\include\frameencoder.h" />
+    <ClInclude Include="..\include\framefilter.h" />
+    <ClInclude Include="..\include\intrapred.h" />
+    <ClInclude Include="..\include\ipfilter8.h" />
+    <ClInclude Include="..\include\level.h" />
+    <ClInclude Include="..\include\loopfilter.h" />
+    <ClInclude Include="..\include\lowres.h" />
+    <ClInclude Include="..\include\mc.h" />
+    <ClInclude Include="..\include\md5.h" />
+    <ClInclude Include="..\include\motion.h" />
+    <ClInclude Include="..\include\mv.h" />
+    <ClInclude Include="..\include\nal.h" />
+    <ClInclude Include="..\include\param.h" />
+    <ClInclude Include="..\include\piclist.h" />
+    <ClInclude Include="..\include\picyuv.h" />
+    <ClInclude Include="..\include\pixel-util.h" />
+    <ClInclude Include="..\include\pixel.h" />
+    <ClInclude Include="..\include\predict.h" />
+    <ClInclude Include="..\include\primitives.h" />
+    <ClInclude Include="..\include\quant.h" />
+    <ClInclude Include="..\include\ratecontrol.h" />
+    <ClInclude Include="..\include\rdcost.h" />
+    <ClInclude Include="..\include\reference.h" />
+    <ClInclude Include="..\include\sao.h" />
+    <ClInclude Include="..\include\scalinglist.h" />
+    <ClInclude Include="..\include\search.h" />
+    <ClInclude Include="..\include\sei.h" />
+    <ClInclude Include="..\include\shortyuv.h" />
+    <ClInclude Include="..\include\slice.h" />
+    <ClInclude Include="..\include\slicetype.h" />
+    <ClInclude Include="..\include\threading.h" />
+    <ClInclude Include="..\include\threadpool.h" />
+    <ClInclude Include="..\include\wavefront.h" />
+    <ClInclude Include="..\include\winxp.h" />
+    <ClInclude Include="..\include\yuv.h" />
+    <ClInclude Include="..\input\input.h" />
+    <ClInclude Include="..\input\inputy4m.h" />
+    <ClInclude Include="..\input\inputyuv.h" />
+    <ClInclude Include="..\output\output.h" />
+    <ClInclude Include="..\output\raw.h" />
+    <ClInclude Include="..\output\reconplay.h" />
+    <ClInclude Include="..\output\outputy4m.h" />
+    <ClInclude Include="..\output\outputyuv.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\src\blockcopy8.asm" />
+    <None Include="..\src\const-a.asm" />
+    <None Include="..\src\cpu-a.asm" />
+    <None Include="..\src\dct8.asm" />
+    <None Include="..\src\intrapred16.asm" />
+    <None Include="..\src\intrapred8.asm" />
+    <None Include="..\src\intrapred8_allangs.asm" />
+    <None Include="..\src\ipfilter16.asm" />
+    <None Include="..\src\ipfilter8.asm" />
+    <None Include="..\src\loopfilter.asm" />
+    <None Include="..\src\mc-a.asm" />
+    <None Include="..\src\mc-a2.asm" />
+    <None Include="..\src\pixel-32.asm" />
+    <None Include="..\src\pixel-a.asm" />
+    <None Include="..\src\pixel-util8.asm" />
+    <None Include="..\src\pixeladd8.asm" />
+    <None Include="..\src\sad-a.asm" />
+    <None Include="..\src\sad16-a.asm" />
+    <None Include="..\src\ssd-a.asm" />
+    <None Include="..\src\x86inc.asm" />
+    <None Include="..\src\x86util.asm" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
