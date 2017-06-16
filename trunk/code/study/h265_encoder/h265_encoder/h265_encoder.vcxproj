@@ -52,6 +52,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\yasm.props" />
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
@@ -77,6 +78,9 @@
       <AdditionalIncludeDirectories>..\src;..\include;..\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>HAVE_STRING_H=1;WIN32;_WINDOWS;X265_ARCH_X86=1;_CRT_SECURE_NO_WARNINGS;HAVE_INT_TYPES_H=1;HIGH_BIT_DEPTH=0;X265_DEPTH=8;EXPORT_C_API=1;X265_NS=x265;_WIN32_WINNT=_WIN32_WINNT_WINXP;_WIN32_WINNT_WIN7=0x0601;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <YASM>
+      <PreprocessorDefinitions>PREFIX;STACK_ALIGNMENT=4;HIGH_BIT_DEPTH=0;BIT_DEPTH=8;WIN32=1;ARCH_X86_64=0;X265_NS=x265;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </YASM>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -234,29 +238,57 @@
     <ClInclude Include="..\output\outputyuv.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\src\blockcopy8.asm" />
-    <None Include="..\src\const-a.asm" />
-    <None Include="..\src\cpu-a.asm" />
-    <None Include="..\src\dct8.asm" />
-    <None Include="..\src\intrapred16.asm" />
-    <None Include="..\src\intrapred8.asm" />
-    <None Include="..\src\intrapred8_allangs.asm" />
-    <None Include="..\src\ipfilter16.asm" />
-    <None Include="..\src\ipfilter8.asm" />
-    <None Include="..\src\loopfilter.asm" />
-    <None Include="..\src\mc-a.asm" />
-    <None Include="..\src\mc-a2.asm" />
-    <None Include="..\src\pixel-32.asm" />
-    <None Include="..\src\pixel-a.asm" />
-    <None Include="..\src\pixel-util8.asm" />
-    <None Include="..\src\pixeladd8.asm" />
-    <None Include="..\src\sad-a.asm" />
-    <None Include="..\src\sad16-a.asm" />
-    <None Include="..\src\ssd-a.asm" />
-    <None Include="..\src\x86inc.asm" />
-    <None Include="..\src\x86util.asm" />
+    <YASM Include="..\src\blockcopy8.asm">
+      <FileType>Document</FileType>
+      <GenerateDebugInformation Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateDebugInformation>
+    </YASM>
+    <YASM Include="..\src\const-a.asm">
+      <FileType>Document</FileType>
+    </YASM>
+    <YASM Include="..\src\dct8.asm">
+      <FileType>Document</FileType>
+    </YASM>
+    <YASM Include="..\src\intrapred8.asm">
+      <FileType>Document</FileType>
+    </YASM>
+    <YASM Include="..\src\intrapred8_allangs.asm">
+      <FileType>Document</FileType>
+    </YASM>
+    <YASM Include="..\src\ipfilter8.asm">
+      <FileType>Document</FileType>
+    </YASM>
+    <YASM Include="..\src\loopfilter.asm">
+      <FileType>Document</FileType>
+    </YASM>
+    <YASM Include="..\src\mc-a.asm">
+      <FileType>Document</FileType>
+    </YASM>
+    <YASM Include="..\src\mc-a2.asm">
+      <FileType>Document</FileType>
+    </YASM>
+    <YASM Include="..\src\pixel-32.asm">
+      <FileType>Document</FileType>
+    </YASM>
+    <YASM Include="..\src\pixel-a.asm">
+      <FileType>Document</FileType>
+    </YASM>
+    <YASM Include="..\src\pixel-util8.asm">
+      <FileType>Document</FileType>
+    </YASM>
+    <YASM Include="..\src\pixeladd8.asm">
+      <FileType>Document</FileType>
+    </YASM>
+    <YASM Include="..\src\sad-a.asm">
+      <FileType>Document</FileType>
+    </YASM>
+    <YASM Include="..\src\ssd-a.asm">
+      <FileType>Document</FileType>
+    </YASM>
+    <YASM Include="..\src\x86inc.asm" />
+    <YASM Include="..\src\x86util.asm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\yasm.targets" />
   </ImportGroup>
 </Project>

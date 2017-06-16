@@ -71,10 +71,12 @@ using namespace X265_NS;
  */
 
 Analysis::Analysis()
-{
+{   
+	void *p;
     m_reuseInterDataCTU = NULL;
     m_reuseRef = NULL;
     m_bHD = false;
+	//p = X265_NS_blockcopy_pp_2x8_sse2;
 }
 
 bool Analysis::create(ThreadLocalData *tld)

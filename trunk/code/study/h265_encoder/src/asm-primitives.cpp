@@ -2194,7 +2194,7 @@ void setupAssemblyPrimitives(EncoderPrimitives &p, int cpuMask) // Main
         AVC_LUMA_PU(sad_x3, mmx2);
         AVC_LUMA_PU(sad_x4, mmx2);
 
-        p.pu[LUMA_16x16].sad = PFX(pixel_sad_16x16_sse2);
+		p.pu[LUMA_16x16].sad = x265_pixel_sad_16x16_sse2; //PFX(pixel_sad_16x16_sse2);
         p.pu[LUMA_16x16].sad_x3 = PFX(pixel_sad_x3_16x16_sse2);
         p.pu[LUMA_16x16].sad_x4 = PFX(pixel_sad_x4_16x16_sse2);
         p.pu[LUMA_16x8].sad  = PFX(pixel_sad_16x8_sse2);

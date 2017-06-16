@@ -18,6 +18,9 @@
     <Filter Include="output">
       <UniqueIdentifier>{fca901fe-4ca3-441c-ad7a-90436985df60}</UniqueIdentifier>
     </Filter>
+    <Filter Include="objs">
+      <UniqueIdentifier>{d1c8d237-7c53-4e8d-b814-9cc6cc1d3f54}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\analysis.cpp">
@@ -378,68 +381,56 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\src\blockcopy8.asm">
+    <YASM Include="..\src\blockcopy8.asm">
       <Filter>asm</Filter>
-    </None>
-    <None Include="..\src\const-a.asm">
+    </YASM>
+    <YASM Include="..\src\const-a.asm">
       <Filter>asm</Filter>
-    </None>
-    <None Include="..\src\cpu-a.asm">
+    </YASM>
+    <YASM Include="..\src\dct8.asm">
       <Filter>asm</Filter>
-    </None>
-    <None Include="..\src\dct8.asm">
+    </YASM>
+    <YASM Include="..\src\intrapred8.asm">
       <Filter>asm</Filter>
-    </None>
-    <None Include="..\src\intrapred8.asm">
+    </YASM>
+    <YASM Include="..\src\intrapred8_allangs.asm">
       <Filter>asm</Filter>
-    </None>
-    <None Include="..\src\intrapred8_allangs.asm">
+    </YASM>
+    <YASM Include="..\src\ipfilter8.asm">
       <Filter>asm</Filter>
-    </None>
-    <None Include="..\src\intrapred16.asm">
+    </YASM>
+    <YASM Include="..\src\loopfilter.asm">
       <Filter>asm</Filter>
-    </None>
-    <None Include="..\src\ipfilter8.asm">
+    </YASM>
+    <YASM Include="..\src\mc-a.asm">
       <Filter>asm</Filter>
-    </None>
-    <None Include="..\src\ipfilter16.asm">
+    </YASM>
+    <YASM Include="..\src\mc-a2.asm">
       <Filter>asm</Filter>
-    </None>
-    <None Include="..\src\loopfilter.asm">
+    </YASM>
+    <YASM Include="..\src\pixel-32.asm">
       <Filter>asm</Filter>
-    </None>
-    <None Include="..\src\mc-a.asm">
+    </YASM>
+    <YASM Include="..\src\pixel-a.asm">
       <Filter>asm</Filter>
-    </None>
-    <None Include="..\src\mc-a2.asm">
+    </YASM>
+    <YASM Include="..\src\pixeladd8.asm">
       <Filter>asm</Filter>
-    </None>
-    <None Include="..\src\pixel-32.asm">
+    </YASM>
+    <YASM Include="..\src\pixel-util8.asm">
       <Filter>asm</Filter>
-    </None>
-    <None Include="..\src\pixel-a.asm">
+    </YASM>
+    <YASM Include="..\src\sad-a.asm">
       <Filter>asm</Filter>
-    </None>
-    <None Include="..\src\pixeladd8.asm">
+    </YASM>
+    <YASM Include="..\src\ssd-a.asm">
       <Filter>asm</Filter>
-    </None>
-    <None Include="..\src\pixel-util8.asm">
+    </YASM>
+    <YASM Include="..\src\x86inc.asm">
       <Filter>asm</Filter>
-    </None>
-    <None Include="..\src\sad16-a.asm">
+    </YASM>
+    <YASM Include="..\src\x86util.asm">
       <Filter>asm</Filter>
-    </None>
-    <None Include="..\src\sad-a.asm">
-      <Filter>asm</Filter>
-    </None>
-    <None Include="..\src\ssd-a.asm">
-      <Filter>asm</Filter>
-    </None>
-    <None Include="..\src\x86inc.asm">
-      <Filter>asm</Filter>
-    </None>
-    <None Include="..\src\x86util.asm">
-      <Filter>asm</Filter>
-    </None>
+    </YASM>
   </ItemGroup>
 </Project>
