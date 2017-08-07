@@ -103,6 +103,58 @@ static void print_pad_capabilities(GstElement *element, gchar *pad_name) {
 	gst_object_unref(pad);
 }
 
+gboolean terminate = FALSE;
+static gboolean my_bus_callback(GstBus *bus, GstMessage *msg, gpointer pipeline)
+{
+
+	if (msg != NULL) {
+		GError *err;
+		gchar *debug_info;
+		GstMessageType msgtype = GST_MESSAGE_TYPE(msg);
+
+		switch (msgtype) {
+		case GST_MESSAGE_ERROR:
+			gst_message_parse_error(msg, &err, &debug_info);
+			g_printerr("Error received from element %s: %s\n", GST_OBJECT_NAME(msg->src), err->message);
+			g_printerr("Debugging information: %s\n", debug_info ? debug_info : "none");
+			g_clear_error(&err);
+			g_free(debug_info);
+			terminate = TRUE;
+			break;
+		case GST_MESSAGE_EOS:
+			g_print("End-Of-Stream reached.\n");
+			terminate = TRUE;
+			break;
+		case GST_MESSAGE_STATE_CHANGED:
+			/* We are only interested in state-changed messages from the pipeline */
+			if (GST_MESSAGE_SRC(msg) == GST_OBJECT(pipeline)) {
+				GstState old_state, new_state, pending_state;
+				gst_message_parse_state_changed(msg, &old_state, &new_state, &pending_state);
+				g_print("\nPipeline state changed from %s to %s:\n",
+					gst_element_state_get_name(old_state), gst_element_state_get_name(new_state));
+				/* Print the current capabilities of the sink element */
+				//print_pad_capabilities(sink, "sink");
+			}
+			//terminate = TRUE;
+			break;
+		case GST_MESSAGE_ASYNC_DONE:
+			g_print("GST_MESSAGE_ASYNC_DONE reached.\n");
+			terminate = TRUE;
+			break;
+		default:
+			/* We should not reach here because we only asked for ERRORs, EOS and STATE_CHANGED */
+			g_printerr("Unexpected message received.\n");
+			terminate = TRUE;
+			break;
+		}
+		gst_message_unref(msg);
+		msg = NULL;
+	}else {
+		terminate = TRUE;
+	}
+	return TRUE;
+}
+
 
 int main(int argc, char *argv[]) {
 	GstElement *pipeline, *source, *sink;
@@ -110,7 +162,7 @@ int main(int argc, char *argv[]) {
 	GstBus *bus;
 	GstMessage *msg;
 	GstStateChangeReturn ret;
-	gboolean terminate = FALSE;
+
 
 	/* Initialize GStreamer */
 	gst_init(&argc, &argv);
@@ -159,10 +211,12 @@ int main(int argc, char *argv[]) {
 
 	/* Wait until error, EOS or State Change */
 	bus = gst_element_get_bus(pipeline);
+	//gst_bus_add_watch(bus, my_bus_callback, pipeline);
 	do {
 		msg = gst_bus_timed_pop_filtered(bus, GST_SECOND*4, (GstMessageType)(GST_MESSAGE_ERROR | GST_MESSAGE_EOS | GST_MESSAGE_STATE_CHANGED));
-
+		
 		/* Parse message */
+
 		if (msg != NULL) {
 			GError *err;
 			gchar *debug_info;
@@ -208,6 +262,7 @@ int main(int argc, char *argv[]) {
 		}else {
 			terminate = TRUE;
 		}
+
 	} while (!terminate);
 
 	/* Free resources */
