@@ -27,9 +27,9 @@ int RD_header(FILE *in, struct sockaddr_in *sin, int verbose)
   if (verbose) {
     struct tm *tm;
     struct in_addr in;
+	unsigned long tt = (unsigned long)(hdr.start.tv_sec);
 
     in.s_addr = hdr.source;
-    time_t tt = (time_t)(hdr.start.tv_sec);
     tm = localtime(&tt);
     strftime(line, sizeof(line), "%C", tm);
     printf("Start:  %s\n", line);

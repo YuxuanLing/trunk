@@ -4,9 +4,14 @@
 #include "stdafx.h"  
 #include <windows.h>  
 #include <omp.h>  
+#include<iostream>
+#include<thread>
 
 #define NUMBER 1000000000  
-
+void hello()
+{
+	std::cout << "Hello Concurrent World\n";
+}
 int process(int start, int end)
 {
 	int total;
@@ -62,10 +67,32 @@ void test2()
 	printf("%d\n", GetTickCount() - value);
 }
 
+class background_task
+{
+public:
+	void operator () ()const
+	{
+		std::cout << "background_task operator ()\n";
+	}
+
+};
+
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	test1();
-	test2();
+	background_task tsk;
+	std::thread t0(hello);
+	std::thread t1(test1);
+	std::thread t2(test2);
+	//std::thread t3{ background_task() };
+	std::thread t3((background_task()));
+	std::thread t4(tsk);
+	
+
+	t0.join();
+	t1.join();
+	t2.join();
+	t3.join();
+	t4.join();
 	return 0;
 }

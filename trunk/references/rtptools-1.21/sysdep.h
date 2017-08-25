@@ -125,10 +125,12 @@ struct ip_mreq {
 
 #ifndef _TIMESPEC_T
 #define _TIMESPEC_T
-typedef struct  timespec {              /* definition per POSIX.4 */
-        time_t          tv_sec;         /* seconds */
-        long            tv_nsec;        /* and nanoseconds */
-} timespec_t;
+///*
+//typedef struct  timespec {              /* definition per POSIX.4 */
+//        time_t          tv_sec;         /* seconds */
+//        long            tv_nsec;        /* and nanoseconds */
+//} timespec_t;
+//*/
 #endif  /* _TIMESPEC_T */
 
 struct  itimerval {
