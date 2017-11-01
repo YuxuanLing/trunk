@@ -50,6 +50,7 @@ static int wallclock = 0;      /* use wallclock time rather than timestamps */
 static u_int32 begin = 0;      /* time of first packet to send */
 static u_int32 end = UINT_MAX; /* when to stop sending */ 
 static FILE *in;               /* input file */
+static FILE *outDump;          /* outoup file actual data*/
 static int sock[2];            /* output sockets */
 static int first = -1;         /* time offset of first packet */
 static RD_buffer_t buffer[READAHEAD];
@@ -180,7 +181,7 @@ static Notify_value play_handler(Notify_client client)
 
   /* Get next packet; try again if we haven't reached the begin time. */
   do {
-    if (RD_read(in, &buffer[rp]) == 0) return NOTIFY_DONE;
+    if (RD_read(in, &buffer[rp], outDump) == 0) return NOTIFY_DONE;
   } while (buffer[rp].p.hdr.offset < begin);
 
   /* 
@@ -305,6 +306,12 @@ int main(int argc, char *argv[])
   startupSocket();
 
   in = stdin; /* Changed below if -f specified */
+
+  outDump = fopen("realRawData.dat", "wb");
+  if (outDump == NULL) {
+	  printf("Can not open dump file dat\n");
+	  exit(1);
+  }
 
   /* parse command line arguments */
   while ((c = getopt(argc, argv, "b:e:f:p:Ts:vh")) != EOF) {

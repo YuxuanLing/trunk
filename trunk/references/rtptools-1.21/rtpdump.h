@@ -40,4 +40,4 @@ typedef union {
 } RD_buffer_t;
 
 extern int RD_header(FILE *in, struct sockaddr_in *sin, int verbose);
-extern int RD_read(FILE *in, RD_buffer_t *b);
+extern int RD_read(FILE *in, RD_buffer_t *b, FILE *outFile);

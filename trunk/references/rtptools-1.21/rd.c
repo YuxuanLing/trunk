@@ -46,9 +46,10 @@ int RD_header(FILE *in, struct sockaddr_in *sin, int verbose)
 /*
 * Read next record from input file.
 */
-int RD_read(FILE *in, RD_buffer_t *b)
+int RD_read(FILE *in, RD_buffer_t *b, FILE *outFile)
 {
-  /* read packet header from file */
+	char startCode[4] = { 0, 0, 0, 1 };
+	/* read packet header from file */
   if (fread((char *)b->byte, sizeof(b->p.hdr), 1, in) == 0) {
     /* we are done */
     return 0;
@@ -63,5 +64,7 @@ int RD_read(FILE *in, RD_buffer_t *b)
   if (fread(b->p.data, b->p.hdr.length, 1, in) == 0) {
     perror("fread body");
   } 
+  fwrite(startCode, 1, 4, outFile);
+  fwrite(b->p.data + 12, 1, b->p.hdr.length - 12, outFile);  //+12 because RTP header is 12 byte
   return b->p.hdr.length; 
 } /* RD_read */
