@@ -18,6 +18,7 @@ TEST(ComOutputBitStreamTest, writeTest) {
 	UINT8 result[9] = {0xd1,0xb,0x1e,0x69,0xf1,0x98,0x70,0x3b,0x7f};
 	ComOutputBitStream bs;
 	INT32 i = 0;
+	UINT8 *bytestream;
 
 	bs.write(6, 3);
 	bs.write(8, 4);
@@ -37,6 +38,7 @@ TEST(ComOutputBitStreamTest, writeTest) {
 	bs.write(0, 1);
 	bs.writeAlignOne();
 
+	bytestream = bs.getByteStream();
 	const std::vector<UINT8>& fifo = bs.getFIFO();
 	for (std::vector<UINT8>::const_iterator it = fifo.begin(); it != fifo.end();)
 	{
