@@ -29,8 +29,6 @@ ComOutputBitStream::~ComOutputBitStream()
 
 }
 
-
-
 Void ComOutputBitStream::write(UINT32 uiBits, UINT32 uiNumberOfBits)
 {
 	assert(uiNumberOfBits <= 32);
