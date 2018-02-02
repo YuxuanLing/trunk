@@ -137,11 +137,15 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\src\bitstream.h" />
     <ClInclude Include="..\..\..\src\commonDef.h" />
+    <ClInclude Include="..\..\..\src\constants.h" />
+    <ClInclude Include="..\..\..\src\intrapred.h" />
     <ClInclude Include="..\..\..\src\typeDef.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\bitstream.cpp" />
     <ClCompile Include="..\..\..\src\commonDef.cpp" />
+    <ClCompile Include="..\..\..\src\constants.cpp" />
+    <ClCompile Include="..\..\..\src\intrapred.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

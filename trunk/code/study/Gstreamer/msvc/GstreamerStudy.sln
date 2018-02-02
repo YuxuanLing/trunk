@@ -15,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AppSrcExample", "..\AppSrcE
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AppSinkSrc", "..\AppSinkSrc\AppSinkSrc.vcxproj", "{9884EC54-9A21-432F-8836-5814D7D09B94}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AppSrcStream", "..\AppSrcStream\AppSrcStream.vcxproj", "{7496D3EB-C2B8-4CA0-99A3-1370FD1A1B9A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -71,6 +73,14 @@ Global
 		{9884EC54-9A21-432F-8836-5814D7D09B94}.Release|x64.Build.0 = Release|x64
 		{9884EC54-9A21-432F-8836-5814D7D09B94}.Release|x86.ActiveCfg = Release|Win32
 		{9884EC54-9A21-432F-8836-5814D7D09B94}.Release|x86.Build.0 = Release|Win32
+		{7496D3EB-C2B8-4CA0-99A3-1370FD1A1B9A}.Debug|x64.ActiveCfg = Debug|x64
+		{7496D3EB-C2B8-4CA0-99A3-1370FD1A1B9A}.Debug|x64.Build.0 = Debug|x64
+		{7496D3EB-C2B8-4CA0-99A3-1370FD1A1B9A}.Debug|x86.ActiveCfg = Debug|Win32
+		{7496D3EB-C2B8-4CA0-99A3-1370FD1A1B9A}.Debug|x86.Build.0 = Debug|Win32
+		{7496D3EB-C2B8-4CA0-99A3-1370FD1A1B9A}.Release|x64.ActiveCfg = Release|x64
+		{7496D3EB-C2B8-4CA0-99A3-1370FD1A1B9A}.Release|x64.Build.0 = Release|x64
+		{7496D3EB-C2B8-4CA0-99A3-1370FD1A1B9A}.Release|x86.ActiveCfg = Release|Win32
+		{7496D3EB-C2B8-4CA0-99A3-1370FD1A1B9A}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

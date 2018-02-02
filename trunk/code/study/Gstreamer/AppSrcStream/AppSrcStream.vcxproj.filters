@@ -15,13 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\test\sample_unittest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\test\bitstream_test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\test\intrapred_test.cpp">
+    <ClCompile Include="appsrc-stream.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,236 +1,117 @@
-/*
-I don't know if it is syntax highlighter or blogger, but I can't seem to
-put angle brackets around header file names properly.
+/* GStreamer
+*
+* appsrc_ex.c: example for using appsrc and appsink linked.
+*
+* Copyright (C) 2007 David Schleef <ds@schleef.org>
+*
+* This library is free software; you can redistribute it and/or
+* modify it under the terms of the GNU Library General Public
+* License as published by the Free Software Foundation; either
+* version 2 of the License, or (at your option) any later version.
+*
+* This library is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+* Library General Public License for more details.
+*
+* You should have received a copy of the GNU Library General Public
+* License along with this library; if not, write to the
+* Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+* Boston, MA 02110-1301, USA.
 */
-#include <stdio.h> 
+
+
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include <gst/gst.h>
+#include <gst/app/gstappsrc.h>
+#include <gst/app/gstappsink.h>
+
+#include <stdio.h>
 #include <string.h>
-#include <gst/gst.h>  
-#include <gst/app/gstappsrc.h>  
+#include <stdlib.h>
 
-typedef struct {
-	GstPipeline *pipeline;
-	GstAppSrc *src;
+
+typedef struct _App App;
+struct _App
+{
+	GstElement *pipe;
+	GstElement *src;
+	GstElement *id;
 	GstElement *sink;
-	GstElement *decoder;
-	GstElement *ffmpeg;
-	GstElement *videosink;
-	GMainLoop *loop;
-	guint sourceid;
-	FILE *file;
-}gst_app_t;
+};
 
-static gst_app_t gst_app;
+App s_app;
 
-#define BUFF_SIZE (1024)  
-
-static gboolean read_data(gst_app_t *app)
+int
+main(int argc, char *argv[])
 {
-	GstBuffer *buffer;
-	gpointer ptr;
-	gint size,buf_size;
-	GstFlowReturn ret;
-	GstMapInfo map_info;
+	App *app = &s_app;
+	int i;
 
-	ptr = g_malloc(BUFF_SIZE);
-	g_assert(ptr);
-	//g_print("read data...................\n");  
+	gst_init(&argc, &argv);
 
-	size = fread(ptr, 1, BUFF_SIZE, app->file);
+	app->pipe = gst_pipeline_new(NULL);
+	g_assert(app->pipe);
 
-	if (size == 0) {
-		ret = gst_app_src_end_of_stream(app->src);
-		g_debug("eos returned %d at %d\n", ret, __LINE__);
-		return FALSE;
-	}
-
-	buffer = gst_buffer_new_allocate(NULL, BUFF_SIZE, NULL);
-	gst_buffer_make_writable(buffer);
-	gst_buffer_map(buffer, &map_info, GST_MAP_WRITE);
-	buf_size = gst_buffer_get_size(buffer);
-	
-	memcpy(map_info.data, ptr, size);
-	
-	//GST_BUFFER_MALLOCDATA(buffer) = ptr;
-	//GST_BUFFER_SIZE(buffer) = size;
-	//GST_BUFFER_DATA(buffer) = GST_BUFFER_MALLOCDATA(buffer);
-
-	ret = gst_app_src_push_buffer(app->src, buffer);
-
-	gst_buffer_unmap(buffer, &map_info);
-	g_free(ptr);
-
-	if (ret != GST_FLOW_OK) {
-		g_debug("push buffer returned %d for %d bytes \n", ret, size);
-		return FALSE;
-	}
-
-	if (size != BUFF_SIZE) {
-		ret = gst_app_src_end_of_stream(app->src);
-		g_debug("eos returned %d at %d\n", ret, __LINE__);
-		return FALSE;
-	}
-
-	return TRUE;
-}
-
-static void start_feed(GstElement * pipeline, guint size, gst_app_t *app)
-{
-	g_print("start feed...................\n");
-	if (app->sourceid == 0) {
-		GST_DEBUG("start feeding");
-		app->sourceid = g_idle_add((GSourceFunc)read_data, app);
-	}
-}
-
-static void stop_feed(GstElement * pipeline, gst_app_t *app)
-{
-	g_print("stop feed...................\n");
-	if (app->sourceid != 0) {
-		GST_DEBUG("stop feeding");
-		g_source_remove(app->sourceid);
-		app->sourceid = 0;
-	}
-}
-
-static void on_pad_added(GstElement *element, GstPad *pad)
-{
-	GstCaps *caps;
-	GstStructure *str;
-	gchar *name;
-	GstPad *ffmpegsink;
-	GstPadLinkReturn ret;
-
-	g_debug("pad added");
-
-	caps = gst_pad_get_current_caps(pad);
-	str = gst_caps_get_structure(caps, 0);
-
-	g_assert(str);
-
-	name = (gchar*)gst_structure_get_name(str);
-
-	g_debug("pad name %s", name);
-
-	if (g_strrstr(name, "video")) {
-
-		//ffmpegsink = gst_element_get_pad(gst_app.ffmpeg, "sink");
-		ffmpegsink = gst_element_get_static_pad(gst_app.ffmpeg, "sink");
-		g_assert(ffmpegsink);
-		ret = gst_pad_link(pad, ffmpegsink);
-		g_debug("pad_link returned %d\n", ret);
-		gst_object_unref(ffmpegsink);
-	}
-	gst_caps_unref(caps);
-}
-
-static gboolean bus_callback(GstBus *bus, GstMessage *message, gpointer *ptr)
-{
-	gst_app_t *app = (gst_app_t*)ptr;
-
-	switch (GST_MESSAGE_TYPE(message)) {
-
-	case GST_MESSAGE_ERROR: {
-		gchar *debug;
-		GError *err;
-
-		gst_message_parse_error(message, &err, &debug);
-		g_print("Error %s\n", err->message);
-		g_error_free(err);
-		g_free(debug);
-		g_main_loop_quit(app->loop);
-	}
-							break;
-
-	case GST_MESSAGE_WARNING: {
-		gchar *debug;
-		GError *err;
-		gchar *name;
-
-		gst_message_parse_warning(message, &err, &debug);
-		g_print("Warning %s\nDebug %s\n", err->message, debug);
-
-		name = GST_MESSAGE_SRC_NAME(message);
-
-		g_print("Name of src %s\n", name ? name : "nil");
-		g_error_free(err);
-		g_free(debug);
-	}
-							  break;
-
-	case GST_MESSAGE_EOS:
-		g_print("End of stream\n");
-		g_main_loop_quit(app->loop);
-		break;
-
-	case GST_MESSAGE_STATE_CHANGED:
-		break;
-
-	default:
-		g_print("got message %s\n", \
-			gst_message_type_get_name(GST_MESSAGE_TYPE(message)));
-		break;
-	}
-
-	return TRUE;
-}
-
-int main(int argc, char *argv[])
-{
-	gst_app_t *app = &gst_app;
-	GstBus *bus;
-	GstStateChangeReturn state_ret;
-
-	if (argc != 2) {
-		printf("File name not specified\n");
-		return 1;
-	}
-
-	app->file = fopen(argv[1], "r");
-
-	g_assert(app->file);
-
-	gst_init(NULL, NULL);
-
-	app->pipeline = (GstPipeline*)gst_pipeline_new("mypipeline");
-	bus = gst_pipeline_get_bus(app->pipeline);
-	gst_bus_add_watch(bus, (GstBusFunc)bus_callback, app);
-	gst_object_unref(bus);
-
-	app->src = (GstAppSrc*)gst_element_factory_make("appsrc", "mysrc");
-	app->decoder = gst_element_factory_make("decodebin3", "mydecoder");
-	app->ffmpeg = gst_element_factory_make("glcolorconvert", "myffmpeg");
-	app->videosink = gst_element_factory_make("autovideosink", "myvsink");
-
+	app->src = gst_element_factory_make("appsrc", NULL);
 	g_assert(app->src);
-	g_assert(app->decoder);
-	g_assert(app->ffmpeg);
-	g_assert(app->videosink);
+	gst_bin_add(GST_BIN(app->pipe), app->src);
 
-	g_signal_connect(app->src, "need-data", G_CALLBACK(start_feed), app);
-	g_signal_connect(app->src, "enough-data", G_CALLBACK(stop_feed), app);
-	g_signal_connect(app->decoder, "pad-added",
-		G_CALLBACK(on_pad_added), app->decoder);
+	app->id = gst_element_factory_make("identity", NULL);
+	g_assert(app->id);
+	gst_bin_add(GST_BIN(app->pipe), app->id);
 
-	gst_bin_add_many(GST_BIN(app->pipeline), (GstElement*)app->src,
-		app->decoder, app->ffmpeg, app->videosink, NULL);
+	app->sink = gst_element_factory_make("appsink", NULL);
+	g_assert(app->sink);
+	gst_bin_add(GST_BIN(app->pipe), app->sink);
 
-	if (!gst_element_link((GstElement*)app->src, app->decoder)) {
-		g_warning("failed to link src anbd decoder");
+	gst_element_link(app->src, app->id);
+	gst_element_link(app->id, app->sink);
+
+	gst_element_set_state(app->pipe, GST_STATE_PLAYING);
+
+	for (i = 0; i < 10; i++) {
+		GstBuffer *buf;
+		GstMapInfo map;
+
+		buf = gst_buffer_new_and_alloc(100);
+		gst_buffer_map(buf, &map, GST_MAP_WRITE);
+		memset(map.data, i, 100);
+		gst_buffer_unmap(buf, &map);
+
+		printf("%d: pushing buffer for pointer %p, %p\n", i, map.data, buf);
+		gst_app_src_push_buffer(GST_APP_SRC(app->src), buf);
 	}
 
-	if (!gst_element_link(app->ffmpeg, app->videosink)) {
-		g_warning("failed to link ffmpeg and xvsink");
+	/* push EOS */
+	gst_app_src_end_of_stream(GST_APP_SRC(app->src));
+
+	/* _is_eos() does not block and returns TRUE if there is not currently an EOS
+	* to be retrieved */
+	while (!gst_app_sink_is_eos(GST_APP_SINK(app->sink))) {
+		GstSample *sample;
+		GstMapInfo map;
+		GstBuffer *sample_buf;
+		gsize sample_buf_size;
+
+		/* pull the next item, this can return NULL when there is no more data and
+		* EOS has been received */
+		sample = gst_app_sink_pull_sample(GST_APP_SINK(app->sink));
+		sample_buf = gst_sample_get_buffer(sample);
+		sample_buf_size = gst_buffer_get_size(sample_buf);
+		if (gst_buffer_map(sample_buf, &map, GST_MAP_READ)) {
+			printf("retrieved sample %p, datasize = %lld, data[0]=%ld \n", sample, sample_buf_size, map.data[0]);
+		}
+		else {
+			printf("Can not read Buffer from sample_buf\n");
+		}
+		if (sample)
+			gst_sample_unref(sample);
 	}
-
-	state_ret = gst_element_set_state((GstElement*)app->pipeline, GST_STATE_PLAYING);
-	g_warning("set state returned %d\n", state_ret);
-
-	app->loop = g_main_loop_new(NULL, FALSE);
-
-	g_main_loop_run(app->loop);
-
-	state_ret = gst_element_set_state((GstElement*)app->pipeline, GST_STATE_NULL);
-	g_warning("set state null returned %d\n", state_ret);
+	gst_element_set_state(app->pipe, GST_STATE_NULL);
 
 	return 0;
 }
