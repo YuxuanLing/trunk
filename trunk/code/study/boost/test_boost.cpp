@@ -30,7 +30,7 @@ int main()
     boost::thread thread1(&func1);
     boost::thread thread2(&func2);
 
-    system("read");
+    system("read continue");
     isRuning = false;
 
     thread2.join();
