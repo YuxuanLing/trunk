@@ -13,6 +13,14 @@ class Person {
 		Person():name(""), age(0) {
 		
 		}
+		
+		Person(const Person &other) {
+			name = other.name;
+			age  = other.age;
+			cout <<"Copy constructor running : "<< name << "  "<< age<<endl;
+		
+		}
+
 
 		Person(string name, int age):name(name), age(age) {
 		
@@ -34,6 +42,8 @@ int main() {
 	people[50] = Person("Mike",40);
 	people[1] = Person("Vicky",30);
 	people[32] = Person("Raj",20);
+
+	people.insert(make_pair(55,Person("Bob", 45)))
 
 	for(map<int ,Person>::iterator it = people.begin(); it != people.end();
 			it++) {
