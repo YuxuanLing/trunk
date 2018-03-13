@@ -14,12 +14,12 @@ class Person {
 		
 		}
 		
-		Person(const Person &other) {
-			name = other.name;
-			age  = other.age;
-			cout <<"Copy constructor running : "<< name << "  "<< age<<endl;
-		
-		}
+//		Person(const Person &other) {
+//			name = other.name;
+//			age  = other.age;
+//			cout <<"Copy constructor running : "<< name << "  "<< age<<endl;
+//		
+//		}
 
 
 		Person(string name, int age):name(name), age(age) {
@@ -28,29 +28,36 @@ class Person {
 
 		void print() const {
 		
-			cout << "name :" << name << "  age: " << age <<endl;
+			cout << "name :" << name << "  age: " << age <<flush;
 		}
 
 
+		bool operator <(const Person &other) const {
+			if(name == other.name) {
+				return age < other.age;
+			}else {
+			    return name < other.name; 
+			}
+		}
 };
 
 
 int main() {
 
-	map<int, Person> people;
+	map<Person,int> people;
+	people[Person("Mike",40)] = 40;
+	people[Person("Mike",450)] = 123;
+	people[Person("Vicky",30)] = 30;
+	people[Person("Raj",20)] = 20;
 
-	people[50] = Person("Mike",40);
-	people[1] = Person("Vicky",30);
-	people[32] = Person("Raj",20);
+	//people.insert(make_pair(55,Person("Bob", 45)));
 
-	people.insert(make_pair(55,Person("Bob", 45)))
-
-	for(map<int ,Person>::iterator it = people.begin(); it != people.end();
+	for(map<Person ,int>::iterator it = people.begin(); it != people.end();
 			it++) {
-		cout << it->first << ":" << flush;	
-	 	it->second.print();
+		cout << it->second<< ":" << flush;	
+	 	it->first.print();
+		cout<<endl;
 	}
-
 
 
 }
