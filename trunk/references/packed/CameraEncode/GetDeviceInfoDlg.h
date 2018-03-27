@@ -53,9 +53,9 @@ if ( NULL != x ) \
 
 struct ImgDeviceInfo
 {
-	CString strDevicePidVid;		//设备PIDVID
-	CString strDeviceName;			//设备名称
-	int nDeviceIndex;				//设备序号
+	CString strDevicePidVid;		
+	CString strDeviceName;			
+	int nDeviceIndex;				
 
 	ImgDeviceInfo()
 	{
@@ -81,9 +81,9 @@ typedef CArray <ImgDeviceInfo, ImgDeviceInfo&> ASImgDeviceInfoArray;
 
 struct CamResolutionInfo
 {
-	int nWidth;				//分辨率宽
-	int nHeight;			//分辨率高
-	int nResolutionIndex;	//分辨率序号
+	int nWidth;
+	int nHeight;
+	int nResolutionIndex;
 
 	CamResolutionInfo()
 	{

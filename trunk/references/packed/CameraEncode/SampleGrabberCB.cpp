@@ -19,6 +19,18 @@ CSampleGrabberCB::CSampleGrabberCB(void)
 
 CSampleGrabberCB::~CSampleGrabberCB(void)
 {
+	if (NULL != m_fp_dst)fclose(m_fp_dst);
+	if (NULL != m_pParam)free(m_pParam);
+	if (NULL != m_pPic_in)free(m_pPic_in);
+	if (NULL != m_pPic_out)free(m_pPic_out);
+	if (NULL != m_pHandle)free(m_pHandle);
+
+	m_fp_dst = NULL;
+	m_pParam = NULL;
+	m_pPic_in = NULL;
+	m_pPic_out = NULL;
+	m_pHandle = NULL;
+
 }
 
 ULONG STDMETHODCALLTYPE CSampleGrabberCB::AddRef() 
@@ -44,6 +56,26 @@ HRESULT STDMETHODCALLTYPE CSampleGrabberCB::QueryInterface(REFIID riid, void ** 
 
 HRESULT STDMETHODCALLTYPE CSampleGrabberCB::SampleCB(double SampleTime, IMediaSample *pSample)
 {
+	long BuffLen = pSample->GetActualDataLength();
+	BYTE *pBuff;
+	CTime time = CTime::GetCurrentTime();
+	CString strSuffix = time.Format("%Y%m%d_%H%M%S_yxling.yuv");
+	CString strSavePath = _T("");
+	strSavePath.Format(_T("%s%s"), m_sSavePath, strSuffix);
+	USES_CONVERSION;
+	string strFullPath = W2A(strSavePath);
+	pSample->GetPointer(&pBuff);
+	if (m_bBeginEncode) {
+		if(m_fp_dst == NULL)m_fp_dst = fopen(strFullPath.c_str(), "wb+");
+		if (m_fp_dst && pSample) {
+			fwrite(pBuff, 1, BuffLen, m_fp_dst);
+		}
+		//if(m_fp_dst != NULL)fclose(m_fp_dst);
+		//m_fp_dst = NULL;
+
+	}
+
+
 
 	return 0;
 }
@@ -238,11 +270,9 @@ BOOL CSampleGrabberCB::RGB2YUV(LPBYTE RgbBuf, UINT nWidth, UINT nHeight, LPBYTE 
                     u = 0;  
                 }  
                 *(bufU++) =u;  
-                //存u分量  
             }  
             else  
             {  
-                //存v分量  
                 if (i%2==0)  
                 {  
                     if (v>255)  
