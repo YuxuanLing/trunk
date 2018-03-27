@@ -12,7 +12,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0463C12B-8B58-42C1-8DB5-7770CCA1131D}</ProjectGuid>
-    <RootNamespace>GetDeviceInfo</RootNamespace>
+    <RootNamespace>DsCapture</RootNamespace>
     <Keyword>MFCProj</Keyword>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
     <ProjectName>DsCapture</ProjectName>
@@ -131,13 +131,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="GetDeviceInfo.rc" />
+    <ResourceCompile Include="DsCapture.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\GetDeviceInfo.rc2" />
+    <None Include="res\DsCapture.rc2" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\GetDeviceInfo.ico" />
+    <Image Include="res\DsCapture.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

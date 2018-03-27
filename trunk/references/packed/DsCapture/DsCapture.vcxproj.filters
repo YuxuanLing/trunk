@@ -52,17 +52,17 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="GetDeviceInfo.rc">
+    <ResourceCompile Include="DsCapture.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\GetDeviceInfo.rc2">
+    <None Include="res\DsCapture.rc2">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\GetDeviceInfo.ico">
+    <Image Include="res\DsCapture.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
