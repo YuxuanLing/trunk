@@ -1,5 +1,11 @@
 #pragma once
+#pragma include_alias( "dxtrans.h", "qedit.h" )
+#define __IDxtCompositor_INTERFACE_DEFINED__
+#define __IDxtAlphaSetter_INTERFACE_DEFINED__
+#define __IDxtJpeg_INTERFACE_DEFINED__
+#define __IDxtKey_INTERFACE_DEFINED__
 #include "qedit.h"
+
 class CSampleGrabberCB :
 	public ISampleGrabberCB
 {
