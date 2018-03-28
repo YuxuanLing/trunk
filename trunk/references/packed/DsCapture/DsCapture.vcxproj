@@ -95,6 +95,7 @@
     <LinkIncremental>false</LinkIncremental>
     <LibraryPath>C:\DXSDK\Lib;D:\JYSoft\application\CameraEncode\lib;$(LibraryPath)</LibraryPath>
     <IncludePath>D:\JYSoft\application\CameraEncode\include;$(IncludePath);C:\DXSDK\Include</IncludePath>
+    <OutDir>.\bin\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

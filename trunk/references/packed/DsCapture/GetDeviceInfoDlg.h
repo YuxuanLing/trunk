@@ -43,6 +43,36 @@ struct ImgDeviceInfo
 };
 typedef CArray <ImgDeviceInfo, ImgDeviceInfo&> ASImgDeviceInfoArray;
 
+
+struct YuvFormatInfo
+{
+	CString strFormatName;
+	GUID    guidFormat;
+	int nFormatIndex;
+
+	YuvFormatInfo()
+	{
+		strFormatName = _T("YUV2");
+		guidFormat = MEDIASUBTYPE_YUY2;
+		nFormatIndex = 0;
+	};
+
+	YuvFormatInfo(const YuvFormatInfo &other)
+	{
+		*this = other;
+	};
+
+	YuvFormatInfo& operator = (const YuvFormatInfo& other)
+	{
+
+		strFormatName = other.strFormatName;
+		guidFormat = other.guidFormat;
+		nFormatIndex = other.nFormatIndex;
+		return *this;
+	};
+};
+typedef CArray <YuvFormatInfo, YuvFormatInfo&> ASYuvFormatInfoArray;
+
 struct CamResolutionInfo
 {
 	int nWidth;
@@ -127,6 +157,7 @@ public:
 	ASImgDeviceInfoArray m_asCompressDeviceInfo;
 	ASImgDeviceInfoArray m_asAudioCompressorInfo;
 	ASCamResolutionInfoArray m_arrCamResolutionArr;
+	ASYuvFormatInfoArray     m_yuvFormatArr;
 	IGraphBuilder *m_pGraphBuilder;
     ICaptureGraphBuilder2* m_pCapture;
 	IMediaControl  *m_pMediaControl;

@@ -50,6 +50,7 @@ CGetDeviceInfoDlg::CGetDeviceInfoDlg(CWnd* pParent /*=NULL*/)
 	m_asCompressDeviceInfo.RemoveAll();
 	m_asAudioCompressorInfo.RemoveAll();
 	m_arrCamResolutionArr.RemoveAll();
+	m_yuvFormatArr.RemoveAll();
 	m_pGraphBuilder = NULL;
 	m_pCapture = NULL;
 	m_pMediaControl = NULL;
@@ -668,17 +669,21 @@ void CGetDeviceInfoDlg::OnBnClickedBtnPreview()
 			return;
 		}
 		GUID subFormatType;
-		switch (nSel)
+		bool foundFormat = false;
+
+		for (int i = 0; i < m_yuvFormatArr.GetSize(); i++)
 		{
-		   case 0:
-		   	 subFormatType = MEDIASUBTYPE_YUY2;
-		   	 break;
-		   case 1:
-		   	 subFormatType = MEDIASUBTYPE_NV12;
-		   	 break;
-		   default:
-			 subFormatType = MEDIASUBTYPE_YUY2;
-		   	 break;
+			if (nSel == m_yuvFormatArr.GetAt(i).nFormatIndex) {
+				foundFormat = true;
+				subFormatType = m_yuvFormatArr.GetAt(i).guidFormat;
+				break;
+			}
+		}
+
+		if (!foundFormat)
+		{
+			MessageBox(_T("Can not Found Selected Format!"), _T("Attention"));
+			return;
 		}
 
 		pmt->majortype = MEDIATYPE_Video;	
@@ -798,7 +803,6 @@ void CGetDeviceInfoDlg::GetVideoResolution()
 				hr = pConfig->GetStreamCaps(iFormat, &pmtConfig, (BYTE*)&scc);
 				if (SUCCEEDED(hr))
 				{
-					//(pmtConfig->subtype == MEDIASUBTYPE_RGB24) &&
 					if ((pmtConfig->majortype == MEDIATYPE_Video) &&
 						(pmtConfig->formattype == FORMAT_VideoInfo) &&
 						(pmtConfig->cbFormat >= sizeof (VIDEOINFOHEADER)) &&
@@ -831,8 +835,6 @@ void CGetDeviceInfoDlg::GetVideoResolution()
 							m_cbxResolutionCtrl.AddString(strFormat);
 						}
 					}
-
-					// Delete the media type when you are done.
 					FreeMediaType(pmtConfig);
 				}
 			}
@@ -845,16 +847,119 @@ void CGetDeviceInfoDlg::GetVideoResolution()
 }
 
 
+bool ConvertYuvGuidToStrName(YuvFormatInfo &info)
+{
+	if (info.guidFormat == MEDIASUBTYPE_YUY2)
+	{
+		info.strFormatName = _T("YUV2");
+	}
+	else if(info.guidFormat == MEDIASUBTYPE_YUYV)
+	{
+		info.strFormatName = _T("YUYV");
+	}
+	else if (info.guidFormat == MEDIASUBTYPE_RGB24)
+	{
+		info.strFormatName = _T("RGB24");
+	}
+	else if (info.guidFormat == MEDIASUBTYPE_RGB32)
+	{
+		info.strFormatName = _T("RGB32");
+	}
+	else if (info.guidFormat == MEDIASUBTYPE_MJPG)
+	{
+		info.strFormatName = _T("MJPG");
+	}
+	else if (info.guidFormat == MEDIASUBTYPE_H264)
+	{
+		info.strFormatName = _T("H264");
+	}
+	else if (info.guidFormat == MEDIASUBTYPE_NV12)
+	{
+		info.strFormatName = _T("NV12");
+	}
+	else
+	{
+		//AfxMessageBox(_T("Found a not listed Capture Format"));
+		return false;
+	}
+	
+	return true;
+	
+}
+
 void CGetDeviceInfoDlg::GetDsCaptureFormat()
 {
-	CString strFormat = _T("YUV2");
-	m_cbxFormatCtrl.AddString(strFormat);
-	strFormat = _T("NV12");
-	m_cbxFormatCtrl.AddString(strFormat);
 
-	if (m_cbxFormatCtrl.GetCount() > 0)
-	{
-		m_cbxFormatCtrl.SetCurSel(0);
+	if (m_pCapture) {
+		m_yuvFormatArr.RemoveAll();
+		m_cbxFormatCtrl.ResetContent();
+		//add a default format yuv2, Todo: fix it
+		YuvFormatInfo defaultFormat;
+		defaultFormat.strFormatName = _T("YUV2");
+		defaultFormat.guidFormat = MEDIASUBTYPE_YUY2;
+		defaultFormat.nFormatIndex = 0;
+		m_yuvFormatArr.Add(defaultFormat);
+		m_cbxFormatCtrl.AddString(defaultFormat.strFormatName);
+
+		IAMStreamConfig *pConfig = NULL;
+		HRESULT hr = m_pCapture->FindInterface(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Video,
+			m_pVideoFilter, IID_IAMStreamConfig, (void **)&pConfig);
+
+
+		int iCount = 0, iSize = 0;
+		hr = pConfig->GetNumberOfCapabilities(&iCount, &iSize);
+
+		if (iSize == sizeof(VIDEO_STREAM_CONFIG_CAPS))
+		{
+			// Use the video capabilities structure.
+			for (int iFormat = 0; iFormat < iCount; iFormat++)
+			{
+				VIDEO_STREAM_CONFIG_CAPS scc;
+				AM_MEDIA_TYPE *pmtConfig = NULL;
+				hr = pConfig->GetStreamCaps(iFormat, &pmtConfig, (BYTE*)&scc);
+				if (SUCCEEDED(hr))
+				{
+					if ((pmtConfig->majortype == MEDIATYPE_Video) &&
+						(pmtConfig->formattype == FORMAT_VideoInfo) &&
+						(pmtConfig->cbFormat >= sizeof(VIDEOINFOHEADER)) &&
+						(pmtConfig->pbFormat != NULL))
+					{
+						BOOL bFind = FALSE;
+						int n = 0;
+						for (n = 0; n < m_yuvFormatArr.GetSize(); n++)
+						{
+							YuvFormatInfo sInfo = m_yuvFormatArr.GetAt(n);
+							if (sInfo.guidFormat == pmtConfig->subtype)
+							{
+								bFind = TRUE;
+								break;
+							}
+						}
+						if (!bFind)
+						{
+							bool ret = true;
+							YuvFormatInfo yuvInfo;
+							yuvInfo.guidFormat = pmtConfig->subtype;
+							yuvInfo.nFormatIndex = m_yuvFormatArr.GetSize();
+							
+							ret = ConvertYuvGuidToStrName(yuvInfo);
+
+							if (ret) {
+								m_yuvFormatArr.Add(yuvInfo);
+								CString strFormat = yuvInfo.strFormatName;
+								m_cbxFormatCtrl.AddString(strFormat);
+							}
+						}
+					}
+					FreeMediaType(pmtConfig);
+				}
+			}		
+		}
+
+		if (m_cbxFormatCtrl.GetCount() > 0)
+		{
+			m_cbxFormatCtrl.SetCurSel(0);
+		}
 	}
 
 }
