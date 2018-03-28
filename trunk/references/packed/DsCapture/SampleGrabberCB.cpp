@@ -54,7 +54,7 @@ HRESULT STDMETHODCALLTYPE CSampleGrabberCB::SampleCB(double SampleTime, IMediaSa
 	string strFullPath = W2A(strSavePath);
 	pSample->GetPointer(&pBuff);
 	if (m_bBeginEncode) {
-		if(m_fp_dst == NULL)m_fp_dst = fopen(strFullPath.c_str(), "wb+");
+		if(m_fp_dst == NULL)fopen_s(&m_fp_dst, strFullPath.c_str(), "wb+");
 		if (m_fp_dst && pSample) {
 			fwrite(pBuff, 1, BuffLen, m_fp_dst);
 		}

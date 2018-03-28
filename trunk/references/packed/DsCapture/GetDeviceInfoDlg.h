@@ -111,6 +111,7 @@ public:
 	HRESULT InitCaptureGraphBuilder(IGraphBuilder **ppGraph, ICaptureGraphBuilder2 **ppBuild);
 	void CreateVideoFilter(CString strSelectedDevice, IBaseFilter **pBaseFilter);
 	void GetVideoResolution();
+	void GetDsCaptureFormat();
 	void FreeMediaType(AM_MEDIA_TYPE *pmt);
 	
 
@@ -120,6 +121,7 @@ public:
 	CComboBox m_cbxCompressCtrl;
 	CComboBox m_cbxAudioCompressor;
 	CComboBox m_cbxResolutionCtrl;
+	CComboBox m_cbxFormatCtrl;
 	ASImgDeviceInfoArray m_asVideoDeviceInfo;
 	ASImgDeviceInfoArray m_asAudioDeviceInfo;
 	ASImgDeviceInfoArray m_asCompressDeviceInfo;

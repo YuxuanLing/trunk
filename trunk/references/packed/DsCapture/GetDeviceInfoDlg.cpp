@@ -70,6 +70,7 @@ void CGetDeviceInfoDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_CBO_COMPRESS_DEVICE, m_cbxCompressCtrl);
 	DDX_Control(pDX, IDC_CBO_AUDIO_COMPRESSOR, m_cbxAudioCompressor);
 	DDX_Control(pDX, IDC_CBO_VIDEO_RESOLUTION, m_cbxResolutionCtrl);
+	DDX_Control(pDX, IDC_CBO_VIDEO_FORMAT, m_cbxFormatCtrl);
 }
 
 BEGIN_MESSAGE_MAP(CGetDeviceInfoDlg, CDialogEx)
@@ -602,7 +603,10 @@ void CGetDeviceInfoDlg::OnBnClickedBtnInit()
 	}
 
 	GetVideoResolution();
+	GetDsCaptureFormat();
 }
+
+
 
 
 void CGetDeviceInfoDlg::OnBnClickedBtnPreview()
@@ -618,7 +622,7 @@ void CGetDeviceInfoDlg::OnBnClickedBtnPreview()
 		int nSel = m_cbxResolutionCtrl.GetCurSel();
 		if (nSel < 0)
 		{
-			MessageBox(_T("GetCurSel Failed"), _T("Attention"));
+			MessageBox(_T("Resolution GetCurSel Failed"), _T("Attention"));
 			return;
 		}
 		CString strResolution = _T("");
@@ -648,6 +652,7 @@ void CGetDeviceInfoDlg::OnBnClickedBtnPreview()
 			}
 		}
 
+		/*****************************************************************/
 		IAMStreamConfig *pConfig = NULL;  
 		m_pCapture->FindInterface(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Video, 
 							m_pVideoFilter, IID_IAMStreamConfig, (void **) &pConfig);
@@ -656,8 +661,28 @@ void CGetDeviceInfoDlg::OnBnClickedBtnPreview()
 		VIDEO_STREAM_CONFIG_CAPS scc;
 		pConfig->GetStreamCaps(nResolutionIndex, &pmt, (BYTE*)&scc);
 
+		nSel = m_cbxFormatCtrl.GetCurSel();
+		if (nSel < 0)
+		{
+			MessageBox(_T("Format GetCurSel Failed"), _T("Attention"));
+			return;
+		}
+		GUID subFormatType;
+		switch (nSel)
+		{
+		   case 0:
+		   	 subFormatType = MEDIASUBTYPE_YUY2;
+		   	 break;
+		   case 1:
+		   	 subFormatType = MEDIASUBTYPE_NV12;
+		   	 break;
+		   default:
+			 subFormatType = MEDIASUBTYPE_YUY2;
+		   	 break;
+		}
+
 		pmt->majortype = MEDIATYPE_Video;	
-		pmt->subtype = MEDIASUBTYPE_YUY2;  //YUYV
+		pmt->subtype = subFormatType;
 		pmt->formattype = FORMAT_VideoInfo;
 
 		pConfig->SetFormat(pmt);
@@ -678,6 +703,8 @@ void CGetDeviceInfoDlg::OnBnClickedBtnPreview()
 		m_pGrabber->SetCallback(&mCB, 0);
 
 
+
+		/*****************************************************************/
 		hr = m_pCapture->RenderStream(&PIN_CATEGORY_PREVIEW, &MEDIATYPE_Video, m_pVideoFilter, m_pGrabberFilter, NULL);
 		if( FAILED(hr))
 		{
@@ -816,6 +843,23 @@ void CGetDeviceInfoDlg::GetVideoResolution()
 		}
 	}
 }
+
+
+void CGetDeviceInfoDlg::GetDsCaptureFormat()
+{
+	CString strFormat = _T("YUV2");
+	m_cbxFormatCtrl.AddString(strFormat);
+	strFormat = _T("NV12");
+	m_cbxFormatCtrl.AddString(strFormat);
+
+	if (m_cbxFormatCtrl.GetCount() > 0)
+	{
+		m_cbxFormatCtrl.SetCurSel(0);
+	}
+
+}
+
+
 
 void CGetDeviceInfoDlg::FreeMediaType(AM_MEDIA_TYPE *pmt)
 {
