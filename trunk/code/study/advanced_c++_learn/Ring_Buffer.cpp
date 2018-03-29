@@ -18,16 +18,16 @@ int main(){
 		cout << textring.get(i) << endl;
 	}
    
-
+    //C++ 98
 	for(ring<string>::iterator it = textring.begin(); it!=textring.end();it++)
 	{
 		cout << *it << endl;
 	
 	}
 
-	cout << endl;
-
-	for(string value: textring) {
+	cout << endl << endl;
+    //C++ 11 style
+	for(auto value: textring) {
 		cout << value << endl;
 	}
 
