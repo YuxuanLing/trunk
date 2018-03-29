@@ -833,60 +833,60 @@ EXTERN_C const IID IID_IDxtCompositor;
 
 #if defined(__cplusplus) && !defined(CINTERFACE)
     
-    //MIDL_INTERFACE("BB44391E-6ABD-422f-9E2E-385C9DFF51FC")
-    //IDxtCompositor : public IDXEffect
-    //{
-    //public:
-    //    virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_OffsetX( 
-    //        /* [retval][out] */ __RPC__out long *pVal) = 0;
-    //    
-    //    virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_OffsetX( 
-    //        /* [in] */ long newVal) = 0;
-    //    
-    //    virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_OffsetY( 
-    //        /* [retval][out] */ __RPC__out long *pVal) = 0;
-    //    
-    //    virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_OffsetY( 
-    //        /* [in] */ long newVal) = 0;
-    //    
-    //    virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Width( 
-    //        /* [retval][out] */ __RPC__out long *pVal) = 0;
-    //    
-    //    virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Width( 
-    //        /* [in] */ long newVal) = 0;
-    //    
-    //    virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Height( 
-    //        /* [retval][out] */ __RPC__out long *pVal) = 0;
-    //    
-    //    virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Height( 
-    //        /* [in] */ long newVal) = 0;
-    //    
-    //    virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_SrcOffsetX( 
-    //        /* [retval][out] */ __RPC__out long *pVal) = 0;
-    //    
-    //    virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_SrcOffsetX( 
-    //        /* [in] */ long newVal) = 0;
-    //    
-    //    virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_SrcOffsetY( 
-    //        /* [retval][out] */ __RPC__out long *pVal) = 0;
-    //    
-    //    virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_SrcOffsetY( 
-    //        /* [in] */ long newVal) = 0;
-    //    
-    //    virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_SrcWidth( 
-    //        /* [retval][out] */ __RPC__out long *pVal) = 0;
-    //    
-    //    virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_SrcWidth( 
-    //        /* [in] */ long newVal) = 0;
-    //    
-    //    virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_SrcHeight( 
-    //        /* [retval][out] */ __RPC__out long *pVal) = 0;
-    //    
-    //    virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_SrcHeight( 
-    //        /* [in] */ long newVal) = 0;
-    //    
-    //};
-	
+    MIDL_INTERFACE("BB44391E-6ABD-422f-9E2E-385C9DFF51FC")
+    IDxtCompositor : public IDXEffect
+    {
+    public:
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_OffsetX( 
+            /* [retval][out] */ __RPC__out long *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_OffsetX( 
+            /* [in] */ long newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_OffsetY( 
+            /* [retval][out] */ __RPC__out long *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_OffsetY( 
+            /* [in] */ long newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Width( 
+            /* [retval][out] */ __RPC__out long *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Width( 
+            /* [in] */ long newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Height( 
+            /* [retval][out] */ __RPC__out long *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Height( 
+            /* [in] */ long newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_SrcOffsetX( 
+            /* [retval][out] */ __RPC__out long *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_SrcOffsetX( 
+            /* [in] */ long newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_SrcOffsetY( 
+            /* [retval][out] */ __RPC__out long *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_SrcOffsetY( 
+            /* [in] */ long newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_SrcWidth( 
+            /* [retval][out] */ __RPC__out long *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_SrcWidth( 
+            /* [in] */ long newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_SrcHeight( 
+            /* [retval][out] */ __RPC__out long *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_SrcHeight( 
+            /* [in] */ long newVal) = 0;
+        
+    };
+    
 #else 	/* C style interface */
 
     typedef struct IDxtCompositorVtbl
@@ -1147,23 +1147,23 @@ EXTERN_C const IID IID_IDxtAlphaSetter;
 
 #if defined(__cplusplus) && !defined(CINTERFACE)
     
-    //MIDL_INTERFACE("4EE9EAD9-DA4D-43d0-9383-06B90C08B12B")
-    //IDxtAlphaSetter : public IDXEffect
-    //{
-    //public:
-    //    virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Alpha( 
-    //        /* [retval][out] */ __RPC__out long *pVal) = 0;
-    //    
-    //    virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Alpha( 
-    //        /* [in] */ long newVal) = 0;
-    //    
-    //    virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_AlphaRamp( 
-    //        /* [retval][out] */ __RPC__out double *pVal) = 0;
-    //    
-    //    virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_AlphaRamp( 
-    //        /* [in] */ double newVal) = 0;
-    //    
-    //};
+    MIDL_INTERFACE("4EE9EAD9-DA4D-43d0-9383-06B90C08B12B")
+    IDxtAlphaSetter : public IDXEffect
+    {
+    public:
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Alpha( 
+            /* [retval][out] */ __RPC__out long *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Alpha( 
+            /* [in] */ long newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_AlphaRamp( 
+            /* [retval][out] */ __RPC__out double *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_AlphaRamp( 
+            /* [in] */ double newVal) = 0;
+        
+    };
     
 #else 	/* C style interface */
 
@@ -1341,82 +1341,82 @@ EXTERN_C const IID IID_IDxtJpeg;
 
 #if defined(__cplusplus) && !defined(CINTERFACE)
     
-    //MIDL_INTERFACE("DE75D011-7A65-11D2-8CEA-00A0C9441E20")
-    //IDxtJpeg : public IDXEffect
-    //{
-    //public:
-    //    virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_MaskNum( 
-    //        /* [retval][out] */ __RPC__out long *__MIDL__IDxtJpeg0000) = 0;
-    //    
-    //    virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_MaskNum( 
-    //        /* [in] */ long __MIDL__IDxtJpeg0001) = 0;
-    //    
-    //    virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_MaskName( 
-    //        /* [retval][out] */ __RPC__deref_out_opt BSTR *pVal) = 0;
-    //    
-    //    virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_MaskName( 
-    //        /* [in] */ __RPC__in BSTR newVal) = 0;
-    //    
-    //    virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_ScaleX( 
-    //        /* [retval][out] */ __RPC__out double *__MIDL__IDxtJpeg0002) = 0;
-    //    
-    //    virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_ScaleX( 
-    //        /* [in] */ double __MIDL__IDxtJpeg0003) = 0;
-    //    
-    //    virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_ScaleY( 
-    //        /* [retval][out] */ __RPC__out double *__MIDL__IDxtJpeg0004) = 0;
-    //    
-    //    virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_ScaleY( 
-    //        /* [in] */ double __MIDL__IDxtJpeg0005) = 0;
-    //    
-    //    virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_OffsetX( 
-    //        /* [retval][out] */ __RPC__out long *__MIDL__IDxtJpeg0006) = 0;
-    //    
-    //    virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_OffsetX( 
-    //        /* [in] */ long __MIDL__IDxtJpeg0007) = 0;
-    //    
-    //    virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_OffsetY( 
-    //        /* [retval][out] */ __RPC__out long *__MIDL__IDxtJpeg0008) = 0;
-    //    
-    //    virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_OffsetY( 
-    //        /* [in] */ long __MIDL__IDxtJpeg0009) = 0;
-    //    
-    //    virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_ReplicateX( 
-    //        /* [retval][out] */ __RPC__out long *pVal) = 0;
-    //    
-    //    virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_ReplicateX( 
-    //        /* [in] */ long newVal) = 0;
-    //    
-    //    virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_ReplicateY( 
-    //        /* [retval][out] */ __RPC__out long *pVal) = 0;
-    //    
-    //    virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_ReplicateY( 
-    //        /* [in] */ long newVal) = 0;
-    //    
-    //    virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_BorderColor( 
-    //        /* [retval][out] */ __RPC__out long *pVal) = 0;
-    //    
-    //    virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_BorderColor( 
-    //        /* [in] */ long newVal) = 0;
-    //    
-    //    virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_BorderWidth( 
-    //        /* [retval][out] */ __RPC__out long *pVal) = 0;
-    //    
-    //    virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_BorderWidth( 
-    //        /* [in] */ long newVal) = 0;
-    //    
-    //    virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_BorderSoftness( 
-    //        /* [retval][out] */ __RPC__out long *pVal) = 0;
-    //    
-    //    virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_BorderSoftness( 
-    //        /* [in] */ long newVal) = 0;
-    //    
-    //    virtual HRESULT STDMETHODCALLTYPE ApplyChanges( void) = 0;
-    //    
-    //    virtual HRESULT STDMETHODCALLTYPE LoadDefSettings( void) = 0;
-    //    
-    //};
-    //
+    MIDL_INTERFACE("DE75D011-7A65-11D2-8CEA-00A0C9441E20")
+    IDxtJpeg : public IDXEffect
+    {
+    public:
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_MaskNum( 
+            /* [retval][out] */ __RPC__out long *__MIDL__IDxtJpeg0000) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_MaskNum( 
+            /* [in] */ long __MIDL__IDxtJpeg0001) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_MaskName( 
+            /* [retval][out] */ __RPC__deref_out_opt BSTR *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_MaskName( 
+            /* [in] */ __RPC__in BSTR newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_ScaleX( 
+            /* [retval][out] */ __RPC__out double *__MIDL__IDxtJpeg0002) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_ScaleX( 
+            /* [in] */ double __MIDL__IDxtJpeg0003) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_ScaleY( 
+            /* [retval][out] */ __RPC__out double *__MIDL__IDxtJpeg0004) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_ScaleY( 
+            /* [in] */ double __MIDL__IDxtJpeg0005) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_OffsetX( 
+            /* [retval][out] */ __RPC__out long *__MIDL__IDxtJpeg0006) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_OffsetX( 
+            /* [in] */ long __MIDL__IDxtJpeg0007) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_OffsetY( 
+            /* [retval][out] */ __RPC__out long *__MIDL__IDxtJpeg0008) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_OffsetY( 
+            /* [in] */ long __MIDL__IDxtJpeg0009) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_ReplicateX( 
+            /* [retval][out] */ __RPC__out long *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_ReplicateX( 
+            /* [in] */ long newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_ReplicateY( 
+            /* [retval][out] */ __RPC__out long *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_ReplicateY( 
+            /* [in] */ long newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_BorderColor( 
+            /* [retval][out] */ __RPC__out long *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_BorderColor( 
+            /* [in] */ long newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_BorderWidth( 
+            /* [retval][out] */ __RPC__out long *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_BorderWidth( 
+            /* [in] */ long newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_BorderSoftness( 
+            /* [retval][out] */ __RPC__out long *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_BorderSoftness( 
+            /* [in] */ long newVal) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE ApplyChanges( void) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE LoadDefSettings( void) = 0;
+        
+    };
+    
 #else 	/* C style interface */
 
     typedef struct IDxtJpegVtbl
@@ -1731,47 +1731,47 @@ EXTERN_C const IID IID_IDxtKey;
 
 #if defined(__cplusplus) && !defined(CINTERFACE)
     
-    //MIDL_INTERFACE("3255de56-38fb-4901-b980-94b438010d7b")
-    //IDxtKey : public IDXEffect
-    //{
-    //public:
-    //    virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_KeyType( 
-    //        /* [retval][out] */ __RPC__out int *__MIDL__IDxtKey0000) = 0;
-    //    
-    //    virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_KeyType( 
-    //        /* [in] */ int __MIDL__IDxtKey0001) = 0;
-    //    
-    //    virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Hue( 
-    //        /* [retval][out] */ __RPC__out int *__MIDL__IDxtKey0002) = 0;
-    //    
-    //    virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Hue( 
-    //        /* [in] */ int __MIDL__IDxtKey0003) = 0;
-    //    
-    //    virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Luminance( 
-    //        /* [retval][out] */ __RPC__out int *__MIDL__IDxtKey0004) = 0;
-    //    
-    //    virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Luminance( 
-    //        /* [in] */ int __MIDL__IDxtKey0005) = 0;
-    //    
-    //    virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_RGB( 
-    //        /* [retval][out] */ __RPC__out DWORD *__MIDL__IDxtKey0006) = 0;
-    //    
-    //    virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_RGB( 
-    //        /* [in] */ DWORD __MIDL__IDxtKey0007) = 0;
-    //    
-    //    virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Similarity( 
-    //        /* [retval][out] */ __RPC__out int *__MIDL__IDxtKey0008) = 0;
-    //    
-    //    virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Similarity( 
-    //        /* [in] */ int __MIDL__IDxtKey0009) = 0;
-    //    
-    //    virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Invert( 
-    //        /* [retval][out] */ __RPC__out BOOL *__MIDL__IDxtKey0010) = 0;
-    //    
-    //    virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Invert( 
-    //        /* [in] */ BOOL __MIDL__IDxtKey0011) = 0;
-    //    
-    //};
+    MIDL_INTERFACE("3255de56-38fb-4901-b980-94b438010d7b")
+    IDxtKey : public IDXEffect
+    {
+    public:
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_KeyType( 
+            /* [retval][out] */ __RPC__out int *__MIDL__IDxtKey0000) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_KeyType( 
+            /* [in] */ int __MIDL__IDxtKey0001) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Hue( 
+            /* [retval][out] */ __RPC__out int *__MIDL__IDxtKey0002) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Hue( 
+            /* [in] */ int __MIDL__IDxtKey0003) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Luminance( 
+            /* [retval][out] */ __RPC__out int *__MIDL__IDxtKey0004) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Luminance( 
+            /* [in] */ int __MIDL__IDxtKey0005) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_RGB( 
+            /* [retval][out] */ __RPC__out DWORD *__MIDL__IDxtKey0006) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_RGB( 
+            /* [in] */ DWORD __MIDL__IDxtKey0007) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Similarity( 
+            /* [retval][out] */ __RPC__out int *__MIDL__IDxtKey0008) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Similarity( 
+            /* [in] */ int __MIDL__IDxtKey0009) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Invert( 
+            /* [retval][out] */ __RPC__out BOOL *__MIDL__IDxtKey0010) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Invert( 
+            /* [in] */ BOOL __MIDL__IDxtKey0011) = 0;
+        
+    };
     
 #else 	/* C style interface */
 

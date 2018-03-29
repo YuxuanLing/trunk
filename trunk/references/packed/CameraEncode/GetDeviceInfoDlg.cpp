@@ -11,11 +11,7 @@
 #define new DEBUG_NEW
 #endif
 
-
-
-
 // CAboutDlg dialog used for App About
-
 class CAboutDlg : public CDialogEx
 {
 public:
@@ -45,7 +41,6 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 // CGetDeviceInfoDlg dialog
-
 CGetDeviceInfoDlg::CGetDeviceInfoDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CGetDeviceInfoDlg::IDD, pParent)
 {
@@ -93,13 +88,10 @@ END_MESSAGE_MAP()
 
 
 // CGetDeviceInfoDlg message handlers
-
 BOOL CGetDeviceInfoDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
-
 	// Add "About..." menu item to system menu.
-
 	// IDM_ABOUTBOX must be in the system command range.
 	ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
 	ASSERT(IDM_ABOUTBOX < 0xF000);
@@ -177,7 +169,7 @@ HCURSOR CGetDeviceInfoDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
-//枚举视频采集设备
+
 BOOL CGetDeviceInfoDlg::ListVideoCaptureDevices()
 {
 	int count = 0;
@@ -200,10 +192,10 @@ BOOL CGetDeviceInfoDlg::ListVideoCaptureDevices()
 		sDevice.nDeviceIndex = count;
 
 		LPOLESTR strPidvid = NULL;
-		hr = pM->GetDisplayName(0, 0, &strPidvid);  //获取ID信息
+		hr = pM->GetDisplayName(0, 0, &strPidvid);  
 		if(SUCCEEDED(hr))
 		{
-			//这里获取了一下设备的ID
+			
 			USES_CONVERSION; //OLE2T
 			CString sPidvid = strPidvid;
 			string str = T2A(sPidvid);
@@ -219,7 +211,7 @@ BOOL CGetDeviceInfoDlg::ListVideoCaptureDevices()
 				result = string("");
 			} 
 			CString strPid(result.c_str());
-			strPid.MakeUpper(); //全部大写
+			strPid.MakeUpper(); //
 			sDevice.strDevicePidVid = strPid;
 
 			IPropertyBag *pBag=0;
@@ -228,10 +220,9 @@ BOOL CGetDeviceInfoDlg::ListVideoCaptureDevices()
 			{
 				VARIANT var;
 				var.vt = VT_BSTR;
-				hr = pBag->Read(L"FriendlyName", &var, NULL); //还有其他属性,像描述信息等等...
+				hr = pBag->Read(L"FriendlyName", &var, NULL);
 				if(hr == NOERROR)
 				{
-					//获取设备名称	
 					char camera_name[1024]; 
 					WideCharToMultiByte(CP_ACP,0,var.bstrVal,-1, camera_name, sizeof(camera_name) ,"",NULL);
 					CString str(camera_name);
@@ -260,7 +251,6 @@ BOOL CGetDeviceInfoDlg::ListVideoCaptureDevices()
 	return 1;
 }
 
-//枚举音频采集设备
 BOOL CGetDeviceInfoDlg::ListAudioCaptureDevices()
 {
 	int count = 0;
@@ -283,7 +273,7 @@ BOOL CGetDeviceInfoDlg::ListAudioCaptureDevices()
 		sDevice.nDeviceIndex = count;
 
 		LPOLESTR strPidvid = NULL;
-		hr = pM->GetDisplayName(0, 0, &strPidvid);  //获取ID信息
+		hr = pM->GetDisplayName(0, 0, &strPidvid); 
 		if(SUCCEEDED(hr))
 		{
 			USES_CONVERSION; //OLE2T
@@ -301,7 +291,7 @@ BOOL CGetDeviceInfoDlg::ListAudioCaptureDevices()
 				result = string("");
 			} 
 			CString strPid(result.c_str());
-			strPid.MakeUpper(); //全部大写
+			strPid.MakeUpper();
 			sDevice.strDevicePidVid = strPid;
 
 			IPropertyBag *pBag=0;
@@ -310,10 +300,9 @@ BOOL CGetDeviceInfoDlg::ListAudioCaptureDevices()
 			{
 				VARIANT var;
 				var.vt = VT_BSTR;
-				hr = pBag->Read(L"FriendlyName", &var, NULL); //还有其他属性,像描述信息等等...
+				hr = pBag->Read(L"FriendlyName", &var, NULL);
 				if(hr == NOERROR)
 				{
-					//获取设备名称	
 					char camera_name[1024]; 
 					WideCharToMultiByte(CP_ACP,0,var.bstrVal,-1, camera_name, sizeof(camera_name) ,"",NULL);
 					CString str(camera_name);
@@ -368,10 +357,9 @@ BOOL CGetDeviceInfoDlg::ListVideoCompressDevices()
 		{
 			VARIANT var;
 			var.vt = VT_BSTR;
-			hr = pBag->Read(L"FriendlyName", &var, NULL); //还有其他属性,像描述信息等等...
+			hr = pBag->Read(L"FriendlyName", &var, NULL); 
 			if(hr == NOERROR)
 			{
-				//获取设备名称	
 				char camera_name[1024]; 
 				WideCharToMultiByte(CP_ACP,0,var.bstrVal,-1, camera_name, sizeof(camera_name) ,"",NULL);
 				CString str(camera_name);
@@ -425,10 +413,9 @@ BOOL CGetDeviceInfoDlg::ListAudioCompressDevices()
 		{
 			VARIANT var;
 			var.vt = VT_BSTR;
-			hr = pBag->Read(L"FriendlyName", &var, NULL); //还有其他属性,像描述信息等等...
+			hr = pBag->Read(L"FriendlyName", &var, NULL); 
 			if(hr == NOERROR)
 			{
-				//获取设备名称	
 				char camera_name[1024]; 
 				WideCharToMultiByte(CP_ACP,0,var.bstrVal,-1, camera_name, sizeof(camera_name) ,"",NULL);
 				CString str(camera_name);
@@ -472,7 +459,7 @@ void CGetDeviceInfoDlg::OnBnClickedBtnGetdevice()
 	ListAudioCompressDevices();
 }
 
-//创建视频采集过滤器图表
+
 HRESULT CGetDeviceInfoDlg::InitCaptureGraphBuilder(IGraphBuilder **ppGraph, ICaptureGraphBuilder2 **ppBuild)
 {
 	if (!ppGraph || !ppBuild)
@@ -490,7 +477,7 @@ HRESULT CGetDeviceInfoDlg::InitCaptureGraphBuilder(IGraphBuilder **ppGraph, ICap
 		if (SUCCEEDED(hr))
 		{
 			// Initialize the Capture Graph Builder.
-			pBuild->SetFiltergraph(pGraph);  //将过滤器图表添加到管理器中
+			pBuild->SetFiltergraph(pGraph); 
 
 			// Return both interface pointers to the caller.
 			*ppBuild = pBuild;
@@ -510,7 +497,7 @@ HRESULT CGetDeviceInfoDlg::InitCaptureGraphBuilder(IGraphBuilder **ppGraph, ICap
 	return hr; // Failed
 }
 
-//选择设备，并获取Video Capture Filter
+//Video Capture Filter
 void CGetDeviceInfoDlg::CreateVideoFilter(CString strSelectedDevice, IBaseFilter **pBaseFilter)
 {
 	ICreateDevEnum *pCreateDevEnum = NULL;
@@ -532,10 +519,9 @@ void CGetDeviceInfoDlg::CreateVideoFilter(CString strSelectedDevice, IBaseFilter
 		{
 			VARIANT var;
 			var.vt = VT_BSTR;
-			hr = pBag->Read(L"FriendlyName", &var, NULL); //还有其他属性,像描述信息等等...
+			hr = pBag->Read(L"FriendlyName", &var, NULL);
 			if(hr == NOERROR)
 			{
-				//获取设备名称	
 				char camera_name[1024]; 
 				WideCharToMultiByte(CP_ACP,0,var.bstrVal,-1, camera_name, sizeof(camera_name) ,"",NULL);
 				CString str(camera_name);
@@ -560,7 +546,7 @@ void CGetDeviceInfoDlg::CreateVideoFilter(CString strSelectedDevice, IBaseFilter
 
 void CGetDeviceInfoDlg::OnBnClickedBtnInit()
 {
-	//1 选择视频采集设备
+	//1
 	int nIndex  = m_cbxCtrl.GetCurSel();
 	if (nIndex < 0)
 	{
@@ -575,7 +561,7 @@ void CGetDeviceInfoDlg::OnBnClickedBtnInit()
 		MessageBox(_T("获取视频设备名称为空"), _T("提示"));
 		return;
 	}
-	//选择设备，并获取Video Capture Filter
+	//Video Capture Filter
 	CreateVideoFilter(strDeviceName, &m_pVideoFilter);
 	if (m_pVideoFilter == NULL)
 	{
@@ -583,31 +569,31 @@ void CGetDeviceInfoDlg::OnBnClickedBtnInit()
 		return;
 	}
 
-	//创建视频捕捉实例 
+	//
 	HRESULT hr = CoCreateInstance(CLSID_SampleGrabber, NULL, CLSCTX_INPROC_SERVER, IID_IBaseFilter, (void**)&m_pGrabberFilter); 
 	if (m_pGrabberFilter == NULL)
 	{
-		MessageBox(_T("获取m_pGrabberFilter失败"), _T("提示"));
+		MessageBox(_T("Create m_pGrabberFilter Failed"), _T("Attention"));
 		return;
 	}
 
-	//创建采集过滤器图表
+	//
 	hr = InitCaptureGraphBuilder(&m_pGraphBuilder, &m_pCapture);
 	if (S_OK != hr || m_pGraphBuilder == NULL)
 	{
-		MessageBox(_T("创建IGraphBuilder和ICaptureGraphBuilder2接口失败"), _T("提示"));
+		MessageBox(_T("IGraphBuilder CaptureGraphBuilder2 init failed"), _T("Attention"));
 		return;
 	}
 
-	//将获取到的采集过滤器加入图表
+	//
 	hr = m_pGraphBuilder->AddFilter(m_pVideoFilter, L"Video Capture Filter");
 	if (S_OK != hr)
 	{
-		MessageBox(_T("把m_pVideoFilter添加到IGraphBuilder失败"), _T("提示"));
+		MessageBox(_T("add m_pVideoFilter to IGraphBuilder failed"), _T("Attention"));
 		return;
 	}
 
-	//将视频捕捉过滤器加入图表
+	//
 	hr = m_pGraphBuilder->AddFilter(m_pGrabberFilter, L"Grabber");
 	if(S_OK != hr)
 	{
@@ -618,7 +604,7 @@ void CGetDeviceInfoDlg::OnBnClickedBtnInit()
 	GetVideoResolution();
 }
 
-//开始预览
+
 void CGetDeviceInfoDlg::OnBnClickedBtnPreview()
 {
 	if (m_bIsVideoOpen)
@@ -628,18 +614,18 @@ void CGetDeviceInfoDlg::OnBnClickedBtnPreview()
 
 	if (!m_bRendered)
 	{
-		//选择一个分辨率
+		//
 		int nSel = m_cbxResolutionCtrl.GetCurSel();
 		if (nSel < 0)
 		{
-			MessageBox(_T("请选择一个分辨率"), _T("提示"));
+			MessageBox(_T("GetCurSel Failed"), _T("Attention"));
 			return;
 		}
 		CString strResolution = _T("");
 		m_cbxResolutionCtrl.GetLBText(nSel, strResolution);
 		if (strResolution.IsEmpty())
 		{
-			MessageBox(_T("请选择一个有值分辨率"), _T("提示"));
+			MessageBox(_T("strResolution is empty"), _T("Attention"));
 			return;
 		}
 
@@ -651,7 +637,7 @@ void CGetDeviceInfoDlg::OnBnClickedBtnPreview()
 			nSetWidth = _ttoi(strResolution.Left(nFindValue));
 			nSetHeight = _ttoi(strResolution.Mid(nFindValue + 1));
 		}
-		int nResolutionIndex = 0; //默认为0，即当前默认分辨率
+		int nResolutionIndex = 0;
 		for (int i = 0; i < m_arrCamResolutionArr.GetSize(); i++)
 		{
 			CamResolutionInfo camInfo = m_arrCamResolutionArr.GetAt(i);
@@ -662,17 +648,16 @@ void CGetDeviceInfoDlg::OnBnClickedBtnPreview()
 			}
 		}
 
-		//设置视频分辨率、格式
 		IAMStreamConfig *pConfig = NULL;  
 		m_pCapture->FindInterface(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Video, 
 							m_pVideoFilter, IID_IAMStreamConfig, (void **) &pConfig);
 
 		AM_MEDIA_TYPE *pmt = NULL; 
 		VIDEO_STREAM_CONFIG_CAPS scc;
-		pConfig->GetStreamCaps(nResolutionIndex, &pmt, (BYTE*)&scc); //nResolutionIndex就是选择的分辨率序号
+		pConfig->GetStreamCaps(nResolutionIndex, &pmt, (BYTE*)&scc);
 
 		pmt->majortype = MEDIATYPE_Video;	
-		pmt->subtype = MEDIASUBTYPE_RGB24;  //抓取RGB24
+		pmt->subtype = MEDIASUBTYPE_YUY2;  //YUYV
 		pmt->formattype = FORMAT_VideoInfo;
 
 		pConfig->SetFormat(pmt);
@@ -684,12 +669,12 @@ void CGetDeviceInfoDlg::OnBnClickedBtnPreview()
 			AfxMessageBox(_T("Fail to set media type!"));
 			return;
 		}
-		//是否缓存数据，缓存的话，可以给后面做其他处理，不缓存的话，图像处理就放在回调中
+		//
 		m_pGrabber->SetBufferSamples(FALSE);
 		m_pGrabber->SetOneShot(FALSE);
 		mCB.lWidth = nSetWidth;
 		mCB.lHeight = nSetHeight;
-		//设置回调，在回调中处理每一帧
+		//set callback , 0 means using sample callback , 1 means use buff callback
 		m_pGrabber->SetCallback(&mCB, 0);
 
 
@@ -700,8 +685,7 @@ void CGetDeviceInfoDlg::OnBnClickedBtnPreview()
 			return;
 		}
 
-		//设置视频显示窗口
-		m_hShowWnd = GetDlgItem(IDC_STC_SHOW)->m_hWnd ; //picture控件的句柄
+		m_hShowWnd = GetDlgItem(IDC_STC_SHOW)->m_hWnd ; 
 		hr = m_pVW->put_Owner((OAHWND)m_hShowWnd);
 		if (FAILED(hr)) 
 			return;
@@ -709,7 +693,6 @@ void CGetDeviceInfoDlg::OnBnClickedBtnPreview()
 		if (FAILED(hr)) 
 			return;
 
-		//让图像充满整个窗口
 		if (m_pVW)
 		{    
 			CRect rc;
@@ -721,7 +704,7 @@ void CGetDeviceInfoDlg::OnBnClickedBtnPreview()
 
 		m_bRendered = TRUE;
 	}
-	//开始预览
+
 	HRESULT hr = m_pMediaControl->Run();
     if(FAILED(hr))
     {
@@ -731,18 +714,15 @@ void CGetDeviceInfoDlg::OnBnClickedBtnPreview()
 	m_bIsVideoOpen = TRUE;
 }
 
-//停止
 void CGetDeviceInfoDlg::OnBnClickedBtnStop()
 {
 	if (m_pMediaControl)
 	{
-		//停止
 		m_pMediaControl->Stop();
 	}
 	m_bIsVideoOpen = FALSE;
 }
 
-//释放
 void CGetDeviceInfoDlg::OnDestroy()
 {
 	CDialogEx::OnDestroy();
@@ -775,7 +755,6 @@ void CGetDeviceInfoDlg::GetVideoResolution()
 		m_arrCamResolutionArr.RemoveAll();
 		m_cbxResolutionCtrl.ResetContent();
 		IAMStreamConfig *pConfig = NULL;  
-		//&MEDIATYPE_Video,如果包括其他媒体类型，第二个参数设置为0
 		HRESULT hr = m_pCapture->FindInterface(&PIN_CATEGORY_CAPTURE, &MEDIATYPE_Video, 
 										m_pVideoFilter, IID_IAMStreamConfig, (void **)&pConfig);
 
@@ -803,7 +782,6 @@ void CGetDeviceInfoDlg::GetVideoResolution()
 						LONG lWidth = pVih->bmiHeader.biWidth;
 						LONG lHeight = pVih->bmiHeader.biHeight;
 						BOOL bFind = FALSE;
-						//是否已经存在这个分辨率，不存在就加入array
 						for (int n=0; n < m_arrCamResolutionArr.GetSize(); n++)
 						{
 							CamResolutionInfo sInfo = m_arrCamResolutionArr.GetAt(n);
@@ -887,7 +865,6 @@ void CGetDeviceInfoDlg::OnBnClickedBtnPath()
 }
 
 
-//开始录制（开始编码）
 void CGetDeviceInfoDlg::OnBnClickedBtnBeginEncode()
 {
 	CString strPath = _T("");
@@ -907,7 +884,6 @@ void CGetDeviceInfoDlg::OnBnClickedBtnBeginEncode()
 	mCB.m_bBeginEncode = TRUE;
 }
 
-//停止录制（停止编码）
 void CGetDeviceInfoDlg::OnBnClickedBtnEndEncode()
 {
 	mCB.m_bBeginEncode = FALSE;

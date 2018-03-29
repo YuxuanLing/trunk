@@ -44,11 +44,14 @@
 #include <regex>
 using namespace std;
 
-//DShow库加载
 #include "Wmcodecdsp.h"
 #pragma comment(lib,"wmcodecdspuuid.lib") 
 
-
+#pragma include_alias( "dxtrans.h", "qedit.h" )
+#define __IDxtCompositor_INTERFACE_DEFINED__
+#define __IDxtAlphaSetter_INTERFACE_DEFINED__
+#define __IDxtJpeg_INTERFACE_DEFINED__
+#define __IDxtKey_INTERFACE_DEFINED__
 
 #include "Dshow.h"
 #include "qedit.h"
@@ -64,7 +67,6 @@ using namespace std;
 #pragma comment(lib,"quartz.lib")
 #pragma comment(lib,"dmoguids.lib")   
 
-//要支持YUV420,也就是WMMEDIASUBTYPE_I420必须添加此头文件
 #include <wmsdkidl.h>
 
 extern "C"
