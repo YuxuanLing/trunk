@@ -2,6 +2,20 @@
 #include<vector>
 using namespace std;
 
+struct DeviceModel 
+{
+	const char *model_name;
+	int   name_len;
+};
+
+
+static const DeviceModel mSpecialDeviceList[] =
+{
+  {"Mi A1",      5},
+  {"MI MAX 2",   8},
+  {"TC 51",      5},
+  {"TC 56",      5}
+};
 
 int main() {
 	int values[]={1,4,5};
@@ -43,6 +57,10 @@ int main() {
     strings.push_back("Two");
     strings.push_back("Three");
     strings.push_back("Four");
+
+	cout << "length of mSpecialDeviceList : " <<sizeof(mSpecialDeviceList)/sizeof(DeviceModel) << endl;
+	cout << "size   of mSpecialDeviceList : "<<sizeof(mSpecialDeviceList)<<endl;
+	cout << "size   of DeviceModel: "<<sizeof(DeviceModel)<<endl;
 
 	return 0;
 	
