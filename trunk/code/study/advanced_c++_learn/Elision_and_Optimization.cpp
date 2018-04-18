@@ -43,6 +43,11 @@ int main(){
 	Test test1 = getTest();
 
 	cout << test1 << endl;
+
+	vector<Test> vec;
+	cout<<"----------"<<endl;
+	vec.push_back(Test());
+	cout<<"**********"<<endl;
 	return 0;
 
 }
