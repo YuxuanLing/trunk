@@ -58,12 +58,20 @@ Test getTest(){
 int main(){
 	Test test1 = getTest();
 
-	cout << test1 << endl;
+	cout << test1;
 
 	vector<Test> vec;
 	cout<<"----------"<<endl;
     vec.push_back(Test());
 	cout<<"**********"<<endl;
+
+
+    Test &rTest1 = test1;
+
+	//Test &rTest2 = getTest();
+	const Test &rTest2 = getTest();
+    Test test2(Test(1));
+
 	return 0;
 
 }

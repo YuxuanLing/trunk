@@ -55,15 +55,50 @@ Test getTest(){
 	return Test();
 }
 
+void check(const Test &value)
+{
+	cout<<"lValue function"<<endl;
+}
+void check(Test &&value)
+{
+	cout<<"Rvalue function"<<endl;
+}
+
+
 int main(){
 	Test test1 = getTest();
 
-	cout << test1 << endl;
+	cout << test1;
 
 	vector<Test> vec;
 	cout<<"----------"<<endl;
     vec.push_back(Test());
+	
+    Test &ltest1 = test1;
+
+    Test &&rtest1=Test();	
+    Test &&rtest=getTest();	
+	
+    check(test1);	
+    check(getTest());	
+    check(Test());	
 	cout<<"**********"<<endl;
+
+
+	
+	
+	int value1 = 7;
+
+	int *pValue1 = &value1;
+	//int *pValue2 = &7;
+	
+	Test *pTest1 = &test1;
+	//Test *pTest2 = &getTest();
+
+    int *pValue3 = &++value1;
+    cout <<*pValue3<<endl;
+   // int *pValue4 = &value1++;
+
 	return 0;
 
 }
