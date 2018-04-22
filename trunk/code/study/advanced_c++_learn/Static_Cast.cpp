@@ -22,8 +22,6 @@ int main() {
 	Parent parent;
 	Brother brother;
 
-
 	return 0;
-
 
 }
