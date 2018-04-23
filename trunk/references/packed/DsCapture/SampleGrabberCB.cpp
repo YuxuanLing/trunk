@@ -67,6 +67,19 @@ HRESULT STDMETHODCALLTYPE CSampleGrabberCB::SampleCB(double SampleTime, IMediaSa
         
 HRESULT STDMETHODCALLTYPE CSampleGrabberCB::BufferCB(double SampleTime, BYTE *pBuffer, long BufferLen)
 {
+	CTime time = CTime::GetCurrentTime();
+	CString strSuffix = time.Format("%Y%m%d_%H%M%S_yxling_BuffCB.yuv");
+	CString strSavePath = _T("");
+	strSavePath.Format(_T("%s%s"), m_sSavePath, strSuffix);
+	USES_CONVERSION;
+	string strFullPath = W2A(strSavePath);
+	if (m_bBeginEncode) {
+		if (m_fp_dst == NULL)fopen_s(&m_fp_dst, strFullPath.c_str(), "wb+");
+		if (m_fp_dst && pBuffer) {
+			fwrite(pBuffer, 1, BufferLen, m_fp_dst);
+		}
+	}
+	
 	return 0;
 }
 

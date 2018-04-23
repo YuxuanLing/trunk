@@ -338,7 +338,7 @@ BOOL CGetDeviceInfoDlg::ListVideoCompressDevices()
 	int count = 0;
 
 	ImgDeviceInfo sDevice;
-   // enumerate all Audio capture devices
+   // enumerate all video compressor
 	ICreateDevEnum *pCreateDevEnum = NULL;
     HRESULT hr = CoCreateInstance(CLSID_SystemDeviceEnum, NULL, CLSCTX_INPROC_SERVER,
 									IID_ICreateDevEnum, (void**)&pCreateDevEnum);
