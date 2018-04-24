@@ -44,7 +44,6 @@ bin/% : %.cpp
 		fi;
 	$(CC) -o $@ $<  $(CPP_FLAGS)
 
-
 clean:
 	-rm -f obj/*
 	-rm -f bin/*
