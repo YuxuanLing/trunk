@@ -1,7 +1,7 @@
 CC = clang 
 TARGET = fractal_image
 
-CPP_FLAGS = -lstdc++ -std=c++11
+CPP_FLAGS = -lstdc++ -lm -std=c++11
 CPP_FILES = $(shell ls *.cpp)
 BASE = $(basename $(CPP_FILES))
 OBJS = $(addsuffix .o, $(addprefix obj/,$(BASE)))
