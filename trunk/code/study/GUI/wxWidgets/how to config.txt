@@ -1,0 +1,9 @@
+include
+$(wxwin)/include/msvc;$(wxwin)/include;..\;.\;  
+preprocesse
+WXUSINGDLL
+wxMSVC_VERSION_AUTO
+linker
+$(wxwin)\lib\vc140_x64_dll;
+Resource 
+$(wxwin)/include/msvc;$(wxwin)/include;..\;
