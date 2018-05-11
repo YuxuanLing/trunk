@@ -4,8 +4,10 @@
 #include<string>
 #include"Mandelbrot.h"
 #include"Bitmap.h"
+#include"RGB.h"
 #include"Zoom.h"
 #include"ZoomList.h"
+#include<vector>
 using namespace std;
 
 namespace fractalofprogramming {
@@ -20,14 +22,24 @@ namespace fractalofprogramming {
 	      Bitmap m_bitmap;
 	      ZoomList m_zoomList;
 
+		  vector<int> m_ranges;
+		  vector<int> m_rangeTotals;
+		  vector<RGB> m_colors;
+          bool m_bGotFirstRange{false};
+
+
+
 	      void calculateIterations();
 	      void calculateTotalIterations();
+	      void calculateRangeTotals();
 	      void drawFractal();
-	      void addZoom(const Zoom &zoom);
 	      void writeBitmap(string name);
 		public:
 	      void run(string name);
+		  void addRange(double rangeEnd, const RGB &rgb);
 	      FractalCreator(int width,int height);
+		  int getRange(int iterations) const;
+	      void addZoom(const Zoom &zoom);
 	      virtual ~FractalCreator();
 	};
 
