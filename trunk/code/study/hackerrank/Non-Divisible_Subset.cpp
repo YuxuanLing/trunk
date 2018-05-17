@@ -1,64 +1,67 @@
+
 #include <bits/stdc++.h>
 
 using namespace std;
 
 vector<string> split_string(string);
-bool isIncluded(int i, vector<int> v)
+
+bool findMaxNonZeroIndex(int &idx, vector<int> v)
 {
-    for(auto val: v)
+    int i, maxVal = 0;
+    for(i = 0; i < v.size(); i++)
     {
-	        if(i == val)return true;
-	    }
+        if(v[i] > maxVal)
+        {
+            maxVal = v[i];
+            idx = i;
+        }
+    }
     
-    return false;
+    if(maxVal == 0)return false;
+    return true;
 }
-
-
 // Complete the nonDivisibleSubset function below.
 int nonDivisibleSubset(int k, vector<int> S) {
-    int i,j, n = S.size();
-    vector<int> result, exclueded;
-    for(i = 0; i < n - 1; i++)
-    for(j = i + 1; j < n; j++)
-	{
-	  if((S[i] + S[j])%k != 0)
-	  {
-	     if(!isIncluded(S[i],result)  &&!isIncluded(S[i],
-	  						   exclueded))
-	  \
-	                     result.push_back(S[i]);
-	                 if(!isIncluded(S[j],
-	  						   result)
-	  					   &&
-	  					   !isIncluded(S[j],
-	  						   exclueded))
-	  \
-	                     result.push_back(S[j]);
-	              }else
-	  {
-	                  if(!isIncluded(S[i],
-	  							result))exclueded.push_back(S[i]);
-	                  if(!isIncluded(S[j],
-	  							result))exclueded.push_back(S[j]);
-	              }
-	        }
-	
-	
-	cout <<"before erase duplicate" << endl;
-    for(auto val: result)
-	{
-		cout << val << " ";
-	}
-    cout << endl;
-	sort(result.begin(),result.end());
-    result.erase(unique(result.begin(), result.end()), result.end());
-    cout <<"after erase duplicate" << endl;
-    for(auto val: result)
-	{
-		cout << val << " ";
-	}
+    vector<int> s;
+    for(auto val: S)
+    {
+        s.push_back((val%k) + k);
+    }
     
-    return result.size();
+    while(1)
+    {
+        int i, j, n = s.size(), idx;
+        vector<int> rec(n,0);
+        for(i = 0; i < n - 1; i++)
+        {
+            for(j = i+1 ; j < n ; j++)
+            {
+                if((s[i] + s[j]) % k == 0)
+                {
+                    rec[i]++;
+                    rec[j]++;
+                }                
+            }
+        }
+        
+        if(findMaxNonZeroIndex(idx, rec))
+        //if(0)
+        {
+            vector<int>::iterator it = s.begin();
+            advance(it,idx);
+            //cout<<idx<<endl;
+            s.erase(it);
+        }else
+        {
+            //vector<int>::iterator it = S.begin();
+            //advance(it,3);
+            //S.erase(it);
+            break;
+        }
+        
+    }
+
+    return s.size();
 }
 
 int main()
@@ -82,10 +85,10 @@ int main()
     vector<int> S(n);
 
     for (int i = 0; i < n; i++) {
-	        int S_item = stoi(S_temp[i]);
-	
-	        S[i] = S_item;
-	    }
+        int S_item = stoi(S_temp[i]);
+
+        S[i] = S_item;
+    }
 
     int result = nonDivisibleSubset(k, S);
 
@@ -97,16 +100,15 @@ int main()
 }
 
 vector<string> split_string(string input_string) {
-    string::iterator new_end = unique(input_string.begin(), input_string.end(),
-			[] (const char &x, const char &y) {
-			        return x == y and x == ' ';
-					    });
+    string::iterator new_end = unique(input_string.begin(), input_string.end(), [] (const char &x, const char &y) {
+        return x == y and x == ' ';
+    });
 
     input_string.erase(new_end, input_string.end());
 
     while (input_string[input_string.length() - 1] == ' ') {
-	        input_string.pop_back();
-	    }
+        input_string.pop_back();
+    }
 
     vector<string> splits;
     char delimiter = ' ';
@@ -115,15 +117,13 @@ vector<string> split_string(string input_string) {
     size_t pos = input_string.find(delimiter);
 
     while (pos != string::npos) {
-	        splits.push_back(input_string.substr(i, pos - i));
-	
-	        i = pos + 1;
-	        pos = input_string.find(delimiter, i);
-	    }
+        splits.push_back(input_string.substr(i, pos - i));
 
-    splits.push_back(input_string.substr(i, min(pos, input_string.length()) - i
-				+ 1));
+        i = pos + 1;
+        pos = input_string.find(delimiter, i);
+    }
+
+    splits.push_back(input_string.substr(i, min(pos, input_string.length()) - i + 1));
 
     return splits;
 }
-
