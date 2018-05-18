@@ -11,59 +11,32 @@ string get_file_string(string path_to_file){
                   (std::istreambuf_iterator<char>()));
 }
 
-bool findMaxNonZeroIndex(int &idx, vector<int> v)
-{
-    int i, maxVal = 0;
-    for(i = 0; i < v.size(); i++)
-    {
-        if(v[i] > maxVal)
-        {
-            maxVal = v[i];
-            idx = i;
-        }
-    }
-    
-    if(maxVal == 0)return false;
-    return true;
-}
-// Complete the nonDivisibleSubset function below.
-int nonDivisibleSubset(int k, vector<int> S) {
-    vector<int> s;
-    for(auto val: S)
-    {
-        s.push_back((val%k) + k);
-    }
-    
-    while(1)
-    {
-        int i, j, n = s.size(), idx;
-        vector<int> rec(n,0);
-        for(i = 0; i < n - 1; i++)
-        {
-            for(j = i+1 ; j < n ; j++)
-            {
-                if((s[i] + s[j]) % k == 0)
-                {
-                    rec[i]++;
-                    rec[j]++;
-                }                
-            }
-        }
-        
-        if(findMaxNonZeroIndex(idx, rec))
-        {
-            vector<int>::iterator it = s.begin();
-            //advance(it,idx);
-            s.erase(it+idx);
-			std::cout<<"size = " << s.size() << endl;
-        }else
-        {
-            break;
-        }
-        
-    }
 
-    return s.size();
+// Complete the nonDivisibleSubset function below.
+int nonDivisibleSubset(int k, vector<int> S) 
+{
+	int *arr = new int[k]();
+    int result = 0;
+	for(auto val: S)
+	{
+		arr[val%k]++;
+	}
+
+    if(arr[0] >= 1)result += 1;
+
+	for(int i = 1; i <= k/2; i++)
+	{
+	   int tmp = arr[i];
+	   if((k%2==0)&& (i==k/2)&&arr[i]!=0)
+	   {
+	   	  result += 1;
+		  break;
+	   }
+	   if(arr[k - i] > tmp)tmp = arr[k - i];
+	   result += tmp;
+	}
+
+	return result;
 }
 
 int main()
@@ -96,8 +69,6 @@ int main()
 
     int result = nonDivisibleSubset(k, S);
 
-	
-	std::cout<<"result : " << result<<endl;
     fout << result << "\n";
 
     fout.close();
