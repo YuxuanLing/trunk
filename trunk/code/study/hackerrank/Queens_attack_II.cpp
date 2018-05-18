@@ -14,7 +14,21 @@ string get_file_string(string path_to_file){
 int queensAttack(int n, int k, int r_q, int c_q, vector<vector<int>> obstacles) 
 {
 	int result = 0;
-	
+	int dirRec[8][2]();
+	for(vector<vector<int>>::iterator it = obstacles.begin(); it != obstacles.end(); it++)
+	{
+		int c_x = *it, r_y = *(it + 1);
+		if(c_x == c_q && r_y > r_q && r_y <= n)
+		{
+			//dir 0
+			if(r_y < dirRec[0][1] || dirRec[0][1] == 0){
+				dirRec[0][0] = c_x;
+				dirRec[0][1] = r_y;				
+			}
+			break;
+		}
+		
+	}
 	
 	
     return result;

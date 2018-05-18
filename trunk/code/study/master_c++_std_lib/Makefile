@@ -1,6 +1,6 @@
 CC = clang 
 
-CPP_FLAGS = -lstdc++ -std=c++11
+CPP_FLAGS = -lstdc++ -lpthread -std=c++14
 CPP_FILES = $(shell ls *.cpp)
 BASE = $(basename $(CPP_FILES))
 OBJS = $(addsuffix .o, $(addprefix obj/,$(BASE)))
@@ -19,13 +19,35 @@ $(sort $(MKDIRS)):
 
 directories: $(sort $(MKDIRS))
 
-all: lvalue
+all: lvalue references meaning stdmove std
 	@echo "compile finished !!"
 
 lvalue : lvalue.cpp 
 	@echo "compiling $@ ......"
 	$(CC) -c -o ./obj/$(addsuffix .o, $@) $^ 
 	$(CC) -o ./bin/$@ $<  $(CPP_FLAGS)
+
+references: references.cpp 
+	@echo "compiling $@ ......"
+	$(CC) -c -o ./obj/$(addsuffix .o, $@) $^ 
+	$(CC) -o ./bin/$@ $<  $(CPP_FLAGS)
+
+meaning: meaning.cpp 
+	@echo "compiling $@ ......"
+	$(CC) -c -o ./obj/$(addsuffix .o, $@) $^ 
+	$(CC) -o ./bin/$@ $<  $(CPP_FLAGS)
+
+stdmove: stdmove.cpp 
+	@echo "compiling $@ ......"
+	$(CC) -c -o ./obj/$(addsuffix .o, $@) $^ 
+	$(CC) -o ./bin/$@ $<  $(CPP_FLAGS)
+
+std: std.cpp 
+	@echo "compiling $@ ......"
+	$(CC) -c -o ./obj/$(addsuffix .o, $@) $^ 
+	$(CC) -o ./bin/$@ $<  $(CPP_FLAGS)
+
+
 
 run: lvalue
 	$(shell ./bin/$^)
