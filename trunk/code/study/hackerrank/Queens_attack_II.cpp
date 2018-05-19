@@ -14,10 +14,56 @@ string get_file_string(string path_to_file){
 int queensAttack(int n, int k, int r_q, int c_q, vector<vector<int>> obstacles) 
 {
 	int result = 0;
-	int dirRec[8][2]();
+	int dirRec[8][2]={0}, x, y;
+	//init dirRec
+	dirRec[0][0] = c_q;
+	dirRec[0][1] = n + 1;
+	dirRec[4][0] = c_q;
+	dirRec[4][1] = 0;
+	
+	if(r_q > c_q) {
+	   dirRec[1][0] = n + 1 - r_q + c_q;
+	   dirRec[1][1] = n + 1;
+
+	   dirRec[5][0] = 0;
+	   dirRec[5][1] = r_q - c_q;	   
+	}else {
+	   dirRec[1][0] = n + 1;
+	   dirRec[1][1] = n + 1 - c_q + r_q;		
+
+	   dirRec[5][0] = c_q - r_q;
+	   dirRec[5][1] = 0;	   
+	}
+		
+	dirRec[2][0] = n + 1;
+	dirRec[2][1] = r_q;
+	dirRec[6][0] = 0;
+	dirRec[6][1] = r_q;
+	
+	
+	if(n + 1> c_q + r_q ) {
+	   dirRec[3][0] = r_q + c_q;
+	   dirRec[3][1] = 0;	
+	   
+	   dirRec[7][0] = 0;
+	   dirRec[7][1] = r_q + c_q;
+	}else {
+	   dirRec[3][0] = n + 1;
+	   dirRec[3][1] = r_q + c_q - n - 1;			
+   		
+ 	   dirRec[7][0] = r_q + c_q - n - 1;
+	   dirRec[7][1] = n + 1;			
+   			
+	}
+	
+	
+	
+	
+	
+	
 	for(vector<vector<int>>::iterator it = obstacles.begin(); it != obstacles.end(); it++)
 	{
-		int c_x = *it, r_y = *(it + 1);
+		int c_x = (*it)[0], r_y = (*it)[1];
 		if(c_x == c_q && r_y > r_q && r_y <= n)
 		{
 			//dir 0

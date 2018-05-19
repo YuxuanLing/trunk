@@ -36,6 +36,9 @@ int main() {
 	numbers.insert(20);
 	numbers.insert(20);
 	numbers.insert(30);
+        numbers.insert(60);
+        numbers.insert(70);
+        numbers.insert(80);
 
 	for(set<int>::iterator it = numbers.begin(); it != numbers.end(); it++) {
 		cout<< *it <<endl;
