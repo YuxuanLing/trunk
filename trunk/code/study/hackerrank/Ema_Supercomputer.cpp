@@ -34,7 +34,7 @@ bool canPutPlusAtPos(char *grid, int x_stride, int y_stride, int cross_len, int 
 	return true;
 }
 
-bool canPutPlus(char *grid, int x_stride, int y_stride, int cross_len, vector<pair<int, int>> pos)
+bool canPutPlus(char *grid, int x_stride, int y_stride, int cross_len, vector<pair<int, int>> &pos)
 {
 	bool result = false;
 	int k = (cross_len - 1)/2; 
@@ -56,6 +56,21 @@ bool canPutPlus(char *grid, int x_stride, int y_stride, int cross_len, vector<pa
 // Complete the twoPluses function below.
 int twoPluses(vector<string> grid) {
 	int ret = 0;
+	char *g;
+	int x_stride = grid.size(), y_stride = grid[0].length();
+        int min_stride = 0, i = 0;
+	vector<pair<int, int>> plus_pos[x_stride];
+        
+	for(int k = (min_stride - 1)/2; k >= 0; k-- )
+	{
+	   int cross_len = 2*k + 1;
+	   if(canPutPlus(g, x_stride, y_stride, cross_len, plus_pos[i]))
+	   {	   
+	     i++;
+	   }
+	}
+	//canPutPlus(char *grid, int x_stride, int y_stride, int cross_len, vector<pair<int, int>> pos)
+
 
     return ret;
 }
@@ -108,10 +123,10 @@ vector<string> string2vector_char(string input_string) {
 	
 	size_t pos = 0;
     cout << input_string << endl;
-    while (pos <= input_string.length()) {
+    while (pos < input_string.length()) {
 		cout << pos << endl;
 		string ch = input_string.substr(pos, 1);
-        if(ch != " " && ch != "\n" && ch !="")splits.push_back(ch);
+        if(ch != " " && ch != "\n" && ch !="" && ch != "\r" && !ch.empty())splits.push_back(ch);
 
         pos++;
     }
