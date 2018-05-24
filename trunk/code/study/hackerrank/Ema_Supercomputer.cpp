@@ -86,10 +86,11 @@ int main()
 
         grid[i] = grid_item;
     }
-*/
+*/   int i = 0;
     for(vector<string>::iterator it = grid.begin(); it != grid.end();it++)
 	{
-		cout << *it << endl;
+		cout <<i <<"  :  "<< *it << endl;
+		i++;
 		
 	}
 	
@@ -107,8 +108,9 @@ vector<string> string2vector_char(string input_string) {
 	
 	size_t pos = 0;
     cout << input_string << endl;
-    while (pos < input_string.length()) {
-		string ch = input_string.substr(pos, pos+1);
+    while (pos <= input_string.length()) {
+		cout << pos << endl;
+		string ch = input_string.substr(pos, 1);
         if(ch != " " && ch != "\n" && ch !="")splits.push_back(ch);
 
         pos++;
