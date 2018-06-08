@@ -6,7 +6,7 @@ struct Test {
     virtual bool operator()(string &text)=0;
 
 	virtual ~Test(){}
-
+        
 
 };
 
