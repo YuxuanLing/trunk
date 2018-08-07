@@ -19,9 +19,8 @@
 #ifdef __INTEL_COMPILER
 # define TAA_H264_ALIGN(x) __declspec(align(x))
 # define TAA_H264_NOINLINE __declspec(noinline)
-#endif
 
-#ifdef _WIN32
+#elif defined  _WIN32
 #include<malloc.h>
 #include<assert.h>
 #include"taah264stdtypes.h"
