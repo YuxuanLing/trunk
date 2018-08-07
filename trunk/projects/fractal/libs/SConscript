@@ -1,0 +1,78 @@
+# ##############################################################################
+# IMPORTS
+# ##############################################################################
+# # Basics
+import os
+import shutil
+import sys
+import re
+import platform
+import errno
+import SCons
+import zipfile
+import subprocess 
+import distutils.core
+import time
+
+# Import the BuildMonster
+import BuildMonster
+BuildMonster.ValidateRunDirectory()
+import BuildMonsterVS2008
+import BuildMonsterXcodeProj
+import BuildMonsterENV
+from BuildMonsterPackage import *
+import BuildMonsterPackage
+
+PLATFORM = BuildMonster.PLATFORM
+ARCH = BuildMonster.ARCH
+TARGET = BuildMonster.sharedTarget
+PLATFORM_ARCH = BuildMonster.PLATFORM_ARCH
+
+
+def BuildWithSCONS(buildmode):
+	# Get our own environment.
+	env = BuildMonster.COMMON['fractal'][buildmode].CPVEClone()
+
+	
+	includepath=BuildMonster.RepoPath(buildmode, subtype="include") + '/pacman/fractal-md5'
+	HEADER_FILES_PUBLISH=env.PublishHeaders(includepath, MD5_HEADER_FILES)
+	
+	LIB=env.CPVEStaticLibrary(
+		target="fractal-md5$LIBSUFFIX",
+		source=MD5_FILES,
+		packagename="fractal-md5",
+		includefiles=HEADER_FILES_PUBLISH,
+		includepaths=includepath,
+		privateincludepaths=[],
+		)
+	
+	includepath=BuildMonster.RepoPath(buildmode, subtype="include") + '/pacman/fractal-getopt'
+	HEADER_FILES_PUBLISH=env.PublishHeaders(includepath, GETOPT_HEADER_FILES)
+	
+	LIB=env.CPVEStaticLibrary(
+		target="fractal-getopt$LIBSUFFIX",
+		source=GETOPT_FILES,
+		packagename="fractal-getopt",
+		includefiles=HEADER_FILES_PUBLISH,
+		includepaths=includepath,
+		privateincludepaths=[],
+		)
+	return
+
+	
+BASEDIR = Dir(".")
+MD5_FILE_NAMES = ['md5/md5.c',]
+	
+GETOPT_FILE_NAMES = ['my_getopt-1.5/my_getopt.c',]
+
+MD5_FILES = [File(F) for F in MD5_FILE_NAMES]
+GETOPT_FILES = [File(F) for F in GETOPT_FILE_NAMES]
+
+MD5_HEADER_FILES=[File(F) for F in ['md5/md5.h']]
+GETOPT_HEADER_FILES=[File(F) for F in ['my_getopt-1.5/getopt.h', 'my_getopt-1.5/my_getopt.h']]
+
+for M in BuildMonster.BuildModeList:
+	# Build the package
+	BuildWithSCONS(M)
+	
+

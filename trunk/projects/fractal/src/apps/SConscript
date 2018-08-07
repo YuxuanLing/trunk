@@ -1,0 +1,84 @@
+# ##############################################################################
+# IMPORTS
+# ##############################################################################
+# # Basics
+import os
+import shutil
+import sys
+import re
+import platform
+import errno
+import SCons
+import zipfile
+import subprocess 
+import distutils.core
+import time
+
+# Import the BuildMonster
+import BuildMonster
+BuildMonster.ValidateRunDirectory()
+import BuildMonsterVS2008
+import BuildMonsterXcodeProj
+import BuildMonsterENV
+from BuildMonsterPackage import *
+import BuildMonsterPackage
+
+PLATFORM = BuildMonster.PLATFORM
+ARCH = BuildMonster.ARCH
+TARGET = BuildMonster.sharedTarget
+PLATFORM_ARCH = BuildMonster.PLATFORM_ARCH
+
+
+def BuildPacmanCodecAppsWithSCONS(buildmode):
+	# Get our own environment.
+	env = BuildMonster.COMMON['fractal'][buildmode].CPVEClone()
+	
+	extralibs = []
+	env.CPVEProgram(
+		target="fractal-app-encoder$PROGSUFFIX",
+		packagename="fractal-app-encoder",
+		packagedepends=['fractal-codec', 'fractal-getopt'],
+		includepaths=[],
+		source=APP_ENC_SRC_FILES,
+		extralibs=extralibs
+		)
+		
+	env.CPVEProgram(
+		target="fractal-app-decoder$PROGSUFFIX",
+		packagename="fractal-app-decoder",
+		packagedepends=['fractal-codec','fractal-getopt'],
+		includepaths=COMMON_FILE_PATH,
+		source=APP_DEC_SRC_FILES + COMMON_FILE_NAMES,
+		extralibs=extralibs
+		)
+	return
+
+	
+BASEDIR = Dir(".")
+COMMON_FILE_NAMES = [
+	'common/snr/snr.c',
+	'common/annexb/annexb.c',
+	]
+	
+COMMON_FILE_PATH = [
+	'common/snr',
+	'common/annexb',
+	]	
+	
+ENCODER_FILE_NAMES = [
+	'encoder/encode.c',
+	'encoder/ssim.c',
+	]
+	
+DECODER_FILE_NAMES = [
+	'decoder/decode.c',
+	]
+
+APP_ENC_SRC_FILES = [File(F) for F in ENCODER_FILE_NAMES]
+APP_DEC_SRC_FILES = [File(F) for F in DECODER_FILE_NAMES]
+
+for M in BuildMonster.BuildModeList:
+	# Build the package
+	BuildPacmanCodecAppsWithSCONS(M)
+	
+

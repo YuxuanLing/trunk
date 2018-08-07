@@ -35,7 +35,7 @@
 #endif
 
 #ifdef WXUSINGDLL
-    #error "This sample doesn't work with DLL build of wxWidgets"
+//    #error "This sample doesn't work with DLL build of wxWidgets"
 #endif
 
 // ----------------------------------------------------------------------------

@@ -1,0 +1,259 @@
+# ##############################################################################
+# IMPORTS
+# ##############################################################################
+# # Basics
+import os
+import shutil
+import sys
+import re
+import platform
+import errno
+import SCons
+import zipfile
+import subprocess 
+import distutils.core
+import time
+
+# Import the BuildMonster
+import BuildMonster
+BuildMonster.ValidateRunDirectory()
+import BuildMonsterVS2008
+import BuildMonsterXcodeProj
+import BuildMonsterENV
+from BuildMonsterPackage import *
+import BuildMonsterPackage
+
+PLATFORM = BuildMonster.PLATFORM
+ARCH = BuildMonster.ARCH
+TARGET = BuildMonster.sharedTarget
+PLATFORM_ARCH = BuildMonster.PLATFORM_ARCH
+
+project = "pacman"
+
+def BuildPacmanCodecWithSCONS(buildmode):
+	# Get our own environment.
+	env = BuildMonster.COMMON['fractal'][buildmode].CPVEClone()
+	
+	packagedepends=['fractal-ssse3', 'icclibs']
+	if PLATFORM not in ['win32']:
+		STATIC_LIB = '$LIBPREFIXfractalcodec$LIBSUFFIX'
+	else:
+		packagedepends+=['fractal-codec-extra']
+		# Windows has a different library name
+		STATIC_LIB = 'taa_h264_lib$LIBSUFFIX'
+
+	env.CPVEStaticLibrary(
+		target=STATIC_LIB,
+		source=SRC_FILES,
+		includepaths=[BuildMonster.RepoPath(buildmode, projectname="pacman/codec", subtype="include")],
+		packagename="fractal-codec",
+		packagedepends=packagedepends,
+		)
+
+	return
+
+def BuildPacmanSSSE3WithSCONS(buildmode):
+	# Get our own environment.
+	env = BuildMonster.COMMON['fractal'][buildmode].CPVEClone()
+
+	# Build into target location
+	env.AppendUnique(CPPDEFINES=[
+				'HAVE_SSSE3',
+				])
+	if PLATFORM_ARCH in ['linux2-x86', 'darwin-x86', 'darwin-x86_64']:
+		env.AppendUnique(CCFLAGS=[
+				'-axAVX,SSE4.2',
+				])
+	elif PLATFORM_ARCH in ['win32-x86']:
+		if buildmode == BuildMonster.buildMode_RELEASE:
+			env.ReplaceValue('CCFLAGS', '/QxSSE2', '/QxSSSE3')
+			
+	env.CPVEStaticLibrary(
+		target='fractalcodecssse3$LIBSUFFIX',
+		source=SSSE3_SRC_FILES,
+		packagename="fractal-ssse3",
+		packagedepends=[],
+		addobjs=True,
+		)
+
+	return
+
+def BuildExtraFilesWithSCONS(buildmode):
+	# Get our own environment.
+	env = BuildMonster.COMMON['fractal'][buildmode].Clone()
+
+	env.CPVEStaticLibrary(
+		target='fractalcodecextra$LIBSUFFIX',
+		source=EXTRA_SRC_FILES,
+		packagename="fractal-codec-extra",
+		addobjs=BuildMonster.IsPlatform('win32'),
+		)
+
+	return
+
+def CommonBuildAction(buildmode, pkgid):
+	# Get our own environment.
+	env = BuildMonster.COMMON['fractal'][buildmode].Clone()
+
+	# install the headers
+	PackageAddAndCopyIncludeFile(pkgid, "./pacman/codec", TOP_LEVEL_HEADERS)
+	PackageAddAndCopyIncludeFile(pkgid, "./pacman/codec/common", COMMON_HEADERS)
+	PackageAddAndCopyIncludeFile(pkgid, "./pacman/codec/decode", DECODE_HEADERS)
+	PackageAddAndCopyIncludeFile(pkgid, "./pacman/codec/encode", ENCODE_HEADERS)
+
+	return
+	
+BASEDIR = Dir(".")
+FILE_NAMES = [
+	'encode/enc.c',
+	'encode/enc_dpb.c',
+	'encode/enc_gop.c',
+	'encode/enc_headers.c',
+	'encode/enc_init_mb.c',
+	'encode/enc_interpolate.c',
+	'encode/enc_motionsearch.c',
+	'encode/enc_putvlc.c',
+	'encode/enc_sei.c',
+	'encode/enc_writebits.c',
+	'encode/taah264enc.c',
+	'encode/enc_load_mb.c',
+	'decode/dec.c',
+	'decode/dec_dpb.c',
+	'decode/dec_getvlc.c',
+	'decode/dec_headers.c',
+	'decode/dec_sei.c',
+	'decode/taah264dec.c',
+	'common/com_cpuinfo.c',
+	'common/com_deblock.c',
+	'common/com_dpb.c',
+	'common/com_error.c',
+	('common/com_interpolation_vs2013.c' if BuildMonster.MSVC_VERSION in ['12.0', '14.0'] else 'common/com_interpolation.c'),
+	'common/com_interpolation_ref.c',
+	'common/com_prediction.c',
+	]
+
+# Windows need these files to be named as <file>_ssse3.c. Even though Linux and Mac do not do this, they do have
+# different object names in the .a file to avoid confliction. 
+InstallAs("common/com_deblock_ssse3.c", "common/com_deblock.c")
+InstallAs("encode/enc_mb_ssse3.c", "encode/enc_mb.c")
+InstallAs("encode/enc_init_mb_ssse3.c", "encode/enc_init_mb.c")
+
+SSSE3_FILE_NAMES = [
+	'encode/enc_init_mb_ssse3.c',
+	'encode/enc_mb_ssse3.c',
+	'common/com_deblock_ssse3.c',
+	]
+
+
+if PLATFORM_ARCH in ['linux2-x86', 'darwin-x86', 'darwin-x86_64']:
+	FILE_NAMES += [
+		'decode/dec_quant.c',
+		'decode/dec_transform.c',
+		'decode/dec_intrapred.c',
+		'decode/dec_readbits.c',
+		'encode/enc_mb.c',
+		'encode/enc_control.c',
+		'encode/enc_ratecontrol.c',
+		]
+else:
+	# These files need to compile with different flags
+	EXTRA_FILE_NAMES = [
+		'decode\dec_intrapred.c',
+		'decode\dec_readbits.c',
+		'encode\enc_mb.c',
+		'encode\enc_control.c',
+		'encode\enc_ratecontrol.c',
+		]
+
+COMMON_HEADER_FILE_NAMES = [
+	'common/com_common.h',
+	'common/com_deblock.h',
+	'common/com_error.h',
+	'common/com_intmath.h',
+	'common/com_resolutions.h',
+	'common/com_compatibility.h',
+	'common/com_deblock_template.h',
+	'common/com_interpolation.h',
+	'common/com_mbutils.h',
+	'common/com_sei.h',
+	'common/com_cpuinfo.h',
+	'common/com_dpb.h',
+	'common/com_interpolation_ref.h',
+	'common/com_prediction.h',
+	'common/com_typedefs.h',
+	]
+
+DECODE_HEADER_FILE_NAMES = [
+	'decode/dec_dpb.h',
+	'decode/dec.h',
+	'decode/dec_intrapred.h',
+	'decode/dec_quant.h',
+	'decode/dec_sei.h',
+	'decode/dec_transform.h',
+	'decode/dec_getvlc.h',
+	'decode/dec_headers.h',
+	'decode/decoder.h',
+	'decode/dec_readbits.h',
+	'decode/dec_tables_cavlc.h',
+	'decode/dec_typedefs.h',
+	]
+
+ENCODE_HEADER_FILE_NAMES = [
+	'encode/enc_config.h',
+	'encode/enc_earlyskip_template.h',
+	'encode/enc_interpolate.h',
+	'encode/enc_motionsearch.h',
+	'encode/enc_resize_template.h',
+	'encode/fast_object_motion.h',
+	'encode/enc_control.h',
+	'encode/enc_gop.h',
+	'encode/enc_interpolate_template.h',
+	'encode/encoder.h',
+	'encode/enc_sei.h',
+	'encode/ssim.h',
+	'encode/enc_cubic.h',
+	'encode/enc.h',
+	'encode/enc_load_mb.h',
+	'encode/enc_putvlc.h',
+	'encode/enc_tables_cavlc.h',
+	'encode/enc_cubic_template.h',
+	'encode/enc_headers.h',
+	'encode/enc_load_mb_template.h',
+	'encode/enc_quant_template.h',
+	'encode/enc_typedefs.h',
+	'encode/enc_dpb.h',
+	'encode/enc_init_mb.h',
+	'encode/enc_mb.h',
+	'encode/enc_ratecontrol.h',
+	'encode/enc_writebits.h',
+	]
+
+TOP_LEVEL_HEADER_FILE_NAMES = [
+	'taah264dec.h',
+	'taah264enc.h',
+	'taah264stdtypes.h',
+	]
+
+SRC_FILES = [File(F) for F in FILE_NAMES]
+SSSE3_SRC_FILES = [File(F) for F in SSSE3_FILE_NAMES]
+if PLATFORM in ['win32']:
+	EXTRA_SRC_FILES = [File(F) for F in EXTRA_FILE_NAMES]
+COMMON_HEADERS = [File(F) for F in COMMON_HEADER_FILE_NAMES]
+DECODE_HEADERS = [File(F) for F in DECODE_HEADER_FILE_NAMES]
+ENCODE_HEADERS = [File(F) for F in ENCODE_HEADER_FILE_NAMES]
+TOP_LEVEL_HEADERS = [File(F) for F in TOP_LEVEL_HEADER_FILE_NAMES]
+
+for M in BuildMonster.BuildModeList:
+	# Build the package
+	pkgid = PackageInit("pacman-codec", M)
+	PackageWrite(pkgid)	
+	CommonBuildAction(M, pkgid)
+	BuildPacmanSSSE3WithSCONS(M)
+	
+	if PLATFORM in ['win32']:
+		BuildExtraFilesWithSCONS(M)
+	BuildPacmanCodecWithSCONS(M)
+
+	PackageAddDepends(pkgid, ['tools', 'fractal-ssse3', 'fractal-codec'])
+	
+
