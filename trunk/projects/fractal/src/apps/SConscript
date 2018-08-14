@@ -31,7 +31,8 @@ PLATFORM_ARCH = BuildMonster.PLATFORM_ARCH
 
 def BuildPacmanCodecAppsWithSCONS(buildmode):
 	# Get our own environment.
-	env = BuildMonster.COMMON['fractal'][buildmode].CPVEClone()
+        env=BuildMonsterENV.GenerateENV(M)
+	#env = BuildMonster.COMMON['fractal'][buildmode].CPVEClone()
 	
 	extralibs = []
 	env.CPVEProgram(

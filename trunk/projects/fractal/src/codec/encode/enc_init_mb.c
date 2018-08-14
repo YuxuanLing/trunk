@@ -108,7 +108,26 @@ static void taa_h264_candidate_motion_vectors (
   bool c_avail = MB_UP_RIGHT (avail_flags);
   bool d_avail = MB_UP_LEFT  (avail_flags);
 
-  int offset_a = -13;
+  /*
+   -------------------------------------
+     5 |   0  1  4  5 |
+     7 |   2  3  6  7 |
+    13 |   8  9 12 13 |
+    15 |  10 11 14 15 |  10 11 14 15 |
+   -------------------------------------
+     5 |   0  1  4  5 |
+     7 |   2  3  6  7 |
+    13 |   8  9 12 13 |
+    15 |  10 11 14 15 |
+   -------------------------------------
+
+       D  |  B  |  C  |
+   -------------------------------------
+       A  | cur |
+
+   */
+
+  int offset_a = -13;   // reach to 5
   int offset_b = -mvs_stride + 12;
   int offset_c = -mvs_stride + 16 + 12;
 

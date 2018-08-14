@@ -3731,7 +3731,7 @@ uint32_t taa_h264_motion_estimate (
 
 
 meinfo_t * taa_h264_meinfo_create (
-  void)
+void)
 {
   meinfo_t * me = TAA_H264_MM_MALLOC (sizeof (meinfo_t), 64);
   return me;

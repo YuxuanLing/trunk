@@ -54,8 +54,10 @@ static int taa_h264_escape_byte_sequnce (
   int count = 0;
   int num = 0;
 
-  /* 1st pass, check if any bytes needs to be escaped */
+  //TODO-Bo:
+  // This function is not efficient. It must be optimized.
 
+  /* 1st pass, check if any bytes needs to be escaped */
   for(int i = skip; i < len; i++)
   {
     uint8_t b = buf[i];
@@ -65,6 +67,7 @@ static int taa_h264_escape_byte_sequnce (
       num++;
       count = 0;
     }
+
     if(b == 0x00)
       count++;
     else
@@ -74,9 +77,7 @@ static int taa_h264_escape_byte_sequnce (
   if (num == 0)
     return len;
 
-
   /* 2nd pass, escape illegal sequences */
-
   count = 0;
   for(int i = skip; i < len; i++)
   {
@@ -102,7 +103,6 @@ static int taa_h264_escape_byte_sequnce (
   return len;
 }
 
-
 static void taa_h264_reset_bit_buffer (
   bitwriter_t * w)
 {
@@ -115,10 +115,8 @@ static int taa_h264_postprocess_output_buffer (
   bitwriter_t * w)
 {
   int latest_nalu_size = (w->bytebuf + w->bytecount) - w->latest_nalu_start;
-  latest_nalu_size = taa_h264_write_rbsp_trailing_bits (
-    w->latest_nalu_start, latest_nalu_size, w->bitrest);
-  latest_nalu_size = taa_h264_escape_byte_sequnce (
-    w->latest_nalu_start, latest_nalu_size, w->skip_escape);
+  latest_nalu_size = taa_h264_write_rbsp_trailing_bits (w->latest_nalu_start, latest_nalu_size, w->bitrest);
+  latest_nalu_size = taa_h264_escape_byte_sequnce (w->latest_nalu_start, latest_nalu_size, w->skip_escape);
   w->bytecount = (w->latest_nalu_start + latest_nalu_size) - w->bytebuf;
 
   taa_h264_reset_bit_buffer (w);

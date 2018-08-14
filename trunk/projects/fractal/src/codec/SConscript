@@ -45,7 +45,10 @@ def BuildPacmanCodecWithSCONS(buildmode):
 	env.CPVEStaticLibrary(
 		target=STATIC_LIB,
 		source=SRC_FILES,
-		includepaths=[BuildMonster.RepoPath(buildmode, projectname="pacman/codec", subtype="include")],
+		includepaths=[BuildMonster.RepoPath(buildmode, projectname="pacman/codec", subtype="include"),
+                              BuildMonster.RepoPath(buildmode, projectname="pacman/codec/common", subtype="include"),
+                              BuildMonster.RepoPath(buildmode, projectname="pacman/codec/decode", subtype="include"),
+                              BuildMonster.RepoPath(buildmode, projectname="pacman/codec/encode", subtype="include"),],
 		packagename="fractal-codec",
 		packagedepends=packagedepends,
 		)

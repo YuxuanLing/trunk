@@ -33,6 +33,7 @@ static int taa_h264_check_early_skip (
       zmm[k+ 8] = _mm_load_ps ((float *) &luma->recon[0+(4*i+k) * MB_WIDTH_Y]);
       zmm[k+12] = _mm_loadu_ps((float *) &luma->recon[2+(4*i+k) * MB_WIDTH_Y]);
     }
+
     for (int k = 0; k<8; k++)
     {
       ymm[k+0] = _mm_shuffle_ps((zmm[2*k]), (zmm[2*k+1]), 0x44);

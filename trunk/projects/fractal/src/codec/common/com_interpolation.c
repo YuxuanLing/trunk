@@ -504,22 +504,29 @@ void taa_h264_save_16x16_1(
     xmm11 = _mm_unpacklo_epi8(xmm11, O);
     xmm12 = _mm_unpacklo_epi8(xmm12, O);
     xmm13 = _mm_unpacklo_epi8(xmm13, O);
+
+    // E - 5 * F + 20 * G + 20 * H - 5 * I + J
     xmm6  = _mm_add_epi16(xmm2, xmm3);
     xmm14 = _mm_add_epi16(xmm10, xmm11);
     xmm6  = _mm_mullo_epi16(xmm6, _mm_set1_epi16(20));
     xmm14 = _mm_mullo_epi16(xmm14, _mm_set1_epi16(20));
     xmm7  = _mm_add_epi16(xmm1, xmm4);
     xmm15 = _mm_add_epi16(xmm9, xmm12);
+
+
     xmm7  = _mm_mullo_epi16(xmm7, _mm_set1_epi16(5));
     xmm15 = _mm_mullo_epi16(xmm15, _mm_set1_epi16(5));
+
     xmm6  = _mm_sub_epi16(xmm6, xmm7);
     xmm14 = _mm_sub_epi16(xmm14, xmm15);
     xmm6  = _mm_add_epi16(xmm6, xmm0);
     xmm14 = _mm_add_epi16(xmm14, xmm8);
     xmm6  = _mm_add_epi16(xmm6, xmm5);
     xmm14 = _mm_add_epi16(xmm14, xmm13);
+
     xmm6  = _mm_add_epi16(xmm6, _mm_set1_epi16(16));
     xmm14 = _mm_add_epi16(xmm14, _mm_set1_epi16(16));
+
     xmm6  = _mm_srai_epi16 (xmm6, 5);
     xmm14 = _mm_srai_epi16 (xmm14, 5);
     xmm14 = _mm_packus_epi16(xmm6, xmm14);

@@ -364,6 +364,7 @@ unsigned taa_h264_write_slice_header (
   }
 
   /* entropy_coding_mode_flag != 1 */
+  //Bo Add cabac:
 
   bits += TAA_H264_WRITE_SE (writer, slice_qp - sequence->pps_qp, "slice_qp_delta");
 

@@ -71,8 +71,9 @@ uint32_t inline  ffs(uint32_t x)
 }
 
 
-
+//return the pos of the first 1 from most significant (from right to left),  for example , 0x00000050 will return 6 
 # define _bit_scan_reverse(a) (31 - clz(a))
+//return the pos of the first 1 from least significant (from left to right),  for example , 0x00000050 will return 4 
 # define _bit_scan_forward(a) (ffs(a) - 1)
 # define _popcnt32(x) (popcnt(x))
 

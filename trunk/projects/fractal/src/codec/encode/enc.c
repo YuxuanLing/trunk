@@ -180,12 +180,11 @@ static void taa_h264_init_frame (
   frameinfo->motion_vectors_curr = frameinfo->motion_vectors_prev;
   frameinfo->motion_vectors_prev = tmp;
 
+  //
   int16_t * tmp_x = frameinfo->motion_vectors_curr_16x16.x;
   int16_t * tmp_y = frameinfo->motion_vectors_curr_16x16.y;
-
   frameinfo->motion_vectors_curr_16x16.x = frameinfo->motion_vectors_prev_16x16.x;
   frameinfo->motion_vectors_curr_16x16.y = frameinfo->motion_vectors_prev_16x16.y;
-
   frameinfo->motion_vectors_prev_16x16.x = tmp_x;
   frameinfo->motion_vectors_prev_16x16.y = tmp_y;
 
@@ -1415,7 +1414,6 @@ int taa_h264_process_frame (
   return ret;
 }
 
-
 static bool taa_h264_frameinfo_create (
   frameinfo_t *     frameinfo,
   int               width,
@@ -1514,8 +1512,8 @@ static bool taa_h264_frameinfo_create (
 
   memset (frameinfo->motion_vectors_curr, 0, totalmbs * NUM_MVS_MB * sizeof(mv_t));
   memset (frameinfo->motion_vectors_prev, 0, totalmbs * NUM_MVS_MB * sizeof(mv_t));
-  memset (frameinfo->motion_vectors_curr, 0, (2 * totalmbs + 64) * sizeof(int16_t));
-  memset (frameinfo->motion_vectors_curr, 0, (2 * totalmbs + 64) * sizeof(int16_t));
+  memset (frameinfo->motion_vectors_curr_16x16.data, 0, (2 * totalmbs + 64) * sizeof(int16_t));
+  memset (frameinfo->motion_vectors_prev_16x16.data, 0, (2 * totalmbs + 64) * sizeof(int16_t));
 
   frameinfo->motion_vectors_curr_16x16.x = frameinfo->motion_vectors_curr_16x16.data + 0 * totalmbs + 8;
   frameinfo->motion_vectors_curr_16x16.y = frameinfo->motion_vectors_curr_16x16.data + 1 * totalmbs + 8 + 8;
@@ -1563,7 +1561,6 @@ alloc_failed:
   return false;
 }
 
-
 /**
  * Set the width and height by rounding up to the nearest multiple of 16.
  */
@@ -1603,9 +1600,6 @@ static level_t valid_level (int level)
   }
   return ret;
 }
-
-
-
 
 bool taa_h264_enc_init (
   encoder_t * encoder,
@@ -1792,6 +1786,7 @@ bool taa_h264_enc_init (
   const int num_bufs_per_frame = 1;
   const bool store_interpolated = false;
 #endif
+
   const int totalmbs = width * height / MB_SIZE_Y;
 
   const int padded_width = width + PAD_HORZ_Y  * 2;
