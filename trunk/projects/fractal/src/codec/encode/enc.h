@@ -29,6 +29,10 @@ bool taa_h264_enc_init (
 #endif
    );
 
+/* TODO: Move this elsewhere */
+int taa_h264_get_cbp_luma(mbinfo_t * mb);
+int taa_h264_get_cbp_chroma(mbinfo_t * mb);
+
 void taa_h264_enc_free (
   encoder_t * encoder);
 

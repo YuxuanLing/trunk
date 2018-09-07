@@ -56,4 +56,22 @@ struct bi_context_type
 
 
 
+void biari_encode_symbol(EncodingEnvironmentPtr eep, int symbol, BiContextTypePtr bi_ct);
+void biari_encode_symbol_final(EncodingEnvironmentPtr eep, int symbol);
+void unary_bin_encode(EncodingEnvironmentPtr eep, unsigned int symbol, BiContextTypePtr ctx, int ctx_offset);
+void biari_encode_symbol_eq_prob(EncodingEnvironmentPtr eep, int symbol);
+
+/*!
+************************************************************************
+* \brief
+*    Returns the number of currently written bits
+************************************************************************
+*/
+static inline int arienco_bits_written(EncodingEnvironmentPtr eep)
+{
+	return (((*eep->Ecodestrm_len) + eep->Epbuf + 1) << 3) + (eep->Echunks_outstanding * BITS_TO_LOAD) + BITS_TO_LOAD - eep->Ebits_to_go;
+}
+
+
+
 #endif

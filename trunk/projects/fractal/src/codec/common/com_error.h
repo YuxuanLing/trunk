@@ -72,7 +72,7 @@ void taa_h264_error_ (
 
 # define MYDEBUG(...) TAA_H264_TRACE(0xFF, __VA_ARGS__)
 
-# define TAA_H264_TRACE_ENABLED
+//# define TAA_H264_TRACE_ENABLED
 //# define TAA_H264_ASSERTS_ENABLED
 
 typedef enum {

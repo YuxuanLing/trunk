@@ -207,17 +207,25 @@ typedef struct
   int ref_num;           /* Should be -1 for blocks coded as intra */
 } mv_t;
 
-typedef struct
+typedef struct mbinfo_store_s
 {
   uint8_t skip; // smart mask 1=skip, 3=skip+skip strength
   /* the flags variable really doesn't have to be an int (not that many flags) */
   int flags;
   uint16_t cbp_blk;
   uint8_t qp;
+  uint8_t prev_qp;
+  int cbp;          //8x8 cbp, format cbp_chroma << 4 | cbp_luma
   /* uint8_t disable_deblock; */
   uint8_t filter_offset_a;
   uint8_t filter_offset_b;
   mbtype_t mbtype;
+  imode8_t best_i8x8_mode_chroma;
+
+  int mbx;
+  int mby;
+  int mbpos;
+  int64_t cbp_bits[3];
 
 #ifdef TAA_SAVE_264_MEINFO
   int consumed_bits_num;   //This variable imply bits which are consumed by current marcoblock.

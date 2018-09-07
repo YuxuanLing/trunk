@@ -9,6 +9,7 @@
 #include "enc_typedefs.h"
 #include "enc_gop.h"
 #include "enc_config.h"
+#include "enc_cabac_engine.h"
 
 #ifdef TAA_SAVE_264_MEINFO
 
@@ -105,6 +106,8 @@ struct mbinfo_s
   int mquant;
   int lambda;
   int thr;
+  int cbp;              //8x8 cbp , format (cbp_chroma<<4)|cpb_luma
+  int i16offset;        //I_16x16 offset       
   mbtype_t mbtype;
   unsigned approx_i4x4_cost;
 
@@ -121,6 +124,11 @@ struct mbinfo_s
   TAA_H264_ALIGN(64) uint8_t pred_i16x16_y[NUM_I16x16_MODES * MB_SIZE_Y];        /* stores intra predicted y */
 
   int avail_flags;
+  int is_v_block;
+  int subblock_y;
+  int subblock_x;
+  int64_t  cbp_bits[3];
+  int is_intra_block;
   imode4_t pred_intra_modes [NUM_4x4_BLOCKS_Y];
   imode8_t intra_mode_chroma;
   imode16_t best_i16x16_mode;
@@ -128,6 +136,118 @@ struct mbinfo_s
 
   bool encode_luma;
   bool encode_chroma;
+
+  int prev_qp;
+  int prev_dqp;
+  mbinfo_store_t *prevMb;      //prev mb
+  
+  mbinfo_store_t *mb_left;     //mb_A
+  mbinfo_store_t *mb_up;       //mb_B
+  mbinfo_store_t *mb_up_right;      //mb_C
+  mbinfo_store_t *mb_up_left;       //mb_D
+};
+
+
+/**********************************************************************
+* C O N T E X T S   F O R   T M L   S Y N T A X   E L E M E N T S
+**********************************************************************
+*/
+
+#define NUM_MB_TYPE_CTX  11
+#define NUM_MV_RES_CTX   10
+#define NUM_REF_NO_CTX   6
+#define NUM_DELTA_QP_CTX 4
+#define NUM_MB_AFF_CTX   4
+#define NUM_BLOCK_TYPES 10
+
+#define NUM_TRANSFORM_SIZE_CTX 3
+
+#define NUM_IPR_CTX    2
+#define NUM_CIPR_CTX   4
+#define NUM_CBP_CTX    4
+#define NUM_BCBP_CTX   4
+#define NUM_MAP_CTX   15
+#define NUM_LAST_CTX  15
+#define NUM_ONE_CTX    5
+#define NUM_ABS_CTX    5
+
+//! definition of H.264 syntax elements
+typedef enum
+{
+	SE_HEADER,
+	SE_PTYPE,
+	SE_MBTYPE,
+	SE_REFFRAME,
+	SE_INTRAPREDMODE,
+	SE_MVD,
+	SE_CBP,
+	SE_LUM_DC_INTRA,
+	SE_CHR_DC_INTRA,
+	SE_LUM_AC_INTRA,
+	SE_CHR_AC_INTRA,
+	SE_LUM_DC_INTER,
+	SE_CHR_DC_INTER,
+	SE_LUM_AC_INTER,
+	SE_CHR_AC_INTER,
+	SE_DELTA_QUANT,
+	SE_BFRAME,
+	SE_EOS,
+	SE_MAX_ELEMENTS = 20 //!< number of maximum syntax elements
+} SE_type;
+
+
+struct motionInfoContext_s
+{
+	BiContextType mb_type_contexts[3][NUM_MB_TYPE_CTX];
+	BiContextType mv_res_contexts[2][NUM_MV_RES_CTX];
+	BiContextType ref_no_contexts[2][NUM_REF_NO_CTX];
+};
+
+
+struct textureInfoContexts_s
+{
+	BiContextType  transform_size_contexts[NUM_TRANSFORM_SIZE_CTX];
+	BiContextType  ipr_contexts[NUM_IPR_CTX];
+	BiContextType  cipr_contexts[NUM_CIPR_CTX];
+	BiContextType  cbp_contexts[3][NUM_CBP_CTX];
+	BiContextType  bcbp_contexts[NUM_BLOCK_TYPES][NUM_BCBP_CTX];
+	BiContextType  delta_qp_contexts[NUM_DELTA_QP_CTX];
+	BiContextType  one_contexts[NUM_BLOCK_TYPES][NUM_ONE_CTX];
+	BiContextType  abs_contexts[NUM_BLOCK_TYPES][NUM_ABS_CTX];
+	BiContextType  map_contexts[1][NUM_BLOCK_TYPES][NUM_MAP_CTX];
+	BiContextType  last_contexts[1][NUM_BLOCK_TYPES][NUM_LAST_CTX];
+};
+
+typedef enum
+{
+	CAVLC,
+	CABAC
+} SymbolMode;
+
+
+typedef enum
+{
+	P_SLICE = 0,
+	B_SLICE = 1,
+	I_SLICE = 2,
+	NUM_SLICE_TYPES = 3
+} SliceType;
+
+//just for cabac encoder now 
+struct slice_enc_s
+{
+	int                  first_mb_in_slice;
+	short                symbol_mode;
+	short                slice_type;
+	int                  qp;         //last_coded_qp
+
+	// Some Cabac related parameters (could be put in a different structure so we can dynamically allocate them when needed)
+	int  coeff[64];
+	int  coeff_ctr;
+	int  pos;
+
+	motionInfoContext_t mot_ctx;
+	textureInfoContexts_t text_ctx;
 };
 
 
@@ -195,6 +315,7 @@ struct encoder_s
   unsigned coding_options;
 
   sequence_t sequence;
+  slice_t    slice;
   gop_t gop;
   uint8_t last_coded_qp;
   unsigned max_nalu_size;
@@ -233,5 +354,7 @@ struct encoder_s
   unsigned yuv_h;
 #endif
 };
+
+
 
 #endif

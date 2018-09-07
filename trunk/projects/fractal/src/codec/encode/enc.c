@@ -16,6 +16,7 @@
 #include "enc_sei.h"
 #include "enc_control.h"
 #include "enc_load_mb.h"
+#include "enc_mbutils.h"
 #ifndef AVG_HPEL
 # include "enc_interpolate.c"
 #endif
@@ -274,6 +275,51 @@ static bool taa_h264_decide_reference_frame (
   return ref_found;
 }
 
+/* Creates cbp for luma 8x8 blocks out of cbp for 4x4 blocks. Assumes that
+* the cbp of the 4x4 is in the following bit position pattern:
+*
+*  15 14 11 10
+*  13 12  9  8
+*   7  6  3  2
+*   5  4  1  0
+*
+* */
+int taa_h264_get_cbp_luma(
+	mbinfo_t * mb)
+{
+	int cbp = 0;
+	const int ycbp = mb->mbcoeffs.luma_cbp;
+
+	if (mb->mbtype == I_16x16)
+	{
+		if (ycbp != 0)
+			cbp = 0xFF;
+	}
+	else
+	{
+		cbp = ((ycbp & 0x0033) ? 1 : 0) << 0; // 0x0033 =         00110011
+		cbp |= ((ycbp & 0x00CC) ? 1 : 0) << 1; // 0x00CC =         11001100
+		cbp |= ((ycbp & 0x3300) ? 1 : 0) << 2; // 0x3300 = 0011001100000000
+		cbp |= ((ycbp & 0xCC00) ? 1 : 0) << 3; // 0xCC00 = 1100110000000000
+	}
+	return cbp;
+}
+
+
+/* Creates cbp for 8x8 chroma based on table 7-12 */
+int taa_h264_get_cbp_chroma(
+	mbinfo_t * mb)
+{
+	const int acmask = 0x2;
+	const int cr_cbp = mb->mbcoeffs.chroma_cbp;
+	int ret = 2;
+
+	if (cr_cbp == 0)
+		ret = 0;
+	else if ((cr_cbp & acmask) == 0)
+		ret = 1;
+	return ret;
+}
 
 
 
@@ -311,7 +357,7 @@ static unsigned taa_h264_write_mb (
     }
   }
 #endif
-
+  currmb->prev_qp = (*last_coded_qp);
   numbits += taa_h264_write_mb_header (currmb, writer, frameinfo->intra_modes,
                                        mbrun, islice, last_coded_qp);
 
@@ -916,9 +962,9 @@ static int taa_h264_process_frame2 (
 
       /* HACK: QP storage should be redesigned. last_coded_qp at this point
        * holds current quant or previous quant for skip. */
-      taa_h264_store_mbinfo (mbxmax, mbx, mby, currmb.mbtype, currmb.avail_flags,
-                             currmb.mbcoeffs.luma_cbp, encoder->last_coded_qp, 0, 0, 0,
-                             motion_vectors_curr,
+      taa_h264_enc_store_mbinfo (&currmb, mbxmax, mbx, mby, currmb.mbtype, currmb.avail_flags,
+                                  currmb.mbcoeffs.luma_cbp, currmb.cbp, encoder->last_coded_qp, 0, 0, 0, currmb.best_i8x8_mode_chroma,
+                                  motion_vectors_curr,
 #ifdef TAA_SAVE_264_MEINFO
                              num_bits_current_mb,
 #endif

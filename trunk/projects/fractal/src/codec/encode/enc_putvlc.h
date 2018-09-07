@@ -45,9 +45,7 @@ unsigned taa_h264_put_level(
   bitwriter_t * writer,
   int           level);
 
-/* TODO: Move this elsewhere */
-int taa_h264_get_cbp_luma (mbinfo_t * mb);
-int taa_h264_get_cbp_chroma (mbinfo_t * mb);
+
 
 #ifdef TAA_H264_TRACE_ENABLED
 

@@ -399,3 +399,110 @@ void biari_init_context(int qp, BiContextTypePtr ctx, const char* ini)
 
 	ctx->count = 0;
 }
+
+
+
+static inline void put_last_chunk_plus_outstanding_final(EncodingEnvironmentPtr eep, unsigned int l)
+{
+	while (eep->Echunks_outstanding > 0)
+	{
+		put_one_word(eep, 0xFFFF);
+		--(eep->Echunks_outstanding);
+	}
+	put_one_byte(eep, l);
+}
+
+/*!
+************************************************************************
+* \brief
+*    Terminates the arithmetic codeword, writes stop bit and stuffing bytes (if any)
+************************************************************************
+*/
+//void arienco_done_encoding(Macroblock *currMB, EncodingEnvironmentPtr eep)
+void arienco_done_encoding(EncodingEnvironmentPtr eep)
+{
+	unsigned int low = eep->Elow;
+	int remaining_bits = BITS_TO_LOAD - eep->Ebits_to_go; // output (2 + remaining) bits for terminating the codeword + one stop bit
+	unsigned char mask;
+	//BitCounter *mbBits = &currMB->bits;                                   //todo: check this mbBits needed or not
+
+	//p_Vid->pic_bin_count += eep->E*8 + eep->C; // no of processed bins
+
+	if (remaining_bits <= 5) // one terminating byte 
+	{
+		//mbBits->mb_stuffing += (5 - remaining_bits);
+		mask = (unsigned char)(255 - ((1 << (6 - remaining_bits)) - 1));
+		low = (low >> (MASK_BITS)) & mask; // mask out the (2+remaining_bits) MSBs
+		low += (32 >> remaining_bits);       // put the terminating stop bit '1'
+
+		put_last_chunk_plus_outstanding_final(eep, low);
+		put_buffer(eep);
+	}
+	else if (remaining_bits <= 13)            // two terminating bytes
+	{
+		//mbBits->mb_stuffing += (13 - remaining_bits);
+		put_last_chunk_plus_outstanding_final(eep, ((low >> (MASK_BITS)) & 0xFF)); // mask out the 8 MSBs for output
+
+		put_buffer(eep);
+		if (remaining_bits > 6)
+		{
+			mask = (unsigned char)(255 - ((1 << (14 - remaining_bits)) - 1));
+			low = (low >> (B_BITS)) & mask;
+			low += (0x2000 >> remaining_bits);     // put the terminating stop bit '1'
+			put_one_byte_final(eep, low);
+		}
+		else
+		{
+			put_one_byte_final(eep, 128); // second byte contains terminating stop bit '1' only
+		}
+	}
+	else             // three terminating bytes
+	{
+		put_last_chunk_plus_outstanding(eep, ((low >> B_BITS) & B_LOAD_MASK)); // mask out the 16 MSBs for output
+		put_buffer(eep);
+		//mbBits->mb_stuffing += (21 - remaining_bits);
+
+		if (remaining_bits > 14)
+		{
+			mask = (unsigned char)(255 - ((1 << (22 - remaining_bits)) - 1));
+			low = (low >> (MAX_BITS - 24)) & mask;
+			low += (0x200000 >> remaining_bits);       // put the terminating stop bit '1'
+			put_one_byte_final(eep, low);
+		}
+		else
+		{
+			put_one_byte_final(eep, 128); // third byte contains terminating stop bit '1' only
+		}
+	}
+	eep->Ebits_to_go = 8;
+}
+
+
+/*!
+************************************************************************
+* \brief
+*    Unary binarization and encoding of a symbol by using
+*    one or two distinct models for the first two and all
+*    remaining bins
+*
+************************************************************************/
+void unary_bin_encode(EncodingEnvironmentPtr eep,
+	unsigned int symbol,
+	BiContextTypePtr ctx,
+	int ctx_offset)
+{
+	if (symbol == 0)
+	{
+		biari_encode_symbol(eep, 0, ctx);
+		return;
+	}
+	else
+	{
+		biari_encode_symbol(eep, 1, ctx);
+		ctx += ctx_offset;
+		while ((--symbol) > 0)
+			biari_encode_symbol(eep, 1, ctx);
+		biari_encode_symbol(eep, 0, ctx);
+	}
+}
+
