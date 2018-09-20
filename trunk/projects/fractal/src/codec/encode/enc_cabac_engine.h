@@ -2,6 +2,7 @@
 #define _ENC_CABAC_ENGINE_H_
 
 #include "taah264stdtypes.h"
+#include "enc_writebits.h"
 
 
 /************************************************************************
@@ -40,10 +41,12 @@ struct encoding_environment
 	unsigned int  Ebits_to_go;
 	unsigned int  Echunks_outstanding;
 	int           Epbuf;
-	uint8_t       *Ecodestrm;
-	int           *Ecodestrm_len;
+	uint8_t       *Ecodestrm;             //todo:need ? maybe not,  point to the strm buffer that store the bit stream
+	int           *Ecodestrm_len;         //todo:need ? maybe not, point to the stream buf length
 	int           C;
 	int           E;
+
+	bitwriter_t *w;
 };
 
 //! struct for context management
@@ -60,6 +63,8 @@ void biari_encode_symbol(EncodingEnvironmentPtr eep, int symbol, BiContextTypePt
 void biari_encode_symbol_final(EncodingEnvironmentPtr eep, int symbol);
 void unary_bin_encode(EncodingEnvironmentPtr eep, unsigned int symbol, BiContextTypePtr ctx, int ctx_offset);
 void biari_encode_symbol_eq_prob(EncodingEnvironmentPtr eep, int symbol);
+void arienco_done_encoding(EncodingEnvironmentPtr eep);
+void biari_init_context(int qp, BiContextTypePtr ctx, const char* ini);
 
 /*!
 ************************************************************************

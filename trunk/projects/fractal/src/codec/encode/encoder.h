@@ -107,7 +107,8 @@ struct mbinfo_s
   int lambda;
   int thr;
   int cbp;              //8x8 cbp , format (cbp_chroma<<4)|cpb_luma
-  int i16offset;        //I_16x16 offset       
+  int i16offset;        //I_16x16 offset  
+  int skip_flag;        //PSKIP or not
   mbtype_t mbtype;
   unsigned approx_i4x4_cost;
 
@@ -200,13 +201,13 @@ struct motionInfoContext_s
 {
 	BiContextType mb_type_contexts[3][NUM_MB_TYPE_CTX];
 	BiContextType mv_res_contexts[2][NUM_MV_RES_CTX];
-	BiContextType ref_no_contexts[2][NUM_REF_NO_CTX];
+	//BiContextType ref_no_contexts[2][NUM_REF_NO_CTX];  //todo: only one reference not need this now
 };
 
 
 struct textureInfoContexts_s
 {
-	BiContextType  transform_size_contexts[NUM_TRANSFORM_SIZE_CTX];
+	//BiContextType  transform_size_contexts[NUM_TRANSFORM_SIZE_CTX]; //todo: not support transform 8x8 , not need this ctx now
 	BiContextType  ipr_contexts[NUM_IPR_CTX];
 	BiContextType  cipr_contexts[NUM_CIPR_CTX];
 	BiContextType  cbp_contexts[3][NUM_CBP_CTX];
@@ -241,7 +242,7 @@ struct slice_enc_s
 	short                slice_type;
 	int                  qp;         //last_coded_qp
 
-	// Some Cabac related parameters (could be put in a different structure so we can dynamically allocate them when needed)
+	// Some Cabac related parameters (could be put in a different structure so we can dynamically allocate them when needed), using for ceff cabac
 	int  coeff[64];
 	int  coeff_ctr;
 	int  pos;
@@ -256,6 +257,7 @@ struct frameinfo_s
   int width;
   int height;
   int frame_num;
+  int pic_bin_count;          //for cabac
 
   meinfo_t * meinfo;
   frameipbuf_t * refframe;
@@ -303,8 +305,9 @@ struct sequence_s
   uint8_t crop_right;
   uint8_t crop_bottom;
   uint16_t sar_width;
-  uint16_t sar_height;
+  uint16_t sar_height;  
   unsigned num_frames_since_intra;
+  uint8_t  entropy_coding_mode_flag;
 };
 
 struct encoder_s
@@ -315,7 +318,7 @@ struct encoder_s
   unsigned coding_options;
 
   sequence_t sequence;
-  slice_t    slice;
+  slice_enc_t    slice;
   gop_t gop;
   uint8_t last_coded_qp;
   unsigned max_nalu_size;

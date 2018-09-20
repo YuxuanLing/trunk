@@ -401,6 +401,10 @@ void taa_h264_reset_writer (
   w->saved_bitbuf = w->bitbuf;
 }
 
+int taa_h264_bitwriter_get_bitrest(bitwriter_t *w)
+{
+	return w->bitrest;
+}
 
 #ifdef UNIT_TEST
 static

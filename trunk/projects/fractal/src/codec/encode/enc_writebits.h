@@ -71,4 +71,6 @@ void taa_h264_code_buffer_to_string_ (
   char bitstring[],
   int maxlen);
 
+int taa_h264_bitwriter_get_bitrest(bitwriter_t *w);
+
 #endif

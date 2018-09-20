@@ -105,6 +105,9 @@
     <ClCompile Include="..\..\..\codec\encode\enc_mbutils.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\codec\encode\enc_cabac_contex_ini.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\common\snr\snr.h">
@@ -249,6 +252,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\codec\encode\enc_mbutils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\codec\encode\enc_cabac_contex_ini.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\codec\encode\enc_cabac_ctx_tables.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

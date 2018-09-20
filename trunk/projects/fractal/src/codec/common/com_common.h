@@ -226,6 +226,8 @@ typedef struct mbinfo_store_s
   int mby;
   int mbpos;
   int64_t cbp_bits[3];
+  int mvd[4][4][2];             //[blky][blkx][y/x]
+
 
 #ifdef TAA_SAVE_264_MEINFO
   int consumed_bits_num;   //This variable imply bits which are consumed by current marcoblock.

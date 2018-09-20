@@ -12,7 +12,9 @@ static const uint8_t renorm_table_32[32] = { 6,5,4,4,3,3,3,3,2,2,2,2,2,2,2,2,1,1
 static inline void put_one_byte_final(EncodingEnvironmentPtr eep, unsigned int b)
 {
 	//todo: change here to our bits output method
-	eep->Ecodestrm[(*eep->Ecodestrm_len)++] = (uint8_t)b;
+	//eep->Ecodestrm[(*eep->Ecodestrm_len)++] = (uint8_t)b;
+	uint8_t val = (uint8_t)b;
+	taa_h264_write_bits(eep->w, 8, val);
 }
 
 static inline void put_buffer(EncodingEnvironmentPtr eep)
@@ -20,7 +22,9 @@ static inline void put_buffer(EncodingEnvironmentPtr eep)
 	while (eep->Epbuf >= 0)
 	{
 		//todo: change here to our bits output method
-		eep->Ecodestrm[(*eep->Ecodestrm_len)++] = (uint8_t)((eep->Ebuffer >> ((eep->Epbuf--) << 3)) & 0xFF);
+		//eep->Ecodestrm[(*eep->Ecodestrm_len)++] = (uint8_t)((eep->Ebuffer >> ((eep->Epbuf--) << 3)) & 0xFF);
+		uint8_t val = (uint8_t)((eep->Ebuffer >> ((eep->Epbuf--) << 3)) & 0xFF);
+		taa_h264_write_bits(eep->w, 8, val);
 	}
 	while (eep->C > 7)
 	{
@@ -505,4 +509,7 @@ void unary_bin_encode(EncodingEnvironmentPtr eep,
 		biari_encode_symbol(eep, 0, ctx);
 	}
 }
+
+
+
 

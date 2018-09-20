@@ -17,6 +17,7 @@
 #include "enc_control.h"
 #include "enc_load_mb.h"
 #include "enc_mbutils.h"
+#include "enc_cabac.h"
 #ifndef AVG_HPEL
 # include "enc_interpolate.c"
 #endif
@@ -478,11 +479,14 @@ static int taa_h264_process_frame2 (
 #endif
   )
 {
-  sequence_t * sequence        = &encoder->sequence;
+  sequence_t  * sequence       = &encoder->sequence;
   frameinfo_t * frameinfo      = &encoder->frameinfo;
   bitwriter_t * writer         = encoder->bitwriter;
+  slice_enc_t currSlice;
   unsigned num_bits_in_slice = 0;
   unsigned num_bits_in_slice_prev = 0;
+  unsigned num_bits_in_pps = 0;
+  unsigned num_bits_in_sps = 0;
   unsigned num_bits_in_mb = 0;
   unsigned first_mb_in_slice = 0;
   *num_skip_mbs = 0;
@@ -552,13 +556,14 @@ static int taa_h264_process_frame2 (
     sequence->pps_id = 0;
     sequence->idr_pic_id = (uint8_t)((sequence->idr_pic_id + 1) % 2);
     sequence->pps_qp = 30;
-
-    taa_h264_write_sequence_parameter_set (writer, sequence, width, height);
+	//write out sps
+	num_bits_in_sps = taa_h264_write_sequence_parameter_set (writer, sequence, width, height);
     taa_h264_send_nonslice (
       writer, encoder->callbacks.output_nalu, encoder->callbacks.context,
       max_packet_size, &encoder->max_nalu_size);
-
-    taa_h264_write_picture_parameter_set (writer, sequence);
+	//write out pps
+	sequence->entropy_coding_mode_flag = 0;
+	num_bits_in_pps = taa_h264_write_picture_parameter_set (writer, sequence);
     taa_h264_send_nonslice (
       writer, encoder->callbacks.output_nalu, encoder->callbacks.context,
       max_packet_size, &encoder->max_nalu_size);
@@ -582,6 +587,8 @@ static int taa_h264_process_frame2 (
           first_mb_in_slice, encoder->last_coded_qp);
     }
 #endif
+
+	enc_init_slice(sequence, &currSlice, first_mb_in_slice, intra_frame ? I_SLICE : P_SLICE, encoder->last_coded_qp);
 
   num_bits_in_slice += taa_h264_write_slice_header (
     writer,
@@ -1805,7 +1812,7 @@ bool taa_h264_enc_init (
    * we need a higher bits-per-pixel value.  But okay to use 0.041 here since 
    * this is just for initialization.  The encoder will be updated to the real
    * target bitrate later. */
-  const float bits_per_pixel = 0.041;	
+  const float bits_per_pixel = (float)0.041;	
   const uint8_t default_framerate = 30;
   // Workaround to trick the compiler to not use fisttp instruction
   const int default_bitrate_int =

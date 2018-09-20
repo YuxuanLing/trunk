@@ -47,7 +47,7 @@ typedef struct mbcoeffs_s           mbcoeffs_t;
 typedef struct mbinfo_s             mbinfo_t;
 typedef struct motionInfoContext_s       motionInfoContext_t;
 typedef struct textureInfoContexts_s     textureInfoContexts_t;
-typedef struct slice_enc_s          slice_t;
+typedef struct slice_enc_s          slice_enc_t;
 typedef struct frameinfo_s          frameinfo_t;
 typedef struct sequence_s           sequence_t;
 typedef struct encoder_s            encoder_t;

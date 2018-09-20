@@ -193,7 +193,7 @@ unsigned taa_h264_write_picture_parameter_set (
   TAA_H264_TRACE (TAA_H264_TRACE_HEADERS, "\n\n******* PICTURE PARAMETER SET *******\n\n");
   bits += TAA_H264_WRITE_UE (writer, sequence->pps_id, "pic_parameter_set_id");
   bits += TAA_H264_WRITE_UE (writer, sequence->sps_id, "seq_parameter_set_id");
-  bits += TAA_H264_WRITE_U (writer, 0, 1, "entropy_coding_mode_flag");
+  bits += TAA_H264_WRITE_U (writer, sequence->entropy_coding_mode_flag, 1, "entropy_coding_mode_flag");
   bits += TAA_H264_WRITE_U (writer, 0, 1, "pic_order_present_flag");
   bits += TAA_H264_WRITE_UE (writer, 0, "num_slice_groups_minus1");
   /* We always use just one active refrence frame. */
@@ -375,6 +375,21 @@ unsigned taa_h264_write_slice_header (
   /* TAA_H264_TRACE_VALUE (TAA_H264_TRACE_HEADERS, "disable_deblocking_filter_idc", val); */
 
   /* num_slice_groups_minus1 == 0 */
+
+  if (sequence->entropy_coding_mode_flag)
+  {
+	  //byte alien
+	  int bitrest = 0;
+	  taa_h264_flush_code_buffer(writer);
+	  bitrest = taa_h264_bitwriter_get_bitrest(writer);
+	  
+	  if (bitrest % 8 != 0)
+	  {
+		  int bits_buffered = 32 - bitrest;
+		  int bits_to_padding = 8 - (bits_buffered % 8);
+		  taa_h264_write_bits(writer, bits_to_padding, (0xff >> (8 - bitrest)));
+	  }
+  }
 
   return bits;
 }

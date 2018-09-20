@@ -127,6 +127,7 @@
     <ClCompile Include="..\..\..\codec\common\com_prediction.c" />
     <ClCompile Include="..\..\..\codec\encode\enc.c" />
     <ClCompile Include="..\..\..\codec\encode\enc_cabac.c" />
+    <ClCompile Include="..\..\..\codec\encode\enc_cabac_contex_ini.c" />
     <ClCompile Include="..\..\..\codec\encode\enc_cabac_engine.c" />
     <ClCompile Include="..\..\..\codec\encode\enc_control.c" />
     <ClCompile Include="..\..\..\codec\encode\enc_dpb.c" />
@@ -169,6 +170,8 @@
     <ClInclude Include="..\..\..\codec\encode\enc.h" />
     <ClInclude Include="..\..\..\codec\encode\encoder.h" />
     <ClInclude Include="..\..\..\codec\encode\enc_cabac.h" />
+    <ClInclude Include="..\..\..\codec\encode\enc_cabac_contex_ini.h" />
+    <ClInclude Include="..\..\..\codec\encode\enc_cabac_ctx_tables.h" />
     <ClInclude Include="..\..\..\codec\encode\enc_cabac_engine.h" />
     <ClInclude Include="..\..\..\codec\encode\enc_config.h" />
     <ClInclude Include="..\..\..\codec\encode\enc_control.h" />
