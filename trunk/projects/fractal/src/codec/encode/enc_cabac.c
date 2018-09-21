@@ -1609,7 +1609,7 @@ static int write_chroma_coeff(frameinfo_t * frameinfo, slice_enc_t *currSlice, m
 
 
 
-int write_i_slice_MB_layer_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, EncodingEnvironmentPtr eep, int *coeff_rate)
+int write_i_slice_mb_layer_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, EncodingEnvironmentPtr eep)
 {
 
 	int             mb_nr = currMB->mbpos;
@@ -1857,7 +1857,7 @@ int write_p_slice_motion_info(frameinfo_t * frameinfo, slice_enc_t *currSlice, m
 *    bitrate of Luma and Chroma coeff
 ************************************************************************
 */
-int write_p_slice_MB_layer_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, EncodingEnvironmentPtr eep, int *coeff_rate)
+int write_p_slice_mb_layer_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, EncodingEnvironmentPtr eep)
 {
 
 	SyntaxElement   se;
@@ -1865,6 +1865,7 @@ int write_p_slice_MB_layer_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice
 	int             skip = (currMB->mbtype == P_SKIP);
 	int             prevMbSkipped = 0;
 	int             WriteFrameFieldMBInHeader = 0;
+	int             coeff_rate = 0;
 
 
 	enc_set_mb_neighbour_assist_info(frameinfo, currSlice, currMB);
@@ -1947,10 +1948,10 @@ int write_p_slice_MB_layer_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice
 
 	if (currMB->mbtype != P_SKIP)
 	{
-		*coeff_rate = write_CBP_and_Dquant(frameinfo, currSlice, currMB, eep);
-		*coeff_rate += writeCoeff16x16_CABAC(frameinfo, currSlice, currMB, 0, eep);
-		*coeff_rate += write_chroma_coeff(frameinfo, currSlice, currMB, eep);
-		no_bits += *coeff_rate;
+		coeff_rate = write_CBP_and_Dquant(frameinfo, currSlice, currMB, eep);
+		coeff_rate += writeCoeff16x16_CABAC(frameinfo, currSlice, currMB, 0, eep);
+		coeff_rate += write_chroma_coeff(frameinfo, currSlice, currMB, eep);
+		no_bits += coeff_rate;
 	}
 
 	return no_bits;
@@ -1995,7 +1996,7 @@ void write_terminating_bit(EncodingEnvironmentPtr eep, int bit)
 *
 ************************************************************************
 */
-static int terminate_slice_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, EncodingEnvironmentPtr eep, int lastslice)
+int terminate_slice_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, EncodingEnvironmentPtr eep, int lastslice)
 {
 
 	if (currSlice->symbol_mode == CABAC)
@@ -2028,7 +2029,6 @@ static int terminate_slice_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice
 
 
 
-
 /*!
 ************************************************************************
 * \brief
@@ -2049,6 +2049,8 @@ void enc_cabac_start_encoding(EncodingEnvironmentPtr eep,
 	//eep->Ecodestrm_len = code_len;
 
 	eep->Erange = HALF;
+	eep->E = 0;
+	eep->C = 0;
 }
 
 

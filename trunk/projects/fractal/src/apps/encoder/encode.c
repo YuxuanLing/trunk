@@ -17,7 +17,7 @@
 #endif
 
 static char * DEFAULT_FILENAME_LOG = "encoder.log";
-static const int MAX_NALU_SIZE = 14500;
+static const int MAX_NALU_SIZE = 14500;// 600;//1450;
 
 typedef struct context_t
 {

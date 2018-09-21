@@ -45,7 +45,8 @@ void taa_h264_send_slice (
   void *        context,
   unsigned      max_packet_size,
   unsigned *    max_nalu_size,
-  unsigned *    current_nal_size);
+  unsigned *    current_nal_size,
+  int pic_bin_count, int pic_size_in_mbs);
 
 void taa_h264_send_nonslice (
   bitwriter_t * w,

@@ -58,7 +58,9 @@ void enc_init_slice(sequence_t * sequence, slice_enc_t *currSlice,
 	short                slice_type,
 	int                  last_coded_qp);
 
-
+int write_i_slice_mb_layer_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, EncodingEnvironmentPtr eep);
+int write_p_slice_mb_layer_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, EncodingEnvironmentPtr eep);
+int terminate_slice_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, EncodingEnvironmentPtr eep, int lastslice);
 
 #endif
 

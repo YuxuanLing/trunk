@@ -110,13 +110,65 @@ static void taa_h264_reset_bit_buffer (
   w->bitrest = 32;
 }
 
+static int addCabacZeroWords(uint8_t * buf, int stuffing_bytes)
+{
+	int i;
+	for (i = 0; i < stuffing_bytes; i += 3)
+	{
+		*buf++ = 0x00; // CABAC zero word
+		*buf++ = 0x00;
+		*buf++ = 0x03;
+	}
+	return i;
+}
+
+
+int  cabacZeroWords_need_added(int pic_bin_count, int pic_size_in_mbs, int bytes_in_picture)
+{
+
+	int stuffing_bytes = 0;
+	int i = 0;
+
+	int RawMbBits = 256 * 8 + 2 * 8 * 8 * 8;
+	int min_num_bytes = ((96 * pic_bin_count) - (RawMbBits * (int)pic_size_in_mbs * 3) + 1023) / 1024;
+
+	if (min_num_bytes > bytes_in_picture)
+	{
+
+		stuffing_bytes = min_num_bytes - bytes_in_picture;
+		//printf("Inserting %d/%d cabac_zero_word syntax elements/bytes (Clause 7.4.2.10)\n", ((stuffing_bytes + 2) / 3), stuffing_bytes);
+		return stuffing_bytes;
+		//for (i = 0; i < stuffing_bytes; i += 3)
+		//{
+		//	*buf++ = 0x00; // CABAC zero word
+		//	*buf++ = 0x00;
+		//	*buf++ = 0x03;
+		//}
+		//cur_stats->bit_use_stuffing_bits[p_Vid->type] += (i << 3);
+		//nalu->len += i;
+	}
+
+	return 0;
+}
+
+
 /* Post processes the output buffer. */
 static int taa_h264_postprocess_output_buffer (
-  bitwriter_t * w)
+  bitwriter_t * w, int pic_bin_count, int pic_size_in_mbs)
 {
   int latest_nalu_size = (w->bytebuf + w->bytecount) - w->latest_nalu_start;
   latest_nalu_size = taa_h264_write_rbsp_trailing_bits (w->latest_nalu_start, latest_nalu_size, w->bitrest);
   latest_nalu_size = taa_h264_escape_byte_sequnce (w->latest_nalu_start, latest_nalu_size, w->skip_escape);
+ if (pic_bin_count != 0)
+ {
+	 int stuffing_bytes = 0;
+	 stuffing_bytes = cabacZeroWords_need_added(pic_bin_count, pic_size_in_mbs, latest_nalu_size);
+	 if (stuffing_bytes)
+	 {
+		 assert(0);
+		 latest_nalu_size += addCabacZeroWords((w->latest_nalu_start + latest_nalu_size), stuffing_bytes);
+	 }
+ }
   w->bytecount = (w->latest_nalu_start + latest_nalu_size) - w->bytebuf;
 
   taa_h264_reset_bit_buffer (w);
@@ -133,10 +185,11 @@ static void taa_h264_send_output_buffer (
   void *        context,
   unsigned      max_packet_size,
   unsigned *    max_nalu_size,
-  unsigned *    current_nal_size)
+  unsigned *    current_nal_size,
+  int pic_bin_count, int pic_size_in_mbs)
 {
   taa_h264_flush_code_buffer (w);
-  int latest_nalu_size = taa_h264_postprocess_output_buffer (w);
+  int latest_nalu_size = taa_h264_postprocess_output_buffer (w, pic_bin_count, pic_size_in_mbs);
   bool aggregate = func (w->latest_nalu_start,
                          latest_nalu_size,
                          w->bytebuf,
@@ -169,11 +222,12 @@ void taa_h264_send_slice (
   void *        context,
   unsigned      max_packet_size,
   unsigned *    max_nalu_size,
-  unsigned *    current_nal_size)
+  unsigned *    current_nal_size,
+  int pic_bin_count, int pic_size_in_mbs)
 {
   taa_h264_send_output_buffer (
     w, func, longterm_idx, frame_num, last_nalu_in_frame, context,
-    max_packet_size, max_nalu_size, current_nal_size);
+    max_packet_size, max_nalu_size, current_nal_size, pic_bin_count, pic_size_in_mbs);
 }
 
 
@@ -188,7 +242,7 @@ void taa_h264_send_nonslice (
   unsigned *    max_nalu_size)
 {
   unsigned current_nal_size;
-  taa_h264_send_output_buffer (w, func, 0, 0, false, context, max_packet_size, max_nalu_size, &current_nal_size);
+  taa_h264_send_output_buffer (w, func, 0, 0, false, context, max_packet_size, max_nalu_size, &current_nal_size, 0, 0);
 }
 
 #ifdef UNIT_TEST

@@ -246,7 +246,7 @@ struct slice_enc_s
 	int  coeff[64];
 	int  coeff_ctr;
 	int  pos;
-
+	EncodingEnvironment ee_cabac;
 	motionInfoContext_t mot_ctx;
 	textureInfoContexts_t text_ctx;
 };
