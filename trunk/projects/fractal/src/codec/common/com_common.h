@@ -212,14 +212,16 @@ typedef struct mbinfo_store_s
   uint8_t skip; // smart mask 1=skip, 3=skip+skip strength
   /* the flags variable really doesn't have to be an int (not that many flags) */
   int flags;
-  uint16_t cbp_blk;
+  uint16_t cbp_blk;  //for deblocking
   uint8_t qp;
-  uint8_t prev_qp;
-  int cbp;          //8x8 cbp, format cbp_chroma << 4 | cbp_luma
   /* uint8_t disable_deblock; */
   uint8_t filter_offset_a;
   uint8_t filter_offset_b;
   mbtype_t mbtype;
+  uint8_t prev_qp;
+
+  /*following addded for cabac*/
+  int cbp;          //8x8 cbp, format cbp_chroma << 4 | cbp_luma, for cabac use
   imode8_t best_i8x8_mode_chroma;
 
   int mbx;

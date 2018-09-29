@@ -213,7 +213,7 @@ static void taa_h264_send_output_buffer (
 #ifdef UNIT_TEST
 static
 #endif
-void taa_h264_send_slice (
+unsigned taa_h264_send_slice (
   bitwriter_t * w,
   nal_cb_t      func,
   unsigned int  longterm_idx,
@@ -228,13 +228,14 @@ void taa_h264_send_slice (
   taa_h264_send_output_buffer (
     w, func, longterm_idx, frame_num, last_nalu_in_frame, context,
     max_packet_size, max_nalu_size, current_nal_size, pic_bin_count, pic_size_in_mbs);
+  return current_nal_size;
 }
 
 
 #ifdef UNIT_TEST
 static
 #endif
-void taa_h264_send_nonslice (
+unsigned taa_h264_send_nonslice (
   bitwriter_t * w,
   nal_cb_t      func,
   void *        context,
@@ -243,6 +244,7 @@ void taa_h264_send_nonslice (
 {
   unsigned current_nal_size;
   taa_h264_send_output_buffer (w, func, 0, 0, false, context, max_packet_size, max_nalu_size, &current_nal_size, 0, 0);
+  return current_nal_size;
 }
 
 #ifdef UNIT_TEST

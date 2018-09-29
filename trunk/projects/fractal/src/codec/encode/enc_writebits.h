@@ -36,7 +36,7 @@ void taa_h264_flush_code_buffer_if_needed (
 int taa_h264_available_codes_before_flush (
   bitwriter_t * w);
 
-void taa_h264_send_slice (
+unsigned taa_h264_send_slice (
   bitwriter_t * w,
   nal_cb_t      func,
   unsigned      longterm_idx,
@@ -48,7 +48,7 @@ void taa_h264_send_slice (
   unsigned *    current_nal_size,
   int pic_bin_count, int pic_size_in_mbs);
 
-void taa_h264_send_nonslice (
+unsigned taa_h264_send_nonslice (
   bitwriter_t * w,
   nal_cb_t      func,
   void *        context,

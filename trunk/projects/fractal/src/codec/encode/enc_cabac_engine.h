@@ -35,7 +35,7 @@ typedef BiContextType *BiContextTypePtr;
 //! struct to characterize the state of the arithmetic coding engine
 struct encoding_environment
 {
-	int cabac_encoding;                    // todo: change this to a pointer to video_par, struct video_par *p_Vid;
+	int cabac_encoding;                   
 	unsigned int  Elow, Erange;
 	unsigned int  Ebuffer;
 	unsigned int  Ebits_to_go;

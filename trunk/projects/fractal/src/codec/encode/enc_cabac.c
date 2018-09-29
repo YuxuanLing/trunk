@@ -7,6 +7,11 @@
 #include "enc.h"
 #include "enc_cabac_contex_ini.h"
 
+typedef enum
+{
+	IS_LUMA = 0,
+	IS_CHROMA = 1
+} Component_Type;
 
 //! Pixel position for checking neighbors
 typedef struct pix_pos
@@ -413,13 +418,6 @@ static int writeIntra4x4Modes(frameinfo_t * frameinfo, slice_enc_t *currSlice, m
 
 		}
 
-#if TRACE
-		if (se.value1 < 0)
-			snprintf(se.tracestring, TRACESTRING_SIZE, "Intra 4x4 mode  = predicted (context: %d)", se.context);
-		else
-			snprintf(se.tracestring, TRACESTRING_SIZE, "Intra 4x4 mode  = %3d (context: %d)", se.value1, se.context);
-#endif
-
 		writeIntraPredMode_CABAC(currSlice, &se, eep);
 		rate += se.len;
 	}
@@ -550,10 +548,10 @@ int write_chroma_intra_pred_mode(frameinfo_t * frameinfo, slice_enc_t *currSlice
 ****************************************************************************
 */
 
-void get4x4Neighbour(frameinfo_t * frameinfo, mbinfo_t *currMB, int xN, int yN,  PixelPos *pix)
+void get4x4Neighbour(frameinfo_t * frameinfo, mbinfo_t *currMB, int xN, int yN, int comp_type, PixelPos *pix)
 {
 	//BlockPos *PicPos = currMB->p_Vid->PicPos;
-	int mb_size[2] = { 16,16 }; // (x, y)
+	int mb_size[2][2] = { {16,16}, {8, 8}}; // [luma/chroma](x, y)
 	if (xN < 0)
 	{
 		if (yN < 0)
@@ -561,7 +559,7 @@ void get4x4Neighbour(frameinfo_t * frameinfo, mbinfo_t *currMB, int xN, int yN, 
 			pix->available = (currMB->mb_up_left != NULL)?1:0 ;                   //mb_D
 			pix->mb_addr = pix->available? currMB->mb_up_left->mbpos:-1;
 		}
-		else if ((yN >= 0) && (yN < mb_size[1]))
+		else if ((yN >= 0) && (yN < mb_size[comp_type][1]))
 		{
 			pix->available = (currMB->mb_left != NULL) ? 1 : 0;                   //mb_A
 			pix->mb_addr = pix->available ? currMB->mb_left->mbpos:-1;
@@ -571,14 +569,14 @@ void get4x4Neighbour(frameinfo_t * frameinfo, mbinfo_t *currMB, int xN, int yN, 
 			pix->available = false;
 		}
 	}
-	else if ((xN >= 0) && (xN < mb_size[0]))
+	else if ((xN >= 0) && (xN < mb_size[comp_type][0]))
 	{
 		if (yN < 0)
 		{
 			pix->available = (currMB->mb_up != NULL) ? 1 : 0;                     //mb_B
 			pix->mb_addr = pix->available ? currMB->mb_up->mbpos : -1;
 		}
-		else if (((yN >= 0) && (yN < mb_size[1])))
+		else if (((yN >= 0) && (yN < mb_size[comp_type][1])))                                //current block is in mb_X
 		{
 			pix->mb_addr = currMB->mbpos;
 			pix->available = true;
@@ -588,7 +586,7 @@ void get4x4Neighbour(frameinfo_t * frameinfo, mbinfo_t *currMB, int xN, int yN, 
 			pix->available = false;
 		}
 	}
-	else if ((xN >= mb_size[0]) && (yN < 0))
+	else if ((xN >= mb_size[comp_type][0]) && (yN < 0))
 	{
 		pix->available = (currMB->mb_up_right != NULL) ? 1 : 0;                     //mb_C
 		pix->mb_addr = pix->available ? currMB->mb_up_right->mbpos : -1;
@@ -600,10 +598,10 @@ void get4x4Neighbour(frameinfo_t * frameinfo, mbinfo_t *currMB, int xN, int yN, 
 
 	if (pix->available)
 	{
-		pix->x = (xN & (mb_size[0] - 1));
-		pix->y = (yN & (mb_size[1] - 1));
-		pix->pos_x = (short)(pix->x + (frameinfo->mbinfo_stored[pix->mb_addr]).mbx * mb_size[0]);
-		pix->pos_y = (short)(pix->y + (frameinfo->mbinfo_stored[pix->mb_addr]).mby * mb_size[1]);
+		pix->x = (xN & (mb_size[comp_type][0] - 1));
+		pix->y = (yN & (mb_size[comp_type][1] - 1));
+		pix->pos_x = (short)(pix->x + (frameinfo->mbinfo_stored[pix->mb_addr]).mbx * mb_size[comp_type][0]);
+		pix->pos_y = (short)(pix->y + (frameinfo->mbinfo_stored[pix->mb_addr]).mby * mb_size[comp_type][1]);
 		pix->x >>= 2;
 		pix->y >>= 2;
 		pix->pos_x >>= 2;
@@ -644,12 +642,19 @@ void writeCBP_BIT_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_
 
 	if (mb_x == 0)
 	{
-		get4x4Neighbour(frameinfo, currMB, (mb_x << 2) - 1, (mb_y << 2), &block_a);
+		get4x4Neighbour(frameinfo, currMB, (mb_x << 2) - 1, (mb_y << 2), IS_LUMA, &block_a);
 
 		//if (block_a.available && (!(p_Vid->mb_data[block_a.mb_addr].mb_type == I_PCM)))
 		if (block_a.available)
 		{
-			a = (((frameinfo->mbinfo_stored[block_a.mb_addr].cbp & (1 << (2 * (block_a.y >> 1) + 1))) == 0) ? 1 : 0); //todo: check carefully
+			if (block_a.mb_addr == currMB->mbpos)
+			{
+				a = (((currMB->cbp & (1 << (2 * (block_a.y >> 1) + 1))) == 0) ? 1 : 0);                                   //todo: check carefully
+			}
+			else
+			{
+				a = (((frameinfo->mbinfo_stored[block_a.mb_addr].cbp & (1 << (2 * (block_a.y >> 1) + 1))) == 0) ? 1 : 0); //todo: check carefully
+			}
 		}
 	}
 	else
@@ -687,51 +692,44 @@ void writeCBP_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *c
 		writeCBP_BIT_CABAC(frameinfo, currSlice, currMB, b8, cbp&(1 << b8), cbp, eep, ctx);
 	}
 
-	//if ((p_Vid->yuv_format != YUV400) && (p_Vid->yuv_format != YUV444))
-	if (1)
+	// coding of chroma part
+	if (mbB != NULL)
 	{
-		// coding of chroma part
+		if (mbB->mbtype == I_PCM || (mbB->cbp > 15))
+			b0 = 2;
+	}
+
+	if (mbA != NULL)
+	{
+		if (mbA->mbtype == I_PCM || (mbA->cbp > 15))
+			a0 = 1;
+	}
+
+	curr_cbp_ctx = a0 + b0;
+	cbp_bit = (cbp > 15) ? 1 : 0;
+	biari_encode_symbol(eep, cbp_bit, ctx->cbp_contexts[1] + curr_cbp_ctx);
+
+	if (cbp > 15)
+	{
 		if (mbB != NULL)
 		{
-			if (mbB->mbtype == I_PCM || (mbB->cbp > 15))
-				b0 = 2;
+			if (mbB->mbtype == I_PCM ||
+				((mbB->cbp > 15) && ((mbB->cbp >> 4) == 2)))
+				b1 = 2;
 		}
 
 		if (mbA != NULL)
 		{
-			if (mbA->mbtype == I_PCM || (mbA->cbp > 15))
-				a0 = 1;
+			if (mbA->mbtype == I_PCM ||
+				((mbA->cbp > 15) && ((mbA->cbp >> 4) == 2)))
+				a1 = 1;
 		}
 
-		curr_cbp_ctx = a0 + b0;
-		cbp_bit = (cbp > 15) ? 1 : 0;
-		biari_encode_symbol(eep, cbp_bit, ctx->cbp_contexts[1] + curr_cbp_ctx);
-
-		if (cbp > 15)
-		{
-			if (mbB != NULL)
-			{
-				if (mbB->mbtype == I_PCM ||
-					((mbB->cbp > 15) && ((mbB->cbp >> 4) == 2)))
-					b1 = 2;
-			}
-
-			if (mbA != NULL)
-			{
-				if (mbA->mbtype == I_PCM ||
-					((mbA->cbp > 15) && ((mbA->cbp >> 4) == 2)))
-					a1 = 1;
-			}
-
-			curr_cbp_ctx = a1 + b1;
-			cbp_bit = ((cbp >> 4) == 2) ? 1 : 0;
-			biari_encode_symbol(eep, cbp_bit, ctx->cbp_contexts[2] + curr_cbp_ctx);
-		}
+		curr_cbp_ctx = a1 + b1;
+		cbp_bit = ((cbp >> 4) == 2) ? 1 : 0;
+		biari_encode_symbol(eep, cbp_bit, ctx->cbp_contexts[2] + curr_cbp_ctx);
 	}
-
-	//dp->bitstream->write_flag = 1;
 	se->len = (arienco_bits_written(eep) - curr_len);
-	//CABAC_TRACE;
 }
 
 
@@ -751,7 +749,7 @@ void writeDquant_CABAC(slice_enc_t *currSlice, mbinfo_t *currMB, SyntaxElement *
 	int dquant = se->value1;
 	int sign = (dquant <= 0) ? 0 : -1;
 	int act_sym = (iabs(dquant) << 1) + sign;
-	int act_ctx = ((currMB->prev_dqp != 0) ? 1 : 0);             //todo: need init the dqp, prev_qp etc
+	int act_ctx = ((currMB->prev_dqp != 0) ? 1 : 0);
 
 	if (act_sym == 0)
 	{
@@ -764,10 +762,7 @@ void writeDquant_CABAC(slice_enc_t *currSlice, mbinfo_t *currMB, SyntaxElement *
 		act_sym--;
 		unary_bin_encode(eep, act_sym, ctx->delta_qp_contexts + act_ctx, 1);
 	}
-
-	//dp->bitstream->write_flag = 1;
 	se->len = (arienco_bits_written(eep) - curr_len);
-	//CABAC_TRACE;
 }
 
 
@@ -792,13 +787,8 @@ int write_CBP_and_Dquant(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo
 		se.value1 = cbp;
 		se.type = SE_CBP;
 
-#if TRACE
-		snprintf(se.tracestring, TRACESTRING_SIZE, "CBP (%2d,%2d) = %3d", currMB->mb_x, currMB->mb_y, cbp);
-#endif
-		//currSlice->writeCBP(currMB, &se, dataPart);
 		writeCBP_CABAC(frameinfo, currSlice, currMB, &se, eep);
 		rate += se.len;
-
 	}
 
 	//=====   DQUANT   =====
@@ -823,10 +813,6 @@ int write_CBP_and_Dquant(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo
 		se.value1 = delta_qp;
 		se.type = SE_DELTA_QUANT;
 
-#if TRACE
-		snprintf(se.tracestring, TRACESTRING_SIZE, "Delta QP (%2d,%2d) = %3d", currMB->mb_x, currMB->mb_y, se.value1);
-#endif
-		//currSlice->writeDquant(currMB, &se, dataPart);
 		writeDquant_CABAC(currSlice, currMB, &se, eep);
 		rate += se.len;
 	}
@@ -880,25 +866,96 @@ int MBType2Value(slice_enc_t *currSlice, mbinfo_t *currMB)
 	}
 }
 
+//flatten currmb's mvd , using for cabac encoding
+void mvd_flatten(mbinfo_t *currMB)
+{
+	int mbtype = currMB->mbtype;
+	int x, y, mvd_x1, mvd_y1, mvd_x2,mvd_y2;
+
+	mvd_x1 = currMB->mv1.x - currMB->pred1.x;
+	mvd_y1 = currMB->mv1.y - currMB->pred1.y;
+
+	mvd_x2 = currMB->mv2.x - currMB->pred2.x;
+	mvd_y2 = currMB->mv2.y - currMB->pred2.y;
+
+	if (mbtype == P_16x16)
+	{
+		for (y = 0; y < 4; y++)
+			for (x = 0; x < 4; x++)
+			{
+				currMB->mvd[y][x][0] = mvd_x1;
+				currMB->mvd[y][x][1] = mvd_y1;
+			}
+	}
+	else if (mbtype == P_16x8)
+	{
+
+		for (y = 0; y < 4; y++)
+			for (x = 0; x < 2; x++)
+			{
+				currMB->mvd[y][x][0] = mvd_x1;
+				currMB->mvd[y][x][1] = mvd_y1;
+			}
+
+		for (y = 0; y < 4; y++)
+			for (x = 2; x < 4; x++)
+			{
+				currMB->mvd[y][x][0] = mvd_x2;
+				currMB->mvd[y][x][1] = mvd_y2;
+			}
+
+	}
+	else if (mbtype == P_8x16)
+	{
+		for (y = 0; y < 2; y++)
+			for (x = 0; x < 4; x++)
+			{
+				currMB->mvd[y][x][0] = mvd_x1;
+				currMB->mvd[y][x][1] = mvd_y1;
+			}
+
+		for (y = 2; y < 4; y++)
+			for (x = 0; x < 4; x++)
+			{
+				currMB->mvd[y][x][0] = mvd_x2;
+				currMB->mvd[y][x][1] = mvd_y2;
+			}
+
+	}
+	else
+	{
+		memset(&currMB->mvd[0][0][0], 0, sizeof(currMB->mvd));
+		assert(0);// not support
+	}
+
+}
 
 
-int enc_set_mb_neighbour_assist_info(const frameinfo_t * frameinfo, const slice_enc_t *currSlice, mbinfo_t *currMB)
+int enc_update_mb_assist_info(const frameinfo_t * frameinfo, const slice_enc_t *currSlice, mbinfo_t *currMB)
 {
 	mbinfo_store_t *mbA = NULL, *mbB = NULL, *mbC = NULL, *mbD = NULL;
 	int mbx = currMB->mbx, mby = currMB->mby, mbxmax = frameinfo->width / 16;;
 	bool left, up, up_left, up_right, prev_mb;
 	int  cbp_luma = taa_h264_get_cbp_luma(currMB);
 	int  cbp_chroma = taa_h264_get_cbp_chroma(currMB);
-	int  cbp = ((cbp_chroma << 4) | cbp_luma);  //todo : check
+	int  cbp = 0;
 
+	if (currMB->mbtype == I_16x16)
+	{
+		const int ycbp = currMB->mbcoeffs.luma_cbp;
+		if (ycbp != 0)cbp_luma = 0xF;		
+	}
+
+	cbp = ((cbp_chroma << 4) | cbp_luma);					//todo: check this carefully for I_16x16
 	currMB->cbp = cbp;
+	currMB->cbp_bits[0] = currMB->cbp_bits[1] = currMB->cbp_bits[2] = 0;
 
 	//todo: check Neighbour carefully here
 	left    = MB_LEFT(currMB->avail_flags);
 	up      = MB_UP(currMB->avail_flags);
 	up_left = MB_UP_LEFT(currMB->avail_flags);
 	up_right = MB_UP_RIGHT(currMB->avail_flags);
-	prev_mb = currMB->mbpos >= currSlice->first_mb_in_slice;  //if not the same slice , prev_mb not exist, todo: may be bug check carefully
+	prev_mb = currMB->mbpos > currSlice->first_mb_in_slice;  //if not the same slice , prev_mb not exist, todo: may be bug check carefully
 
 	if (left)
 	{
@@ -927,6 +984,7 @@ int enc_set_mb_neighbour_assist_info(const frameinfo_t * frameinfo, const slice_
 
 	if (prev_mb)
 	{
+	  assert(currMB->mbpos > 0);
 	  currMB->prevMb = &(frameinfo->mbinfo_stored[currMB->mbpos - 1]);
 	  currMB->prev_qp = currMB->prevMb->qp;
 	  currMB->prev_dqp = currMB->prev_qp - currMB->prevMb->prev_qp;
@@ -943,6 +1001,9 @@ int enc_set_mb_neighbour_assist_info(const frameinfo_t * frameinfo, const slice_
 	else {
 		currMB->i16offset = -1;
 	}
+
+	if (!MB_TYPE_IS_INTRA(currMB->mbtype))
+		mvd_flatten(currMB);
 
 	return  0;
 }
@@ -982,7 +1043,6 @@ void write_significance_map(mbinfo_t *currMB, EncodingEnvironmentPtr eep, int ty
 		if (sig)
 		{
 			last = (--coeff_ctr == 0);
-
 			biari_encode_symbol(eep, last, last_ctx + pos2ctxlast[k]);
 			if (last)
 				return;
@@ -1002,11 +1062,11 @@ void write_significance_map(mbinfo_t *currMB, EncodingEnvironmentPtr eep, int ty
 void write_and_store_CBP_block_bit(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, EncodingEnvironmentPtr eep, int type, int cbp_bit, textureInfoContexts_t*  tex_ctx)
 {
 	mbinfo_store_t *mb_data = frameinfo->mbinfo_stored;
-	int y_ac = (type == LUMA_16x16AC_CABAC || type == LUMA_4x4_CABAC);
-	int y_dc = (type == LUMA_16x16DC_CABAC);
-	int u_ac = (type == CHROMA_AC_CABAC && !currMB->is_v_block);
-	int v_ac = (type == CHROMA_AC_CABAC &&  currMB->is_v_block);
-	int chroma_dc = (type == CHROMA_DC_CABAC);
+	int y_ac = (type == LUMA_16x16AC_CABAC_BLK || type == LUMA_4x4_CABAC_BLK);
+	int y_dc = (type == LUMA_16x16DC_CABAC_BLK);
+	int u_ac = (type == CHROMA_AC_CABAC_BLK && !currMB->is_v_block);
+	int v_ac = (type == CHROMA_AC_CABAC_BLK &&  currMB->is_v_block);
+	int chroma_dc = (type == CHROMA_DC_CABAC_BLK);
 	int u_dc = (chroma_dc && !currMB->is_v_block);
 	int v_dc = (chroma_dc &&  currMB->is_v_block);
 	int y = (y_ac || u_ac || v_ac ? currMB->subblock_y : 0);
@@ -1024,8 +1084,8 @@ void write_and_store_CBP_block_bit(frameinfo_t * frameinfo, slice_enc_t *currSli
 
 	if (y_ac || y_dc)
 	{
-		get4x4Neighbour(frameinfo, currMB, x - 1, y, &block_a);
-		get4x4Neighbour(frameinfo, currMB, x, y - 1, &block_b);
+		get4x4Neighbour(frameinfo, currMB, x - 1, y, IS_LUMA, &block_a);
+		get4x4Neighbour(frameinfo, currMB, x, y - 1, IS_LUMA, &block_b);
 		if (y_ac)
 		{
 			if (block_a.available)
@@ -1036,8 +1096,8 @@ void write_and_store_CBP_block_bit(frameinfo_t * frameinfo, slice_enc_t *currSli
 	}
 	else
 	{
-		get4x4Neighbour(frameinfo, currMB, x - 1, y, &block_a);
-		get4x4Neighbour(frameinfo, currMB, x, y - 1, &block_b);
+		get4x4Neighbour(frameinfo, currMB, x - 1, y, IS_CHROMA, &block_a);
+		get4x4Neighbour(frameinfo, currMB, x, y - 1, IS_CHROMA, &block_b);
 
 		if (u_ac || v_ac)
 		{
@@ -1052,34 +1112,112 @@ void write_and_store_CBP_block_bit(frameinfo_t * frameinfo, slice_enc_t *currSli
 	//--- set bits for current block ---
 	if (cbp_bit)
 	{
-		currMB->cbp_bits[0] |= ((int64_t)0x01 << bit);
+		if (type == LUMA_8x8_CABAC_BLK)
+		{
+			assert(0); //not support now
+			currMB->cbp_bits[0] |= ((int64_t)0x33 << bit);
+		}
+		else if (type == CB_8x8_CABAC_BLK)
+		{
+			assert(0); //not support now
+			//currMB->cbp_bits_8x8[1] |= ((int64_t)0x33 << bit);
+			currMB->cbp_bits[1] |= ((int64_t)0x33 << bit);
+		}
+		else if (type == CR_8x8_CABAC_BLK)
+		{
+			assert(0); //not support now
+			//currMB->cbp_bits_8x8[2] |= ((int64_t)0x33 << bit);
+			currMB->cbp_bits[2] |= ((int64_t)0x33 << bit);
+		}
+		else if (type == LUMA_8x4_CABAC_BLK)
+		{
+			assert(0); //not support now
+			currMB->cbp_bits[0] |= ((int64_t)0x03 << bit);
+		}
+		else if (type == LUMA_4x8_CABAC_BLK)
+		{
+			assert(0); //not support now
+			currMB->cbp_bits[0] |= ((int64_t)0x11 << bit);
+		}
+		else if (type == CB_8x4_CABAC_BLK)
+		{
+			assert(0); //not support now
+			currMB->cbp_bits[1] |= ((int64_t)0x03 << bit);
+		}
+		else if (type == CR_8x4_CABAC_BLK)
+		{
+			assert(0); //not support now
+			currMB->cbp_bits[2] |= ((int64_t)0x03 << bit);
+		}
+		else if (type == CB_4x8_CABAC_BLK)
+		{
+			assert(0); //not support now
+			currMB->cbp_bits[1] |= ((int64_t)0x11 << bit);
+		}
+		else if (type == CR_4x8_CABAC_BLK)
+		{
+			assert(0); //not support now
+			currMB->cbp_bits[2] |= ((int64_t)0x11 << bit);
+		}
+		else if ((type == CB_4x4_CABAC_BLK) || (type == CB_16AC_CABAC_BLK) || (type == CB_16DC_CABAC_BLK))
+		{
+			assert(0); //not support now
+			currMB->cbp_bits[1] |= ((int64_t)0x01 << bit);
+		}
+		else if ((type == CR_4x4_CABAC_BLK) || (type == CR_16AC_CABAC_BLK) || (type == CR_16DC_CABAC_BLK))
+		{
+			assert(0); //not support now
+			currMB->cbp_bits[2] |= ((int64_t)0x01 << bit);
+		}
+		else
+		{
+			currMB->cbp_bits[0] |= ((int64_t)0x01 << bit);
+		}
 	}
 
 	bit = (y_dc ? 0 : y_ac ? 1 : u_dc ? 17 : v_dc ? 18 : u_ac ? 19 : 35);
 
-	//if (type != LUMA_8x8)
-	if (1)
+	if (type != LUMA_8x8_CABAC_BLK)
 	{
 		if (block_b.available)
-		{
-			if (mb_data[block_b.mb_addr].mbtype == I_PCM)
-				upper_bit = 1;
+		{			
+			if (block_b.mb_addr == currMB->mbpos)
+			{
+				if (currMB->mbtype == I_PCM)
+					upper_bit = 1;
+				else
+					upper_bit = get_bit(currMB->cbp_bits[0], bit + bit_pos_b);
+			}
 			else
-				upper_bit = get_bit(mb_data[block_b.mb_addr].cbp_bits[0], bit + bit_pos_b);
+			{
+				if (mb_data[block_b.mb_addr].mbtype == I_PCM)
+					upper_bit = 1;
+				else
+					upper_bit = get_bit(mb_data[block_b.mb_addr].cbp_bits[0], bit + bit_pos_b);			
+			}			
 		}
-
 
 		if (block_a.available)
 		{
-			if (mb_data[block_a.mb_addr].mbtype == I_PCM)
-				left_bit = 1;
-			else
-				left_bit = get_bit(mb_data[block_a.mb_addr].cbp_bits[0], bit + bit_pos_a);
+			
+			if (block_a.mb_addr == currMB->mbpos)
+			{
+				if (currMB->mbtype == I_PCM)
+					left_bit = 1;
+				else
+					left_bit = get_bit(currMB->cbp_bits[0], bit + bit_pos_a);
+			}
+			else 
+			{
+				if (mb_data[block_a.mb_addr].mbtype == I_PCM)
+					left_bit = 1;
+				else
+					left_bit = get_bit(mb_data[block_a.mb_addr].cbp_bits[0], bit + bit_pos_a);
+			
+			}
+				
 		}
-
 		ctx = (upper_bit << 1) + left_bit;
-
-		//===== encode symbol =====    
 		biari_encode_symbol(eep, cbp_bit, tex_ctx->bcbp_contexts[type2ctx_bcbp[type]] + ctx);
 	}
 }
@@ -1265,13 +1403,13 @@ void writeRunLevel_CABAC(frameinfo_t * frameinfo,  slice_enc_t *currSlice, mbinf
 	else
 	{
 		textureInfoContexts_t *tex_ctx = &(currSlice->text_ctx);
-		//===== encode CBP-BIT =====
+		//=====  CBP-BIT =====
 		if (currSlice->coeff_ctr > 0)
 		{
 			write_and_store_CBP_block_bit(frameinfo, currSlice, currMB, eep, se->context, 1, tex_ctx);
-			//===== encode significance map =====
+			//=====  significance map =====
 			write_significance_map(currMB, eep, se->context, currSlice->coeff, currSlice->coeff_ctr, tex_ctx);
-			//===== encode significant coefficients =====
+			//=====  significant coefficients =====
 			write_significant_coefficients(eep, se->context, currSlice->coeff, tex_ctx, currSlice->coeff_ctr);
 
 			memset(currSlice->coeff, 0, 64 * sizeof(int));
@@ -1282,10 +1420,7 @@ void writeRunLevel_CABAC(frameinfo_t * frameinfo,  slice_enc_t *currSlice, mbinf
 		//--- reset counters ---
 		currSlice->pos = currSlice->coeff_ctr = 0;
 	}
-
-	//dp->bitstream->write_flag = 1;
 	se->len = (arienco_bits_written(eep) - curr_len);
-	//CABAC_TRACE;
 }
 
 
@@ -1313,44 +1448,37 @@ int writeCoeff4x4_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_
 	currMB->subblock_x = ((b8 & 0x1) == 0) ? (((b4 & 0x1) == 0) ? 0 : 4) : (((b4 & 0x1) == 0) ? 8 : 12);   // horiz. position for coeff_count context
 	currMB->subblock_y = (b8<2) ? ((b4<2) ? 0 : 4) : ((b4<2) ? 8 : 12);                                    // vert.  position for coeff_count context
 	currMB->is_intra_block = is_intra;
-	se.context = ((plane == 0) ? (LUMA_4x4) : ((plane == 1) ? CB_4x4_CABAC : CR_4x4_CABAC));
+	se.context = ((plane == 0) ? (LUMA_4x4_CABAC_BLK) : ((plane == 1) ? CB_4x4_CABAC_BLK : CR_4x4_CABAC_BLK));
 
 	// DC
 	se.type = (is_intra ? SE_LUM_DC_INTRA : SE_LUM_DC_INTER);
-
-
-	se.value1 = (sign[0] == 0)?level[0]:-(int)level[0]; // level
-	se.value2 = run[0];           // run
-
-#if TRACE
-	trace_coeff(&se, plane, "4x4", 0, level, se.value2);
-#endif
+	se.value1 = (sign[0] == 0)?level[0]:-(int)level[0];  // level
+	se.value2 = run[0];                                  // run
 
 	writeRunLevel_CABAC(frameinfo, currSlice, currMB, &se, eep);
 	rate += se.len;
 
-	// AC Coefficients
+	// AC coeff
 	se.type = (is_intra ? SE_LUM_AC_INTRA : SE_LUM_AC_INTER);
 
-	for (k = 1; k < nnz; k++)
+	for (k = 1; k <= nnz; k++)
 	{
-		se.value1 = (sign[k] == 0) ? level[k] : -(int)level[k]; // level
-		se.value2 = run[k]; // run    
-#if TRACE
-		trace_coeff(&se, plane, "4x4", k, level, se.value2);
-#endif
-		writeRunLevel_CABAC(frameinfo, currSlice, currMB, &se, eep);
-
+		if (k == nnz) 
+		{
+			se.value1 = 0; // level
+			se.value2 = 0; // run   
+			//terminate and really encoding
+			writeRunLevel_CABAC(frameinfo, currSlice, currMB, &se, eep);
+		}
+		else
+		{
+			se.value1 = (sign[k] == 0) ? level[k] : -(int)level[k]; // level
+			se.value2 = run[k]; // run    
+			writeRunLevel_CABAC(frameinfo, currSlice, currMB, &se, eep);
+		}
+		
 		rate += se.len;
 	}
-
-	se.value1 = 0; // level
-	se.value2 = 0; // run   
-	//terminate and really encoding
-	writeRunLevel_CABAC(frameinfo, currSlice, currMB, &se, eep);
-	rate += se.len;
-
-
 	return rate;
 }
 
@@ -1366,6 +1494,7 @@ int writeCoeff4x4_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_
 int writeCoeff8x8_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, int plane, int b8, int is_intra, EncodingEnvironmentPtr eep)
 {
 	int  rate = 0;
+	
 	rate += writeCoeff4x4_CABAC(frameinfo, currSlice, currMB, plane, b8, 0, is_intra, eep);
 	rate += writeCoeff4x4_CABAC(frameinfo, currSlice, currMB, plane, b8, 1, is_intra, eep);
 	rate += writeCoeff4x4_CABAC(frameinfo, currSlice, currMB, plane, b8, 2, is_intra, eep);
@@ -1397,7 +1526,6 @@ int writeCoeff16x16_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinf
 	if (currMB->mbtype != I_16x16)
 	{
 		//=====  L U M I N A N C E   =====
-		//--------------------------------
 		if (cbp != 0)
 		{
 			for (b8 = 0; b8 < 4; b8++)
@@ -1412,8 +1540,6 @@ int writeCoeff16x16_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinf
 	else
 	{
 		//=====  L U M I N A N C E   f o r   1 6 x 1 6   =====
-		//----------------------------------------------------
-		//todo :finish I16x16
 		const coeffs4_t * coeffs4 = &currMB->mbcoeffs.luma_dc;
 		const uint8_t * run = &coeffs4->run[0];
 		const int8_t * sign = &coeffs4->sign[0];
@@ -1422,28 +1548,35 @@ int writeCoeff16x16_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinf
 
 
 		currMB->is_intra_block = 1;
-		se.context = LUMA_16x16DC_CABAC;
+		se.context = LUMA_16x16DC_CABAC_BLK;
 		se.type = SE_LUM_DC_INTRA;   // element is of type DC
 
-		for (k = 0; k < nnz; k++)
+		//Luma DC
+		for (k = 0; k <= nnz; k++)
 		{
-			se.value1 = (sign[k] == 0) ? level[k] : -(int)level[k]; // level
-			se.value2 = run[k]; // run    
-			writeRunLevel_CABAC(frameinfo, currSlice, currMB, &se, eep);
+			if (k == nnz)
+			{
+				se.value1 = 0; // level
+				se.value2 = 0; // run   
+				//terminate and really encoding
+				writeRunLevel_CABAC(frameinfo, currSlice, currMB, &se, eep);
+			}
+			else
+			{
+				se.value1 = (sign[k] == 0) ? level[k] : -(int)level[k]; // level
+				se.value2 = run[k];                                     // run    
+				writeRunLevel_CABAC(frameinfo, currSlice, currMB, &se, eep);
+			}
 			block_rate += se.len;
 		}
 
-		se.value1 = 0; // level
-		se.value2 = 0; // run   
-		//terminate and really encoding
-		writeRunLevel_CABAC(frameinfo, currSlice, currMB, &se, eep);
 		rate += block_rate;
 
-		// AC coeffs
+		// Luma AC
 		if (cbp & 15)
 		{
-			se.context = LUMA_16x16AC_CABAC;
-			se.type = SE_LUM_AC_INTRA;   // element is of type AC
+			se.context = LUMA_16x16AC_CABAC_BLK;
+			se.type = SE_LUM_AC_INTRA;
 
 			block_rate = 0;
 
@@ -1469,33 +1602,33 @@ int writeCoeff16x16_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinf
 							level = &coeffs4->level[1];
 							nnz = coeffs4->num_nonzero;
 
-							for (k = 0; k < nnz; k++)
+							for (k = 0; k <= nnz; k++)
 							{
-								se.value1 = (sign[k] == 0) ? level[k] : -(int)level[k]; // level
-								se.value2 = run[k]; // run    
-								writeRunLevel_CABAC(frameinfo, currSlice, currMB, &se, eep);
+								if (k == nnz)
+								{
+									se.value1 = 0; // level
+									se.value2 = 0; // run   
+									//terminate and really encoding
+									writeRunLevel_CABAC(frameinfo, currSlice, currMB, &se, eep);
+								}
+								else
+								{
+									se.value1 = (sign[k] == 0) ? level[k] : -(int)level[k]; // level , for luma/chroma ac , coeff start from pos 1
+									se.value2 = run[k];                                     // run 
+									writeRunLevel_CABAC(frameinfo, currSlice, currMB, &se, eep);
+								}
 								block_rate += se.len;
 							}
-
-							se.value1 = 0; // level
-							se.value2 = 0; // run   
-							//terminate and really encoding
-							writeRunLevel_CABAC(frameinfo, currSlice, currMB, &se, eep);
-							block_rate += se.len;
 						}
 					}
 				}
 			}
-
 			rate += block_rate;
 		}
 	}
 
 	return rate;
 }
-
-
-
 
 
 
@@ -1517,14 +1650,12 @@ static int write_chroma_coeff(frameinfo_t * frameinfo, slice_enc_t *currSlice, m
 
 	currMB->is_intra_block = (currMB->mbtype == I_16x16 || currMB->mbtype == I_4x4);
 
-	//=====
 	//=====   D C - C O E F F I C I E N T S
-	//=====
 	if (cbp > 15)  // check if any chroma bits in coded block pattern is set
 	{
 			se.type = (currMB->is_intra_block ? SE_CHR_DC_INTRA : SE_CHR_DC_INTER);
 			// choose the appropriate data partition
-			se.context = CHROMA_DC;
+			se.context = CHROMA_DC_CABAC_BLK;
 
 			for (uv = 0; uv < 2; ++uv)
 			{
@@ -1534,33 +1665,38 @@ static int write_chroma_coeff(frameinfo_t * frameinfo, slice_enc_t *currSlice, m
                 int8_t * sign = coeffs2->sign;
                 int16_t * level = coeffs2->level;
                 int nnz = coeffs2->num_nonzero;
+				currMB->is_v_block = uv;
 
-				for (k = 0; k < nnz; ++k)
+				for (k = 0; k <= nnz; ++k)
 				{
-					se.value1 = (sign[k] == 0)?level[k]:(-level[k]); // level
-					se.value2 = run[k]; // run       
-					writeRunLevel_CABAC(frameinfo, currSlice, currMB, &se, eep);
+					if (k == nnz)
+					{
+						se.value1 = 0; // level
+						se.value2 = 0; // run   
+						//terminate and really encoding
+						writeRunLevel_CABAC(frameinfo, currSlice, currMB, &se, eep);
+					}
+					else
+					{
+						se.value1 = (sign[k] == 0) ? level[k] : (-level[k]); // level
+						se.value2 = run[k]; // run 
+						writeRunLevel_CABAC(frameinfo, currSlice, currMB, &se, eep);
+					}
 					block_rate += se.len;
 				}
-				se.value1 = 0; // level
-				se.value2 = 0; // run   
-				//terminate and really encoding
-				writeRunLevel_CABAC(frameinfo, currSlice, currMB, &se, eep);
-				block_rate += se.len;
+
 
 			}
 			rate += block_rate;
 	}
 
-	//=====
 	//=====   A C - C O E F F I C I E N T S
-	//=====
 	uv = -1;
 	if (cbp >> 4 == 2) // check if chroma bits in coded block pattern = 10b
 	{
 
 			block_rate = 0;
-			se.context = CHROMA_AC;
+			se.context = CHROMA_AC_CABAC_BLK;
 			se.type = (currMB->is_intra_block ? SE_CHR_AC_INTRA : SE_CHR_AC_INTER);
 			// choose the appropriate data partition
 
@@ -1570,31 +1706,32 @@ static int write_chroma_coeff(frameinfo_t * frameinfo, slice_enc_t *currSlice, m
 				{
 
 					coeffs4_t *   coeffs4 = &currMB->mbcoeffs.chroma_ac[uv*4 + b4];
-					uint8_t * run = coeffs4->run;
-					int8_t * sign = coeffs4->sign;
-					int16_t * level = coeffs4->level;
+					uint8_t * run = &coeffs4->run[1];
+					int8_t * sign = &coeffs4->sign[1];
+					int16_t * level = &coeffs4->level[1];
 					int nnz = coeffs4->num_nonzero;
 					currMB->is_v_block = uv;
 
 					currMB->subblock_y = subblk_offset_y[b4];
 					currMB->subblock_x = subblk_offset_x[b4];
 
-					for (k = 0; k < nnz; k++)
+					for (k = 0; k <= nnz; k++)
 					{
-						se.value1 = (sign[k] == 0) ? level[k] : (-level[k]); // level
-						se.value2 = run[k]; // run  
-
-#if TRACE
-						snprintf(se.tracestring, TRACESTRING_SIZE, "AC Chroma %2d: level =%3d run =%2d", k, level, se.value2);
-#endif
-						writeRunLevel_CABAC(frameinfo, currSlice, currMB, &se, eep);
+						if (k == nnz)
+						{
+							se.value1 = 0; // level
+							se.value2 = 0; // run   
+							//terminate and really encoding
+							writeRunLevel_CABAC(frameinfo, currSlice, currMB, &se, eep);
+						}
+						else
+						{
+							se.value1 = (sign[k] == 0) ? level[k] : (-level[k]); // level , for luma/chroma ac , coeff start from pos 1
+							se.value2 = run[k];                                  // run  
+							writeRunLevel_CABAC(frameinfo, currSlice, currMB, &se, eep);
+						}
 						block_rate += se.len;
 					}
-					se.value1 = 0; // level
-					se.value2 = 0; // run   
-								   //terminate and really encoding
-					writeRunLevel_CABAC(frameinfo, currSlice, currMB, &se, eep);
-					block_rate += se.len;
 				}
 			}
 			rate += block_rate;
@@ -1616,16 +1753,10 @@ int write_i_slice_mb_layer_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice
 	SyntaxElement   se;
 	int             no_bits = 0;
 
-	enc_set_mb_neighbour_assist_info(frameinfo, currSlice, currMB);
-
 	//========= write mb_type (I_SLICE) =========
 	se.value1 = MBType2Value(currSlice, currMB);
 	se.value2 = 0;
 	se.type = SE_MBTYPE;
-
-#if TRACE
-	snprintf(se.tracestring, TRACESTRING_SIZE, "mb_type (I_SLICE) (%2d,%2d) = %3d", currMB->mb_x, currMB->mb_y, currMB->mb_type);
-#endif
 
 	writeMB_I_typeInfo_CABAC(frameinfo, currSlice, currMB, &se, eep);
 
@@ -1645,10 +1776,11 @@ int write_i_slice_mb_layer_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice
 
 	no_bits += write_CBP_and_Dquant(frameinfo, currSlice, currMB, eep);
 
-    //luma chroma coeff here
+    //===== LUMA CHROMA COEFF ====
 	no_bits += writeCoeff16x16_CABAC(frameinfo, currSlice, currMB, 0, eep);
 
 	no_bits += write_chroma_coeff(frameinfo, currSlice, currMB, eep);
+	printf("range: %d\n", (eep)->Erange);
 
 	return no_bits;
 }
@@ -1691,9 +1823,6 @@ void writeMB_Pskip_flagInfo_CABAC(slice_enc_t *currSlice, mbinfo_t *currMB, Synt
 
 
 
-
-
-
 /*!
 ****************************************************************************
 * \brief
@@ -1721,11 +1850,13 @@ int writeMVD_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *cu
 	PixelPos block_a, block_b;
 
 
-	get4x4Neighbour(frameinfo, currMB, i - 1, j, &block_a);
-	get4x4Neighbour(frameinfo, currMB, i, j - 1, &block_b);
+	get4x4Neighbour(frameinfo, currMB, i - 1, j, IS_LUMA,  &block_a);
+	get4x4Neighbour(frameinfo, currMB, i, j - 1, IS_LUMA,  &block_b);
 
 	if (block_b.available)
 	{
+		int x;
+		x = (block_b.mb_addr == currMB->mbpos) ? currMB->mvd[block_a.y][block_a.x][k] : frameinfo->mbinfo_stored[block_a.mb_addr].mvd[block_a.y][block_a.x][k];
 		b = iabs(frameinfo->mbinfo_stored[block_b.mb_addr].mvd[block_b.y][block_b.x][k]);
 	}
 	else
@@ -1733,7 +1864,9 @@ int writeMVD_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *cu
 
 	if (block_a.available)
 	{
-		a = iabs(frameinfo->mbinfo_stored[block_a.mb_addr].mvd[block_a.y][block_a.x][k]);
+		int x = 0;
+		x = (block_a.mb_addr == currMB->mbpos) ? currMB->mvd[block_a.y][block_a.x][k] : frameinfo->mbinfo_stored[block_a.mb_addr].mvd[block_a.y][block_a.x][k];
+		a = iabs(x);
 	}
 	else
 		a = 0;
@@ -1790,7 +1923,7 @@ int write_p_slice_motion_info(frameinfo_t * frameinfo, slice_enc_t *currSlice, m
 		int   step_v0 = (block_size[currMB->mbtype][1] >> 2);
 		SyntaxElement se;
 
-		// if CAVLC is turned on, a 8x8 macroblock with all ref=0 in a P-frame is signalled in macroblock mode
+		// Not support P8x8 and below mode now
 		// Since we always have only one active ref frame we don't need to send ref_idx_l0, only the vectors. comment out following code when you need multi ref 
 
 		/*
@@ -1812,7 +1945,6 @@ int write_p_slice_motion_info(frameinfo_t * frameinfo, slice_enc_t *currSlice, m
 
 		//===== write forward motion vectors =====
 		assert(currMB->mv1.ref_num == 0);
-
 
 		se.value1 = currMB->mv1.x - currMB->pred1.x;
 		se.value2 = 0; // identifies the component and the direction; only used for context determination
@@ -1843,8 +1975,6 @@ int write_p_slice_motion_info(frameinfo_t * frameinfo, slice_enc_t *currSlice, m
 
 
 
-
-
 /*!
 ************************************************************************
 * \brief
@@ -1867,39 +1997,27 @@ int write_p_slice_mb_layer_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice
 	int             WriteFrameFieldMBInHeader = 0;
 	int             coeff_rate = 0;
 
+	int mb_type = MBType2Value(currSlice, currMB);
 
-	enc_set_mb_neighbour_assist_info(frameinfo, currSlice, currMB);
+	//========= write mb_skip_flag (CABAC) =========    
+	se.value1 = mb_type;
+	se.value2 = currMB->cbp;
+	se.type = SE_MBTYPE;
 
-	if (currSlice->symbol_mode == CABAC)
+	writeMB_Pskip_flagInfo_CABAC(currSlice, currMB, &se,  eep);
+
+	no_bits += se.len;
+
+	//========= write mb_type (CABAC) =========
+	if (currMB->mbtype != P_SKIP)
 	{
-		int mb_type = MBType2Value(currSlice, currMB);
-
-		//========= write mb_skip_flag (CABAC) =========    
 		se.value1 = mb_type;
-		se.value2 = currMB->cbp;
+		se.value2 = 0;
 		se.type = SE_MBTYPE;
 
-		writeMB_Pskip_flagInfo_CABAC(currSlice, currMB, &se,  eep);
+		writeMB_P_typeInfo_CABAC(frameinfo, currSlice, currMB, &se, eep);
 
 		no_bits += se.len;
-
-		//========= write mb_type (CABAC) =========
-		if (currMB->mbtype != P_SKIP)
-		{
-			se.value1 = mb_type;
-			se.value2 = 0;
-			se.type = SE_MBTYPE;
-
-#if TRACE
-			snprintf(se.tracestring, TRACESTRING_SIZE, "mb_type (P_SLICE) (%2d,%2d) = %3d", currMB->mb_x, currMB->mb_y, currMB->mb_type);
-#endif
-			writeMB_P_typeInfo_CABAC(frameinfo, currSlice, currMB, &se, eep);
-
-			no_bits += se.len;
-		}
-	}
-	else {
-		assert(0);
 	}
 
 	if (currMB->mbtype == I_PCM)
@@ -1909,24 +2027,22 @@ int write_p_slice_mb_layer_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice
 	}
 
 
-	//===== BITS FOR 8x8 SUB-PARTITION MODES =====
+	//===== BITS FOR 8x8 SUB-PARTITION MODES, NOT SUPPORT NOW =====
 	if (currMB->mbtype == P_8x8)
 	{
 		/*
 		for (i = 0; i < 4; ++i)
 		{
-			//se.value1 = B8Mode2Value(currSlice, currMB->b8x8[i].mode, currMB->b8x8[i].pdir);
+			se.value1 = B8Mode2Value();
 			se.value2 = 0;
 			se.type = SE_MBTYPE;
-			//currSlice->writeB8_typeInfo(&se, dataPart);
+			writeB8_typeInfo();
 			no_bits += se.len;
 		}
 		*/
-		//fractal not support P_8x8 now, useless
 		assert(0);
-		//no_bits += currSlice->writeMotionInfo2NAL(currMB);
+		//no_bits += writeMotionInfo2NAL();
 	}
-
 
 
 	//===== BITS FOR INTRA PREDICTION MODES ====
@@ -1936,9 +2052,6 @@ int write_p_slice_mb_layer_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice
 		no_bits += writeIntraModes(frameinfo, currSlice, currMB, eep);
 		no_bits += write_chroma_intra_pred_mode(frameinfo, currSlice, currMB, eep);
 	}
-
-	//with cabac and bframes maybe it could crash without this default
-	//since cabac needs the right neighborhood for the later MBs
 
 	//----- motion information -----
 	if (currMB->mbtype != P_SKIP && currMB->mbtype != P_8x8 && (!MB_TYPE_IS_INTRA(currMB->mbtype)))
@@ -2007,20 +2120,12 @@ int terminate_slice_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinf
 	arienco_done_encoding(eep);
 	set_pic_bin_count(frameinfo, eep);
 
-	//currStream->byte_buf = 0; 
-	//todo: not need this RBSP to EBSP ,done by taa_h264_escape_byte_sequnce
-	//currNalu->len = RBSPtoEBSP(currNalu->buf, currStream->streamBuffer, currStream->byte_pos);
-
-	// NumBytesInNALunit is: payload length + 1 byte header
-	//p_Vid->bytes_in_picture += currNalu->len + 1;
-
 	if (lastslice)
 	{
-		//todo: impl this to Inserting  cabac_zero_word syntax elements/bytes (Clause 7.4.2.10)
-		//addCabacZeroWords();
-		assert(0);
+		//impl this to Inserting  cabac_zero_word syntax elements/bytes (Clause 7.4.2.10)
+		//addCabacZeroWords(); this has been impl in the taa_h264_postprocess_output_buffer
+		//assert(0);
 	}
-
 
 	return 0;
 }
@@ -2035,10 +2140,11 @@ int terminate_slice_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinf
 *    Initializes the EncodingEnvironment for the arithmetic coder
 ************************************************************************
 */
-void enc_cabac_start_encoding(EncodingEnvironmentPtr eep,
+void enc_cabac_start_encoding(EncodingEnvironmentPtr eep, bitwriter_t *writer,
 	unsigned char *code_buffer,
 	int *code_len)
 {
+	eep->w = writer;
 	eep->Elow = 0;
 	eep->Echunks_outstanding = 0;
 	eep->Ebuffer = 0;
@@ -2046,7 +2152,7 @@ void enc_cabac_start_encoding(EncodingEnvironmentPtr eep,
 	eep->Ebits_to_go = BITS_TO_LOAD + 1; // to swallow first redundant bit
 
 	//eep->Ecodestrm = code_buffer;
-	//eep->Ecodestrm_len = code_len;
+	eep->Ecodestrm_len = code_len;
 
 	eep->Erange = HALF;
 	eep->E = 0;
@@ -2059,14 +2165,13 @@ void enc_cabac_start_encoding(EncodingEnvironmentPtr eep,
 void enc_init_slice(const sequence_t * sequence, slice_enc_t *currSlice,
 int first_mb_in_slice,
 short                slice_type,
-int                  last_coded_qp         )
+int                  slice_qp         )
 {
+	memset(currSlice, 0, sizeof(slice_enc_t));
 	currSlice->first_mb_in_slice = first_mb_in_slice;
-	//currSlice->symbol_mode = symbol_mode;
 	currSlice->slice_type = slice_type;
-	currSlice->qp = last_coded_qp;
+	currSlice->qp = slice_qp;
 	currSlice->coeff;
-	memset(currSlice->coeff, 0, 64*sizeof(int));
 	currSlice->coeff_ctr = 0;
 	currSlice->pos = 0;
 

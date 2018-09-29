@@ -7,14 +7,13 @@
 // Range table for LPS
 static const uint8_t renorm_table_32[32] = { 6,5,4,4,3,3,3,3,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 };
 
-
-
 static inline void put_one_byte_final(EncodingEnvironmentPtr eep, unsigned int b)
 {
 	//todo: change here to our bits output method
 	//eep->Ecodestrm[(*eep->Ecodestrm_len)++] = (uint8_t)b;
 	uint8_t val = (uint8_t)b;
 	taa_h264_write_bits(eep->w, 8, val);
+	(*eep->Ecodestrm_len)++;
 }
 
 static inline void put_buffer(EncodingEnvironmentPtr eep)
@@ -25,6 +24,7 @@ static inline void put_buffer(EncodingEnvironmentPtr eep)
 		//eep->Ecodestrm[(*eep->Ecodestrm_len)++] = (uint8_t)((eep->Ebuffer >> ((eep->Epbuf--) << 3)) & 0xFF);
 		uint8_t val = (uint8_t)((eep->Ebuffer >> ((eep->Epbuf--) << 3)) & 0xFF);
 		taa_h264_write_bits(eep->w, 8, val);
+		(*eep->Ecodestrm_len)++;
 	}
 	while (eep->C > 7)
 	{
@@ -422,19 +422,14 @@ static inline void put_last_chunk_plus_outstanding_final(EncodingEnvironmentPtr 
 *    Terminates the arithmetic codeword, writes stop bit and stuffing bytes (if any)
 ************************************************************************
 */
-//void arienco_done_encoding(Macroblock *currMB, EncodingEnvironmentPtr eep)
 void arienco_done_encoding(EncodingEnvironmentPtr eep)
 {
 	unsigned int low = eep->Elow;
 	int remaining_bits = BITS_TO_LOAD - eep->Ebits_to_go; // output (2 + remaining) bits for terminating the codeword + one stop bit
 	unsigned char mask;
-	//BitCounter *mbBits = &currMB->bits;                                   //todo: check this mbBits needed or not
-
-	//p_Vid->pic_bin_count += eep->E*8 + eep->C; // no of processed bins
 
 	if (remaining_bits <= 5) // one terminating byte 
 	{
-		//mbBits->mb_stuffing += (5 - remaining_bits);
 		mask = (unsigned char)(255 - ((1 << (6 - remaining_bits)) - 1));
 		low = (low >> (MASK_BITS)) & mask; // mask out the (2+remaining_bits) MSBs
 		low += (32 >> remaining_bits);       // put the terminating stop bit '1'
@@ -444,7 +439,6 @@ void arienco_done_encoding(EncodingEnvironmentPtr eep)
 	}
 	else if (remaining_bits <= 13)            // two terminating bytes
 	{
-		//mbBits->mb_stuffing += (13 - remaining_bits);
 		put_last_chunk_plus_outstanding_final(eep, ((low >> (MASK_BITS)) & 0xFF)); // mask out the 8 MSBs for output
 
 		put_buffer(eep);
@@ -464,7 +458,6 @@ void arienco_done_encoding(EncodingEnvironmentPtr eep)
 	{
 		put_last_chunk_plus_outstanding(eep, ((low >> B_BITS) & B_LOAD_MASK)); // mask out the 16 MSBs for output
 		put_buffer(eep);
-		//mbBits->mb_stuffing += (21 - remaining_bits);
 
 		if (remaining_bits > 14)
 		{

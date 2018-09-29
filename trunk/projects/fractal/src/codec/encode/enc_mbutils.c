@@ -1,4 +1,5 @@
 #include "enc_mbutils.h"
+#include <string.h>
 
 
 
@@ -33,6 +34,7 @@ void taa_h264_enc_store_mbinfo( \
 	mb->cbp_bits[0] = currMB->cbp_bits[0];
 	mb->cbp_bits[1] = currMB->cbp_bits[1];
 	mb->cbp_bits[2] = currMB->cbp_bits[2];
+	mb->cbp = currMB->cbp;
 	const bool left_avail = MB_LEFT(flags);
 	const bool top_avail = MB_UP(flags);
 	if (left_avail && top_avail)
@@ -57,60 +59,18 @@ void taa_h264_enc_store_mbinfo( \
 	}
 
 	uint16_t cbp_blk = luma_cbp;
-	int qp = qp_in, y ,x;
+	int qp = qp_in;
 	int new_flags = flags;
 
 	if (MB_TYPE_IS_INTRA(mbtype))
+	{
 		new_flags |= MB_TYPE_INTRA_;
-
-	if (mbtype == P_16x16)
-	{
-		for(y = 0 ; y < 4; y++)
-			for (x = 0; x < 4; x++)
-			{
-				mb->mvd[y][x][0] = currMB->mv1.x - currMB->pred1.x;
-				mb->mvd[y][x][0] = currMB->mv1.y - currMB->pred1.y;
-			}
-	}
-	else if (mbtype == P_16x8)
-	{
-
-		for (y = 0; y < 4; y++)
-			for (x = 0; x < 2; x++)
-			{
-				mb->mvd[y][x][0] = currMB->mv1.x - currMB->pred1.x;
-				mb->mvd[y][x][0] = currMB->mv1.y - currMB->pred1.y;
-			}
-
-		for (y = 0; y < 4; y++)
-			for (x = 2; x < 4; x++)
-			{
-				mb->mvd[y][x][0] = currMB->mv2.x - currMB->pred2.x;
-				mb->mvd[y][x][0] = currMB->mv2.y - currMB->pred2.y;
-			}
-
-	}
-	else if (mbtype == P_8x16)
-	{
-		for (y = 0; y < 2; y++)
-			for (x = 0; x < 4; x++)
-			{
-				mb->mvd[y][x][0] = currMB->mv1.x - currMB->pred1.x;
-				mb->mvd[y][x][0] = currMB->mv1.y - currMB->pred1.y;
-			}
-
-		for (y = 2; y < 4; y++)
-			for (x = 0; x < 4; x++)
-			{
-				mb->mvd[y][x][0] = currMB->mv2.x - currMB->pred2.x;
-				mb->mvd[y][x][0] = currMB->mv2.y - currMB->pred2.y;
-			}
-
 	}
 	else
 	{
-		memset(&mb->mvd[0][0][0], 0, sizeof(mb->mvd));
+		memcpy(&mb->mvd[0][0][0], &currMB->mvd[0][0][0], sizeof(mb->mvd)); //cabac use
 	}
+
 
 	/* HACK: TODO: Do proper initialization of ycbp for skip mbs. */
 	if (mbtype == P_SKIP)

@@ -387,7 +387,7 @@ unsigned taa_h264_write_slice_header (
 	  {
 		  int bits_buffered = 32 - bitrest;
 		  int bits_to_padding = 8 - (bits_buffered % 8);
-		  taa_h264_write_bits(writer, bits_to_padding, (0xff >> (8 - bitrest)));
+		  bits += taa_h264_write_bits(writer, bits_to_padding, (0xff >> (8 - bitrest)));
 	  }
   }
 

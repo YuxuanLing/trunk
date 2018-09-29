@@ -50,6 +50,7 @@ struct luma_s
   TAA_H264_ALIGN(64) uint8_t do_4x4_enc[16];
 };
 
+
 struct chroma_s
 {
   TAA_H264_ALIGN(64) uint8_t input[128];
@@ -106,9 +107,6 @@ struct mbinfo_s
   int mquant;
   int lambda;
   int thr;
-  int cbp;              //8x8 cbp , format (cbp_chroma<<4)|cpb_luma
-  int i16offset;        //I_16x16 offset  
-  int skip_flag;        //PSKIP or not
   mbtype_t mbtype;
   unsigned approx_i4x4_cost;
 
@@ -124,12 +122,7 @@ struct mbinfo_s
   TAA_H264_ALIGN(64) uint8_t recon_topleft_y;
   TAA_H264_ALIGN(64) uint8_t pred_i16x16_y[NUM_I16x16_MODES * MB_SIZE_Y];        /* stores intra predicted y */
 
-  int avail_flags;
-  int is_v_block;
-  int subblock_y;
-  int subblock_x;
-  int64_t  cbp_bits[3];
-  int is_intra_block;
+  int avail_flags;          
   imode4_t pred_intra_modes [NUM_4x4_BLOCKS_Y];
   imode8_t intra_mode_chroma;
   imode16_t best_i16x16_mode;
@@ -137,15 +130,27 @@ struct mbinfo_s
 
   bool encode_luma;
   bool encode_chroma;
+  
+  //following added for cabac , init on enc_update_mb_assist_info
+  int cbp;                         //8x8 cbp , format (cbp_chroma<<4)|cpb_luma, for cabac
+  int i16offset;                   //I_16x16  mode offset
+  int skip_flag;                   //PSKIP or not
+  int is_v_block;
+  int subblock_y;
+  int subblock_x;
+  int64_t  cbp_bits[3]; 
+  int is_intra_block;
 
   int prev_qp;
   int prev_dqp;
-  mbinfo_store_t *prevMb;      //prev mb
+  mbinfo_store_t *prevMb;           //previous mb
   
-  mbinfo_store_t *mb_left;     //mb_A
-  mbinfo_store_t *mb_up;       //mb_B
+  mbinfo_store_t *mb_left;          //mb_A
+  mbinfo_store_t *mb_up;            //mb_B
   mbinfo_store_t *mb_up_right;      //mb_C
   mbinfo_store_t *mb_up_left;       //mb_D
+
+  int mvd[4][4][2];                //[blky][blkx][y/x]
 };
 
 
@@ -201,13 +206,13 @@ struct motionInfoContext_s
 {
 	BiContextType mb_type_contexts[3][NUM_MB_TYPE_CTX];
 	BiContextType mv_res_contexts[2][NUM_MV_RES_CTX];
-	//BiContextType ref_no_contexts[2][NUM_REF_NO_CTX];  //todo: only one reference not need this now
+	//BiContextType ref_no_contexts[2][NUM_REF_NO_CTX];  //only one reference not need this now
 };
 
 
 struct textureInfoContexts_s
 {
-	//BiContextType  transform_size_contexts[NUM_TRANSFORM_SIZE_CTX]; //todo: not support transform 8x8 , not need this ctx now
+	//BiContextType  transform_size_contexts[NUM_TRANSFORM_SIZE_CTX];                                 //not support transform 8x8 , not need this ctx now
 	BiContextType  ipr_contexts[NUM_IPR_CTX];
 	BiContextType  cipr_contexts[NUM_CIPR_CTX];
 	BiContextType  cbp_contexts[3][NUM_CBP_CTX];

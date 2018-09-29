@@ -7,8 +7,6 @@ static inline int imax(int a, int b)
 	return ((a) > (b)) ? (a) : (b);
 }
 
-
-
 #define BIARI_CTX_INIT2(qp, ii,jj,ctx,tab) \
 { \
   for (i=0; i<ii; i++) \

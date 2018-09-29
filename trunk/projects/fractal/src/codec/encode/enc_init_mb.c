@@ -1020,6 +1020,9 @@ void taa_h264_init_mb (
   mb->mbx = mbx;
   mb->mbpos = mby * mbxmax + mbx;
   mb->mbxmax = mbxmax;
+  
+  memset(&(mb->mbcoeffs), 0, sizeof(mb->mbcoeffs));
+  memset(&(mb->mvd[0][0][0]), 0, sizeof(mb->mvd));
 
   taa_h264_set_mb_availability (
     mbx,
