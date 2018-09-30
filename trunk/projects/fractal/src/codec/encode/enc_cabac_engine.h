@@ -23,14 +23,10 @@
 #define MIN_BITS_TO_GO 0
 #define B_LOAD_MASK    0xFFFF      // ((1<<BITS_TO_LOAD) - 1)
 
-
-
 typedef struct encoding_environment EncodingEnvironment;
 typedef EncodingEnvironment *EncodingEnvironmentPtr;
 typedef struct bi_context_type BiContextType;
 typedef BiContextType *BiContextTypePtr;
-
-
 
 //! struct to characterize the state of the arithmetic coding engine
 struct encoding_environment
@@ -41,10 +37,9 @@ struct encoding_environment
 	unsigned int  Ebits_to_go;
 	unsigned int  Echunks_outstanding;
 	int           Epbuf;
-	uint8_t       *Ecodestrm;             //todo:need ? maybe not,  point to the strm buffer that store the bit stream
-	int           *Ecodestrm_len;         //todo:need ? maybe not, point to the stream buf length
-	int           C;
-	int           E;
+	int           *Ecodestrm_len;         //need ? maybe not, point to the stream buf length
+	int           C;                      // processed bin counts % 8
+	int           E;                      //byte count of processed bins
 
 	bitwriter_t *w;
 };
@@ -59,23 +54,12 @@ struct bi_context_type
 
 
 
-void biari_encode_symbol(EncodingEnvironmentPtr eep, int symbol, BiContextTypePtr bi_ct);
-void biari_encode_symbol_final(EncodingEnvironmentPtr eep, int symbol);
+void binary_encode_symbol(EncodingEnvironmentPtr eep, int symbol, BiContextTypePtr bi_ct);
+void binary_encode_symbol_final(EncodingEnvironmentPtr eep, int symbol);
 void unary_bin_encode(EncodingEnvironmentPtr eep, unsigned int symbol, BiContextTypePtr ctx, int ctx_offset);
-void biari_encode_symbol_eq_prob(EncodingEnvironmentPtr eep, int symbol);
-void arienco_done_encoding(EncodingEnvironmentPtr eep);
-void biari_init_context(int qp, BiContextTypePtr ctx, const char* ini);
-
-/*!
-************************************************************************
-* \brief
-*    Returns the number of currently written bits
-************************************************************************
-*/
-static inline int arienco_bits_written(EncodingEnvironmentPtr eep)
-{
-	return (((*eep->Ecodestrm_len) + eep->Epbuf + 1) << 3) + (eep->Echunks_outstanding * BITS_TO_LOAD) + BITS_TO_LOAD - eep->Ebits_to_go;
-}
+void binary_encode_symbol_eq_prob(EncodingEnvironmentPtr eep, int symbol);
+void algorithm_enc_done(EncodingEnvironmentPtr eep);
+void binary_init_context(int qp, BiContextTypePtr ctx, const char* ini);
 
 
 

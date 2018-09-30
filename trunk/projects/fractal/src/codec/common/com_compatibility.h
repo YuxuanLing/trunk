@@ -20,7 +20,7 @@
 # define TAA_H264_ALIGN(x) __declspec(align(x))
 # define TAA_H264_NOINLINE __declspec(noinline)
 
-#elif defined  _WIN32
+#elif defined  _MSC_VER
 #include<malloc.h>
 #include<assert.h>
 #include"taah264stdtypes.h"

@@ -42,8 +42,6 @@ enum {
 } CABACBlockTypes;
 
 
-int write_chroma_intra_pred_mode(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, EncodingEnvironmentPtr eep);
-
 void enc_cabac_start_encoding(EncodingEnvironmentPtr eep, bitwriter_t *writer,
 	unsigned char *code_buffer,
 	int *code_len);

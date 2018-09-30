@@ -1,3 +1,13 @@
+/*****************************************************************************
+* enc_cabac_contex_ini.c:  h264 arithmetic coder context init
+*****************************************************************************
+* Copyright (C) Cisco 2018
+*
+* Authors: Yuxuan Ling<yuxling@cisco.com>
+*
+*****************************************************************************/
+
+
 #include "enc_cabac_ctx_tables.h"
 #include "enc_cabac_contex_ini.h"
 
@@ -12,7 +22,7 @@ static inline int imax(int a, int b)
   for (i=0; i<ii; i++) \
   for (j=0; j<jj; j++) \
   { \
-    biari_init_context (qp, &(ctx[i][j]), &(tab[i][j][0])); \
+    binary_init_context (qp, &(ctx[i][j]), &(tab[i][j][0])); \
   } \
 }
 
@@ -22,7 +32,7 @@ static inline void binary_context_init1(int qp, int jj, BiContextType *ctx, cons
 	int j;
 	for (j = 0; j < jj; j++)
 	{
-		biari_init_context(qp, &(ctx[j]), &(table[j][0]));
+		binary_init_context(qp, &(ctx[j]), &(table[j][0]));
 	}
 }
 
@@ -33,7 +43,7 @@ static inline void binary_context_init2(int qp, int ii, int jj, BiContextType ct
 	{
 		for (j = 0; j < jj; j++)
 		{
-			biari_init_context(qp, &(ctx[i][j]), &(table[i][j][0]));
+			binary_init_context(qp, &(ctx[i][j]), &(table[i][j][0]));
 		}
 	}
 }
@@ -54,7 +64,6 @@ void enc_init_cabac_contexts(slice_enc_t *currSlice)
 		BIARI_CTX_INIT2(qp, 3, NUM_MB_TYPE_CTX, mc->mb_type_contexts, INIT_MB_TYPE_I[model_number]);
 
 		//--- texture coding contexts ---
-		//binary_context_init1(qp, NUM_TRANSFORM_SIZE_CTX, tc->transform_size_contexts, INIT_TRANSFORM_SIZE_I[model_number][0]);
 		binary_context_init1(qp, NUM_IPR_CTX, tc->ipr_contexts, INIT_IPR_I[model_number][0]);                      //intra pred ctx
 		binary_context_init1(qp, NUM_CIPR_CTX, tc->cipr_contexts, INIT_CIPR_I[model_number][0]);                   //chroma intra pred ctx
 		BIARI_CTX_INIT2(qp, 3, NUM_CBP_CTX, tc->cbp_contexts, INIT_CBP_I[model_number]);                           //cbp ctx
@@ -70,10 +79,7 @@ void enc_init_cabac_contexts(slice_enc_t *currSlice)
 		//--- motion coding contexts ---
 		BIARI_CTX_INIT2(qp, 3, NUM_MB_TYPE_CTX, mc->mb_type_contexts, INIT_MB_TYPE_P[model_number]);
 		BIARI_CTX_INIT2(qp, 2, NUM_MV_RES_CTX, mc->mv_res_contexts, INIT_MV_RES_P[model_number]);
-		//BIARI_CTX_INIT2(qp, 2, NUM_REF_NO_CTX, mc->ref_no_contexts, INIT_REF_NO_P[model_number]);
-
 		//--- texture coding contexts ---
-		//binary_context_init1(qp, NUM_TRANSFORM_SIZE_CTX, tc->transform_size_contexts, INIT_TRANSFORM_SIZE_P[model_number][0]);
 		binary_context_init1(qp, NUM_IPR_CTX, tc->ipr_contexts, INIT_IPR_P[model_number][0]);
 		binary_context_init1(qp, NUM_CIPR_CTX, tc->cipr_contexts, INIT_CIPR_P[model_number][0]);
 		BIARI_CTX_INIT2(qp, 3, NUM_CBP_CTX, tc->cbp_contexts, INIT_CBP_P[model_number]);

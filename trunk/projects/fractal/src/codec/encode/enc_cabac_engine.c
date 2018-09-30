@@ -1,3 +1,12 @@
+/*****************************************************************************
+* enc_cabac_engine.c:  arithmetic coder engine
+*****************************************************************************
+* Copyright (C) Cisco 2018
+*
+* Authors: Yuxuan Ling<yuxling@cisco.com>
+*
+*****************************************************************************/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include "enc_cabac_engine.h"
@@ -9,7 +18,7 @@ static const uint8_t renorm_table_32[32] = { 6,5,4,4,3,3,3,3,2,2,2,2,2,2,2,2,1,1
 
 static inline void put_one_byte_final(EncodingEnvironmentPtr eep, unsigned int b)
 {
-	//todo: change here to our bits output method
+	//change here to your own bits output method
 	//eep->Ecodestrm[(*eep->Ecodestrm_len)++] = (uint8_t)b;
 	uint8_t val = (uint8_t)b;
 	taa_h264_write_bits(eep->w, 8, val);
@@ -20,7 +29,7 @@ static inline void put_buffer(EncodingEnvironmentPtr eep)
 {
 	while (eep->Epbuf >= 0)
 	{
-		//todo: change here to our bits output method
+		//change here to your own bits output method
 		//eep->Ecodestrm[(*eep->Ecodestrm_len)++] = (uint8_t)((eep->Ebuffer >> ((eep->Epbuf--) << 3)) & 0xFF);
 		uint8_t val = (uint8_t)((eep->Ebuffer >> ((eep->Epbuf--) << 3)) & 0xFF);
 		taa_h264_write_bits(eep->w, 8, val);
@@ -83,12 +92,11 @@ static inline void put_last_chunk_plus_outstanding(EncodingEnvironmentPtr eep, u
 
 /*!
 ************************************************************************
-* \brief
 *    Actually arithmetic encoding of one binary symbol by using
 *    the probability estimate of its associated context model
 ************************************************************************
 */
-void biari_encode_symbol(EncodingEnvironmentPtr eep, int symbol, BiContextTypePtr bi_ct)
+void binary_encode_symbol(EncodingEnvironmentPtr eep, int symbol, BiContextTypePtr bi_ct)
 {
 	static const uint8_t rLPS_table_64x4[64][4] =
 	{
@@ -261,11 +269,10 @@ void biari_encode_symbol(EncodingEnvironmentPtr eep, int symbol, BiContextTypePt
 
 /*!
 ************************************************************************
-* \brief
 *    Arithmetic encoding for last symbol before termination
 ************************************************************************
 */
-void biari_encode_symbol_final(EncodingEnvironmentPtr eep, int symbol)
+void binary_encode_symbol_final(EncodingEnvironmentPtr eep, int symbol)
 {
 	unsigned int range = eep->Erange - 2;
 	unsigned int low = eep->Elow;
@@ -335,12 +342,11 @@ void biari_encode_symbol_final(EncodingEnvironmentPtr eep, int symbol)
 
 /*!
 ************************************************************************
-* \brief
 *    Arithmetic encoding of one binary symbol assuming
 *    a fixed prob. distribution with p(symbol) = 0.5
 ************************************************************************
 */
-void biari_encode_symbol_eq_prob(EncodingEnvironmentPtr eep, int symbol)
+void binary_encode_symbol_eq_prob(EncodingEnvironmentPtr eep, int symbol)
 {
 	unsigned int low = eep->Elow;
 	--(eep->Ebits_to_go);
@@ -380,11 +386,10 @@ void biari_encode_symbol_eq_prob(EncodingEnvironmentPtr eep, int symbol)
 
 /*!
 ************************************************************************
-* \brief
 *    Initializes a given context with some pre-defined probability state
 ************************************************************************
 */
-void biari_init_context(int qp, BiContextTypePtr ctx, const char* ini)
+void binary_init_context(int qp, BiContextTypePtr ctx, const char* ini)
 {
 	int pstate = ((ini[0] * qp) >> 4) + ini[1];
 
@@ -416,13 +421,43 @@ static inline void put_last_chunk_plus_outstanding_final(EncodingEnvironmentPtr 
 	put_one_byte(eep, l);
 }
 
+
 /*!
 ************************************************************************
-* \brief
+*    Unary binarization and encoding of a symbol by using
+*    one or two distinct models for the first two and all
+*    remaining bins
+*
+************************************************************************/
+void unary_bin_encode(EncodingEnvironmentPtr eep,
+	unsigned int symbol,
+	BiContextTypePtr ctx,
+	int ctx_offset)
+{
+	if (symbol == 0)
+	{
+		binary_encode_symbol(eep, 0, ctx);
+		return;
+	}
+	else
+	{
+		binary_encode_symbol(eep, 1, ctx);
+		ctx += ctx_offset;
+		while ((--symbol) > 0)
+			binary_encode_symbol(eep, 1, ctx);
+		binary_encode_symbol(eep, 0, ctx);
+	}
+}
+
+
+
+
+/*!
+******************************************************************************************
 *    Terminates the arithmetic codeword, writes stop bit and stuffing bytes (if any)
-************************************************************************
+******************************************************************************************
 */
-void arienco_done_encoding(EncodingEnvironmentPtr eep)
+void algorithm_enc_done(EncodingEnvironmentPtr eep)
 {
 	unsigned int low = eep->Elow;
 	int remaining_bits = BITS_TO_LOAD - eep->Ebits_to_go; // output (2 + remaining) bits for terminating the codeword + one stop bit
@@ -473,36 +508,5 @@ void arienco_done_encoding(EncodingEnvironmentPtr eep)
 	}
 	eep->Ebits_to_go = 8;
 }
-
-
-/*!
-************************************************************************
-* \brief
-*    Unary binarization and encoding of a symbol by using
-*    one or two distinct models for the first two and all
-*    remaining bins
-*
-************************************************************************/
-void unary_bin_encode(EncodingEnvironmentPtr eep,
-	unsigned int symbol,
-	BiContextTypePtr ctx,
-	int ctx_offset)
-{
-	if (symbol == 0)
-	{
-		biari_encode_symbol(eep, 0, ctx);
-		return;
-	}
-	else
-	{
-		biari_encode_symbol(eep, 1, ctx);
-		ctx += ctx_offset;
-		while ((--symbol) > 0)
-			biari_encode_symbol(eep, 1, ctx);
-		biari_encode_symbol(eep, 0, ctx);
-	}
-}
-
-
 
 

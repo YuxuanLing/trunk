@@ -1,3 +1,12 @@
+/*****************************************************************************
+* enc_cabac.c: h264 arithmetic coder
+*****************************************************************************
+* Copyright (C) Cisco 2018
+*
+* Authors: Yuxuan Ling<yuxling@cisco.com>
+*
+*****************************************************************************/
+
 #include <limits.h>
 #include <memory.h>
 #include "com_mbutils.h"
@@ -153,15 +162,25 @@ static inline int imin(int a, int b)
 
 
 /*!
+************************************************************************
+*    Returns the number of currently written bits
+************************************************************************
+*/
+static inline int algorithm_enc_bits_written(EncodingEnvironmentPtr eep)
+{
+	return (((*eep->Ecodestrm_len) + eep->Epbuf + 1) << 3) + (eep->Echunks_outstanding * BITS_TO_LOAD) + BITS_TO_LOAD - eep->Ebits_to_go;
+}
+
+
+/*!
 ***************************************************************************
-* \brief
-*    This function is used to arithmetically encode the macroblock
+*    arithmetically encode the macroblock's
 *    type info of a given MB in an I Slice.
 ***************************************************************************
 */
-void writeMB_I_typeInfo_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, SyntaxElement *se, EncodingEnvironmentPtr eep)
+void write_mb_I_type_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, SyntaxElement *se, EncodingEnvironmentPtr eep)
 {
-	int curr_len = arienco_bits_written(eep);
+	int curr_len = algorithm_enc_bits_written(eep);
 	int a = 0, b = 0;
 	int act_ctx = 0;
 	int act_sym;
@@ -191,49 +210,47 @@ void writeMB_I_typeInfo_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, m
 
 	if (act_sym == 0) // 4x4 Intra
 	{
-		biari_encode_symbol(eep, 0, ctx->mb_type_contexts[0] + act_ctx);
+		binary_encode_symbol(eep, 0, ctx->mb_type_contexts[0] + act_ctx);
 	}
 	else if (act_sym == 25) // PCM-MODE,todo: not support now
 	{
 		assert(0);
-		biari_encode_symbol(eep, 1, ctx->mb_type_contexts[0] + act_ctx);
-		biari_encode_symbol_final(eep, 1);
+		binary_encode_symbol(eep, 1, ctx->mb_type_contexts[0] + act_ctx);
+		binary_encode_symbol_final(eep, 1);
 	}
 	else // 16x16 Intra
 	{
-		biari_encode_symbol(eep, 1, ctx->mb_type_contexts[0] + act_ctx);
+		binary_encode_symbol(eep, 1, ctx->mb_type_contexts[0] + act_ctx);
 
-		biari_encode_symbol_final(eep, 0);
+		binary_encode_symbol_final(eep, 0);
 
 		mode_sym = act_sym - 1; // Values in the range of 0...23
 		act_ctx = 4;
 		act_sym = mode_sym / 12;
-		biari_encode_symbol(eep, act_sym, ctx->mb_type_contexts[0] + act_ctx); // coding of luma AC/no AC
+		binary_encode_symbol(eep, act_sym, ctx->mb_type_contexts[0] + act_ctx); // coding of luma AC/no AC
 		mode_sym = mode_sym % 12;
 		act_sym = mode_sym / 4; // coding of cbp: 0,1,2
 		act_ctx = 5;
 		if (act_sym == 0)
 		{
-			biari_encode_symbol(eep, 0, ctx->mb_type_contexts[0] + act_ctx);
+			binary_encode_symbol(eep, 0, ctx->mb_type_contexts[0] + act_ctx);
 		}
 		else
 		{
-			biari_encode_symbol(eep, 1, ctx->mb_type_contexts[0] + act_ctx);
+			binary_encode_symbol(eep, 1, ctx->mb_type_contexts[0] + act_ctx);
 			act_ctx = 6;
-			biari_encode_symbol(eep, (act_sym != 1), ctx->mb_type_contexts[0] + act_ctx);
+			binary_encode_symbol(eep, (act_sym != 1), ctx->mb_type_contexts[0] + act_ctx);
 		}
 		mode_sym = mode_sym & 0x03; // coding of I pred-mode: 0,1,2,3
 		act_sym = mode_sym >> 1;
 		act_ctx = 7;
-		biari_encode_symbol(eep, act_sym, ctx->mb_type_contexts[0] + act_ctx);
+		binary_encode_symbol(eep, act_sym, ctx->mb_type_contexts[0] + act_ctx);
 		act_ctx = 8;
 		act_sym = mode_sym & 0x01;
-		biari_encode_symbol(eep, act_sym, ctx->mb_type_contexts[0] + act_ctx);
+		binary_encode_symbol(eep, act_sym, ctx->mb_type_contexts[0] + act_ctx);
 	}
 
-	//dp->bitstream->write_flag = 1;
-	se->len = (arienco_bits_written(eep) - curr_len);
-	//CABAC_TRACE;
+	se->len = (algorithm_enc_bits_written(eep) - curr_len);
 }
 
 
@@ -241,15 +258,14 @@ void writeMB_I_typeInfo_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, m
 
 /*!
 ***************************************************************************
-* \brief
-*    This function is used to arithmetically encode the macroblock
+*    arithmetically encode the macroblock's
 *    type info of a given MB in P frame.
 ***************************************************************************
 */
 
-void writeMB_P_typeInfo_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, SyntaxElement *se, EncodingEnvironmentPtr eep)
+void write_mb_P_type_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, SyntaxElement *se, EncodingEnvironmentPtr eep)
 {
-	int curr_len = arienco_bits_written(eep);
+	int curr_len = algorithm_enc_bits_written(eep);
 
 	BiContextType *mb_type_contexts = &(currSlice->mot_ctx.mb_type_contexts[1][0]);
 
@@ -269,33 +285,33 @@ void writeMB_P_typeInfo_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, m
 	case 0:
 		break;
 	case 1:
-		biari_encode_symbol(eep, 0, &mb_type_contexts[4]);
-		biari_encode_symbol(eep, 0, &mb_type_contexts[5]);
-		biari_encode_symbol(eep, 0, &mb_type_contexts[6]);
+		binary_encode_symbol(eep, 0, &mb_type_contexts[4]);
+		binary_encode_symbol(eep, 0, &mb_type_contexts[5]);
+		binary_encode_symbol(eep, 0, &mb_type_contexts[6]);
 		break;
 	case 2:
-		biari_encode_symbol(eep, 0, &mb_type_contexts[4]);
-		biari_encode_symbol(eep, 1, &mb_type_contexts[5]);
-		biari_encode_symbol(eep, 1, &mb_type_contexts[7]);
+		binary_encode_symbol(eep, 0, &mb_type_contexts[4]);
+		binary_encode_symbol(eep, 1, &mb_type_contexts[5]);
+		binary_encode_symbol(eep, 1, &mb_type_contexts[7]);
 		break;
 	case 3:
-		biari_encode_symbol(eep, 0, &mb_type_contexts[4]);
-		biari_encode_symbol(eep, 1, &mb_type_contexts[5]);
-		biari_encode_symbol(eep, 0, &mb_type_contexts[7]);
+		binary_encode_symbol(eep, 0, &mb_type_contexts[4]);
+		binary_encode_symbol(eep, 1, &mb_type_contexts[5]);
+		binary_encode_symbol(eep, 0, &mb_type_contexts[7]);
 		break;
 	case 4:
 	case 5:
-		biari_encode_symbol(eep, 0, &mb_type_contexts[4]);
-		biari_encode_symbol(eep, 0, &mb_type_contexts[5]);
-		biari_encode_symbol(eep, 1, &mb_type_contexts[6]);
+		binary_encode_symbol(eep, 0, &mb_type_contexts[4]);
+		binary_encode_symbol(eep, 0, &mb_type_contexts[5]);
+		binary_encode_symbol(eep, 1, &mb_type_contexts[6]);
 		break;
 	case 6:
-		biari_encode_symbol(eep, 1, &mb_type_contexts[4]);
-		biari_encode_symbol(eep, 0, &mb_type_contexts[7]);
+		binary_encode_symbol(eep, 1, &mb_type_contexts[4]);
+		binary_encode_symbol(eep, 0, &mb_type_contexts[7]);
 		break;
 	case 7:
-		biari_encode_symbol(eep, 1, &mb_type_contexts[4]);
-		biari_encode_symbol(eep, 1, &mb_type_contexts[7]);
+		binary_encode_symbol(eep, 1, &mb_type_contexts[4]);
+		binary_encode_symbol(eep, 1, &mb_type_contexts[7]);
 		break;
 	default:
 		printf("Unsupported MB-MODE in writeMB_I_typeInfo_CABAC!\n");
@@ -306,42 +322,38 @@ void writeMB_P_typeInfo_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, m
 	{
 		if (mode_sym == 24)
 		{
-			biari_encode_symbol_final(eep, 1);
-			//dp->bitstream->write_flag = 1;                          //todo
-			se->len = (arienco_bits_written(eep) - curr_len);
-			//CABAC_TRACE;
+			binary_encode_symbol_final(eep, 1);
+			se->len = (algorithm_enc_bits_written(eep) - curr_len);
 			return;
 		}
-		biari_encode_symbol_final(eep, 0);
+		binary_encode_symbol_final(eep, 0);
 
 		act_ctx = 8;
 		act_sym = mode_sym / 12;
-		biari_encode_symbol(eep, act_sym, mb_type_contexts + act_ctx); // coding of AC/no AC
+		binary_encode_symbol(eep, act_sym, mb_type_contexts + act_ctx); // coding of AC/no AC
 		mode_sym = mode_sym % 12;
 
 		act_sym = mode_sym >> 2; // coding of cbp: 0,1,2
 		act_ctx = 9;
 		if (act_sym == 0)
 		{
-			biari_encode_symbol(eep, 0, mb_type_contexts + act_ctx);
+			binary_encode_symbol(eep, 0, mb_type_contexts + act_ctx);
 		}
 		else
 		{
-			biari_encode_symbol(eep, 1, mb_type_contexts + act_ctx);
-			biari_encode_symbol(eep, (act_sym != 1), mb_type_contexts + act_ctx);
+			binary_encode_symbol(eep, 1, mb_type_contexts + act_ctx);
+			binary_encode_symbol(eep, (act_sym != 1), mb_type_contexts + act_ctx);
 		}
 
 		mode_sym = mode_sym & 0x03; // coding of I pred-mode: 0,1,2,3
 		act_ctx = 10;
 		act_sym = mode_sym >> 1;
-		biari_encode_symbol(eep, act_sym, mb_type_contexts + act_ctx);
+		binary_encode_symbol(eep, act_sym, mb_type_contexts + act_ctx);
 		act_sym = (mode_sym & 0x01);
-		biari_encode_symbol(eep, act_sym, mb_type_contexts + act_ctx);
+		binary_encode_symbol(eep, act_sym, mb_type_contexts + act_ctx);
 	}
 
-	//dp->bitstream->write_flag = 1;
-	se->len = (arienco_bits_written(eep) - curr_len);
-	//CABAC_TRACE;
+	se->len = (algorithm_enc_bits_written(eep) - curr_len);
 }
 
 
@@ -349,42 +361,38 @@ void writeMB_P_typeInfo_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, m
 
 /*!
 ****************************************************************************
-* \brief
-*    This function is used to arithmetically encode a pair of
+*    arithmetically encode a pair of
 *    intra prediction modes of a given MB.
 ****************************************************************************
 */
-void writeIntraPredMode_CABAC(slice_enc_t *currSlice, SyntaxElement *se, EncodingEnvironmentPtr eep)
+void write_intraPredMode_cabac(slice_enc_t *currSlice, SyntaxElement *se, EncodingEnvironmentPtr eep)
 {
-	int curr_len = arienco_bits_written(eep);
+	int curr_len = algorithm_enc_bits_written(eep);
 	BiContextType *ipr_contexts = &(currSlice->text_ctx.ipr_contexts[0]);
 
 	// use_most_probable_mode
 	if (se->value1 == -1)
-		biari_encode_symbol(eep, 1, ipr_contexts);
+		binary_encode_symbol(eep, 1, ipr_contexts);
 	else
 	{
-		biari_encode_symbol(eep, 0, ipr_contexts);
+		binary_encode_symbol(eep, 0, ipr_contexts);
 
 		// remaining_mode_selector
-		biari_encode_symbol(eep, (se->value1 & 0x1), ipr_contexts + 1);
-		biari_encode_symbol(eep, ((se->value1 & 0x2) >> 1), ipr_contexts + 1);
-		biari_encode_symbol(eep, ((se->value1 & 0x4) >> 2), ipr_contexts + 1);
+		binary_encode_symbol(eep, (se->value1 & 0x1), ipr_contexts + 1);
+		binary_encode_symbol(eep, ((se->value1 & 0x2) >> 1), ipr_contexts + 1);
+		binary_encode_symbol(eep, ((se->value1 & 0x4) >> 2), ipr_contexts + 1);
 	}
 
-	//dp->bitstream->write_flag = 1;   //todo
-	se->len = (arienco_bits_written(eep) - curr_len);
-	//CABAC_TRACE;
+	se->len = (algorithm_enc_bits_written(eep) - curr_len);
 }
 
 
 /*!
 ************************************************************************
-* \brief
 *    Writes 4x4 intra prediction modes for a macroblock luma
 ************************************************************************
 */
-static int writeIntra4x4Modes(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB,  EncodingEnvironmentPtr eep)
+int write_intra4x4_modes(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB,  EncodingEnvironmentPtr eep)
 {
 	int  rate = 0;
 	static const int block_to_raster_idx[16] = {
@@ -418,7 +426,7 @@ static int writeIntra4x4Modes(frameinfo_t * frameinfo, slice_enc_t *currSlice, m
 
 		}
 
-		writeIntraPredMode_CABAC(currSlice, &se, eep);
+		write_intraPredMode_cabac(currSlice, &se, eep);
 		rate += se.len;
 	}
 
@@ -430,16 +438,15 @@ static int writeIntra4x4Modes(frameinfo_t * frameinfo, slice_enc_t *currSlice, m
 
 /*!
 ************************************************************************
-* \brief
 *    Writes intra prediction modes for a macroblock luma, only support 16x16 and 4x4
 ************************************************************************
 */
-static int writeIntraModes(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, EncodingEnvironmentPtr eep)
+int write_intra_modes(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, EncodingEnvironmentPtr eep)
 {
 	switch (currMB->mbtype)
 	{
 	case I_4x4:
-		return writeIntra4x4Modes(frameinfo, currSlice, currMB, eep);
+		return write_intra4x4_modes(frameinfo, currSlice, currMB, eep);
 		break;
 	default:     //16x16
 		return 0;
@@ -449,30 +456,26 @@ static int writeIntraModes(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbin
 
 /*!
 ************************************************************************
-* \brief
-*    Unary binarization and encoding of a symbol by using
-*    one or two distinct models for the first two and all
-*    remaining bins; no terminating "0" for max_symbol
-*    (finite symbol alphabet)
+*    Unary binarization and encoding of a symbol
 ************************************************************************
 */
-static void unary_bin_max_encode(EncodingEnvironmentPtr eep_dp, unsigned int symbol, BiContextTypePtr ctx, int ctx_offset, unsigned int max_symbol)
+void unary_bin_max_encode(EncodingEnvironmentPtr eep_dp, unsigned int symbol, BiContextTypePtr ctx, int ctx_offset, unsigned int max_symbol)
 {
 	if (symbol == 0)
 	{
-		biari_encode_symbol(eep_dp, 0, ctx);
+		binary_encode_symbol(eep_dp, 0, ctx);
 		return;
 	}
 	else
 	{
 		unsigned int l = symbol;
-		biari_encode_symbol(eep_dp, 1, ctx);
+		binary_encode_symbol(eep_dp, 1, ctx);
 
 		ctx += ctx_offset;
 		while ((--l)>0)
-			biari_encode_symbol(eep_dp, 1, ctx);
+			binary_encode_symbol(eep_dp, 1, ctx);
 		if (symbol < max_symbol)
-			biari_encode_symbol(eep_dp, 0, ctx);
+			binary_encode_symbol(eep_dp, 0, ctx);
 	}
 }
 
@@ -480,15 +483,13 @@ static void unary_bin_max_encode(EncodingEnvironmentPtr eep_dp, unsigned int sym
 
 /*!
 ****************************************************************************
-* \brief
 *    This function is used to arithmetically encode the chroma
 *    intra prediction mode of an 8x8 block
 ****************************************************************************
 */
-void writeCIPredMode_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, SyntaxElement *se, EncodingEnvironmentPtr eep)
+void write_chromaIntraPredMode_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, SyntaxElement *se, EncodingEnvironmentPtr eep)
 {
-	int curr_len = arienco_bits_written(eep);
-	//textureInfoContexts_t *ctx = currSlice->text_ctx;
+	int curr_len = algorithm_enc_bits_written(eep);
 	BiContextType *ctx_cipr = &(currSlice->text_ctx.cipr_contexts[0]);
 	int                 act_sym = se->value1;
 	int a, b , mbx = currMB->mbx, mby = currMB->mby, mbxmax = frameinfo->width / 16;
@@ -500,23 +501,20 @@ void writeCIPredMode_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbin
 	int act_ctx = a + b;
 
 	if (act_sym == 0)
-		biari_encode_symbol(eep, 0, ctx_cipr + act_ctx);
+		binary_encode_symbol(eep, 0, ctx_cipr + act_ctx);
 	else
 	{
-		biari_encode_symbol(eep, 1, ctx_cipr + act_ctx);
+		binary_encode_symbol(eep, 1, ctx_cipr + act_ctx);
 		unary_bin_max_encode(eep, (unsigned int)(act_sym - 1), ctx_cipr + 3, 0, 2);
 	}
 
-	//dp->bitstream->write_flag = 1;
-	se->len = (arienco_bits_written(eep) - curr_len);
-	//CABAC_TRACE;
+	se->len = (algorithm_enc_bits_written(eep) - curr_len);
 }
 
 
 /*!
 ************************************************************************
-* \brief
-*    Write chroma intra prediction mode.
+*    Write chroma intra prediction mode of current mb.
 ************************************************************************
 */
 int write_chroma_intra_pred_mode(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, EncodingEnvironmentPtr eep)
@@ -529,9 +527,7 @@ int write_chroma_intra_pred_mode(frameinfo_t * frameinfo, slice_enc_t *currSlice
 	se.value2 = 0;
 	se.type = SE_INTRAPREDMODE;
 
-	//TRACE_SE(se.tracestring, "intra_chroma_pred_mode");
-	//currSlice->writeCIPredMode(currMB, &se, dataPart);
-	writeCIPredMode_CABAC(frameinfo, currSlice, currMB, &se, eep);
+	write_chromaIntraPredMode_cabac(frameinfo, currSlice, currMB, &se, eep);
 
 	rate += se.len;
 
@@ -542,12 +538,10 @@ int write_chroma_intra_pred_mode(frameinfo_t * frameinfo, slice_enc_t *currSlice
 
 /*!
 ****************************************************************************
-* \brief
 *    This function is used to get neighbour block pos 
 *    xN yN is the pos related to current mb
 ****************************************************************************
 */
-
 void get4x4Neighbour(frameinfo_t * frameinfo, mbinfo_t *currMB, int xN, int yN, int comp_type, PixelPos *pix)
 {
 	//BlockPos *PicPos = currMB->p_Vid->PicPos;
@@ -613,12 +607,11 @@ void get4x4Neighbour(frameinfo_t * frameinfo, mbinfo_t *currMB, int xN, int yN, 
 
 /*!
 ****************************************************************************
-* \brief
 *    This function is used to arithmetically encode the coded
 *    block pattern of an 8x8 block
 ****************************************************************************
 */
-void writeCBP_BIT_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t* currMB, int b8, int bit, int cbp, EncodingEnvironmentPtr eep_dp, textureInfoContexts_t *ctx)
+void write_cbp_bit_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t* currMB, int b8, int bit, int cbp, EncodingEnvironmentPtr eep_dp, textureInfoContexts_t *ctx)
 {
 	PixelPos block_a;
 	int a = 0, b = 0;
@@ -661,21 +654,20 @@ void writeCBP_BIT_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_
 		a = (((cbp & (1 << mb_y)) == 0) ? 1 : 0);
 
 	//===== WRITE BIT =====
-	biari_encode_symbol(eep_dp, bit, ctx->cbp_contexts[0] + a + 2 * b);
+	binary_encode_symbol(eep_dp, bit, ctx->cbp_contexts[0] + a + 2 * b);
 }
 
 
 /*!
 ****************************************************************************
-* \brief
 *    This function is used to arithmetically encode the coded
 *    block pattern of a macroblock
 ****************************************************************************
 */
-void writeCBP_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, SyntaxElement *se, EncodingEnvironmentPtr eep)
+void write_cbp_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, SyntaxElement *se, EncodingEnvironmentPtr eep)
 {
 
-	int curr_len = arienco_bits_written(eep);
+	int curr_len = algorithm_enc_bits_written(eep);
 	textureInfoContexts_t *ctx = &(currSlice->text_ctx);
 
 	int a0 = 0, a1 = 0, b0 = 0, b1 = 0;
@@ -689,7 +681,7 @@ void writeCBP_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *c
 
 	for (b8 = 0; b8 < 4; ++b8)
 	{
-		writeCBP_BIT_CABAC(frameinfo, currSlice, currMB, b8, cbp&(1 << b8), cbp, eep, ctx);
+		write_cbp_bit_cabac(frameinfo, currSlice, currMB, b8, cbp&(1 << b8), cbp, eep, ctx);
 	}
 
 	// coding of chroma part
@@ -707,7 +699,7 @@ void writeCBP_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *c
 
 	curr_cbp_ctx = a0 + b0;
 	cbp_bit = (cbp > 15) ? 1 : 0;
-	biari_encode_symbol(eep, cbp_bit, ctx->cbp_contexts[1] + curr_cbp_ctx);
+	binary_encode_symbol(eep, cbp_bit, ctx->cbp_contexts[1] + curr_cbp_ctx);
 
 	if (cbp > 15)
 	{
@@ -727,22 +719,20 @@ void writeCBP_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *c
 
 		curr_cbp_ctx = a1 + b1;
 		cbp_bit = ((cbp >> 4) == 2) ? 1 : 0;
-		biari_encode_symbol(eep, cbp_bit, ctx->cbp_contexts[2] + curr_cbp_ctx);
+		binary_encode_symbol(eep, cbp_bit, ctx->cbp_contexts[2] + curr_cbp_ctx);
 	}
-	se->len = (arienco_bits_written(eep) - curr_len);
+	se->len = (algorithm_enc_bits_written(eep) - curr_len);
 }
 
 
 /*!
 ****************************************************************************
-* \brief
-*    This function is used to arithmetically encode the coded
-*    block pattern of a given delta quant.
+*    This function is used to arithmetically encode the given delta quant.
 ****************************************************************************
 */
-void writeDquant_CABAC(slice_enc_t *currSlice, mbinfo_t *currMB, SyntaxElement *se, EncodingEnvironmentPtr eep)
+void write_dquant_cabac(slice_enc_t *currSlice, mbinfo_t *currMB, SyntaxElement *se, EncodingEnvironmentPtr eep)
 {
-	int curr_len = arienco_bits_written(eep);
+	int curr_len = algorithm_enc_bits_written(eep);
 
 	textureInfoContexts_t *ctx = &(currSlice->text_ctx);
 
@@ -753,27 +743,26 @@ void writeDquant_CABAC(slice_enc_t *currSlice, mbinfo_t *currMB, SyntaxElement *
 
 	if (act_sym == 0)
 	{
-		biari_encode_symbol(eep, 0, ctx->delta_qp_contexts + act_ctx);
+		binary_encode_symbol(eep, 0, ctx->delta_qp_contexts + act_ctx);
 	}
 	else
 	{
-		biari_encode_symbol(eep, 1, ctx->delta_qp_contexts + act_ctx);
+		binary_encode_symbol(eep, 1, ctx->delta_qp_contexts + act_ctx);
 		act_ctx = 2;
 		act_sym--;
 		unary_bin_encode(eep, act_sym, ctx->delta_qp_contexts + act_ctx, 1);
 	}
-	se->len = (arienco_bits_written(eep) - curr_len);
+	se->len = (algorithm_enc_bits_written(eep) - curr_len);
 }
 
 
 /*!
 ************************************************************************
-* \brief
-*    Writes CBP, DQUANT of an macroblock
+*   CBP, DQUANT of an macroblock
 ************************************************************************
 */
 
-int write_CBP_and_Dquant(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, EncodingEnvironmentPtr eep)
+int write_cbp_and_dquant(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, EncodingEnvironmentPtr eep)
 {
 	int             rate = 0;
 	SyntaxElement   se;	
@@ -787,7 +776,7 @@ int write_CBP_and_Dquant(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo
 		se.value1 = cbp;
 		se.type = SE_CBP;
 
-		writeCBP_CABAC(frameinfo, currSlice, currMB, &se, eep);
+		write_cbp_cabac(frameinfo, currSlice, currMB, &se, eep);
 		rate += se.len;
 	}
 
@@ -813,7 +802,7 @@ int write_CBP_and_Dquant(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo
 		se.value1 = delta_qp;
 		se.type = SE_DELTA_QUANT;
 
-		writeDquant_CABAC(currSlice, currMB, &se, eep);
+		write_dquant_cabac(currSlice, currMB, &se, eep);
 		rate += se.len;
 	}
 
@@ -887,7 +876,7 @@ void mvd_flatten(mbinfo_t *currMB)
 				currMB->mvd[y][x][1] = mvd_y1;
 			}
 	}
-	else if (mbtype == P_16x8)
+	else if (mbtype == P_8x16)
 	{
 
 		for (y = 0; y < 4; y++)
@@ -905,7 +894,7 @@ void mvd_flatten(mbinfo_t *currMB)
 			}
 
 	}
-	else if (mbtype == P_8x16)
+	else if (mbtype == P_16x8)
 	{
 		for (y = 0; y < 2; y++)
 			for (x = 0; x < 4; x++)
@@ -1039,11 +1028,11 @@ void write_significance_map(mbinfo_t *currMB, EncodingEnvironmentPtr eep, int ty
 	for (k = k0; k < k1; ++k) // if last coeff is reached, it has to be significant
 	{
 		sig = (coeff[k] != 0);
-		biari_encode_symbol(eep, sig, map_ctx + pos2ctxmap[k]);
+		binary_encode_symbol(eep, sig, map_ctx + pos2ctxmap[k]);
 		if (sig)
 		{
 			last = (--coeff_ctr == 0);
-			biari_encode_symbol(eep, last, last_ctx + pos2ctxlast[k]);
+			binary_encode_symbol(eep, last, last_ctx + pos2ctxlast[k]);
 			if (last)
 				return;
 		}
@@ -1055,11 +1044,10 @@ void write_significance_map(mbinfo_t *currMB, EncodingEnvironmentPtr eep, int ty
 
 /*!
 ****************************************************************************
-* \brief
 *    Write CBP4-BIT
 ****************************************************************************
 */
-void write_and_store_CBP_block_bit(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, EncodingEnvironmentPtr eep, int type, int cbp_bit, textureInfoContexts_t*  tex_ctx)
+void write_and_store_cbp_block_bit(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, EncodingEnvironmentPtr eep, int type, int cbp_bit, textureInfoContexts_t*  tex_ctx)
 {
 	mbinfo_store_t *mb_data = frameinfo->mbinfo_stored;
 	int y_ac = (type == LUMA_16x16AC_CABAC_BLK || type == LUMA_4x4_CABAC_BLK);
@@ -1218,7 +1206,7 @@ void write_and_store_CBP_block_bit(frameinfo_t * frameinfo, slice_enc_t *currSli
 				
 		}
 		ctx = (upper_bit << 1) + left_bit;
-		biari_encode_symbol(eep, cbp_bit, tex_ctx->bcbp_contexts[type2ctx_bcbp[type]] + ctx);
+		binary_encode_symbol(eep, cbp_bit, tex_ctx->bcbp_contexts[type2ctx_bcbp[type]] + ctx);
 	}
 }
 
@@ -1227,11 +1215,10 @@ void write_and_store_CBP_block_bit(frameinfo_t * frameinfo, slice_enc_t *currSli
 
 /*!
 ************************************************************************
-* \brief
 *    Exp Golomb binarization and encoding
 ************************************************************************
 */
-static void exp_golomb_encode_eq_prob(EncodingEnvironmentPtr eep_dp,
+void exp_golomb_encode_eq_prob(EncodingEnvironmentPtr eep_dp,
 	unsigned int symbol,
 	int k)
 {
@@ -1239,15 +1226,15 @@ static void exp_golomb_encode_eq_prob(EncodingEnvironmentPtr eep_dp,
 	{
 		if (symbol >= (unsigned int)(1 << k))
 		{
-			biari_encode_symbol_eq_prob(eep_dp, 1);   //first unary part
+			binary_encode_symbol_eq_prob(eep_dp, 1);   //first unary part
 			symbol = symbol - (1 << k);
 			k++;
 		}
 		else
 		{
-			biari_encode_symbol_eq_prob(eep_dp, 0);   //now terminated zero of unary part
+			binary_encode_symbol_eq_prob(eep_dp, 0);   //now terminated zero of unary part
 			while (k--)                               //next binary part
-				biari_encode_symbol_eq_prob(eep_dp, ((symbol >> k) & 1));
+				binary_encode_symbol_eq_prob(eep_dp, ((symbol >> k) & 1));
 			break;
 		}
 	}
@@ -1257,9 +1244,7 @@ static void exp_golomb_encode_eq_prob(EncodingEnvironmentPtr eep_dp,
 
 /*!
 ************************************************************************
-* \brief
 *    Exp-Golomb for Level Encoding
-*
 ************************************************************************/
 static void unary_exp_golomb_level_encode(EncodingEnvironmentPtr eep,
 	unsigned int symbol,
@@ -1267,7 +1252,7 @@ static void unary_exp_golomb_level_encode(EncodingEnvironmentPtr eep,
 {
 	if (symbol == 0)
 	{
-		biari_encode_symbol(eep, 0, ctx);
+		binary_encode_symbol(eep, 0, ctx);
 		return;
 	}
 	else
@@ -1275,11 +1260,11 @@ static void unary_exp_golomb_level_encode(EncodingEnvironmentPtr eep,
 		unsigned int l = symbol;
 		unsigned int k = 1;
 
-		biari_encode_symbol(eep, 1, ctx);
+		binary_encode_symbol(eep, 1, ctx);
 		while (((--l)>0) && (++k <= 13))
-			biari_encode_symbol(eep, 1, ctx);
+			binary_encode_symbol(eep, 1, ctx);
 		if (symbol < 13)
-			biari_encode_symbol(eep, 0, ctx);
+			binary_encode_symbol(eep, 0, ctx);
 		else
 			exp_golomb_encode_eq_prob(eep, symbol - 13, 0);
 	}
@@ -1288,9 +1273,7 @@ static void unary_exp_golomb_level_encode(EncodingEnvironmentPtr eep,
 
 /*!
 ************************************************************************
-* \brief
 *    Exp-Golomb for MV Encoding
-*
 ************************************************************************/
 static void unary_exp_golomb_mv_encode(EncodingEnvironmentPtr eep,
 	unsigned int symbol,
@@ -1299,25 +1282,25 @@ static void unary_exp_golomb_mv_encode(EncodingEnvironmentPtr eep,
 {
 	if (symbol == 0)
 	{
-		biari_encode_symbol(eep, 0, ctx);
+		binary_encode_symbol(eep, 0, ctx);
 		return;
 	}
 	else
 	{
 		unsigned int bin = 1;
 		unsigned int l = symbol, k = 1;
-		biari_encode_symbol(eep, 1, ctx++);
+		binary_encode_symbol(eep, 1, ctx++);
 
 		while (((--l) > 0) && (++k <= 8))
 		{
-			biari_encode_symbol(eep, 1, ctx);
+			binary_encode_symbol(eep, 1, ctx);
 			if ((++bin) == 2)
 				++ctx;
 			if (bin == max_bin)
 				++ctx;
 		}
 		if (symbol < 8)
-			biari_encode_symbol(eep, 0, ctx);
+			binary_encode_symbol(eep, 0, ctx);
 		else
 			exp_golomb_encode_eq_prob(eep, symbol - 8, 3);
 	}
@@ -1364,7 +1347,7 @@ void write_significant_coefficients(EncodingEnvironmentPtr eep, int type, int co
 
 			//--- if coefficient is one ---
 			ctx = imin(c1, 4);
-			biari_encode_symbol(eep, greater_one, one_contexts + ctx);
+			binary_encode_symbol(eep, greater_one, one_contexts + ctx);
 
 			if (greater_one)
 			{
@@ -1376,7 +1359,7 @@ void write_significant_coefficients(EncodingEnvironmentPtr eep, int type, int co
 			{
 				c1++;
 			}
-			biari_encode_symbol_eq_prob(eep, sign);
+			binary_encode_symbol_eq_prob(eep, sign);
 		}
 	}
 }
@@ -1385,13 +1368,12 @@ void write_significant_coefficients(EncodingEnvironmentPtr eep, int type, int co
 
 /*!
 ****************************************************************************
-* \brief
 *    Write Block-Transform Coefficients
 ****************************************************************************
 */
-void writeRunLevel_CABAC(frameinfo_t * frameinfo,  slice_enc_t *currSlice, mbinfo_t *currMB, SyntaxElement *se, EncodingEnvironmentPtr eep)
+void write_run_level_cabac(frameinfo_t * frameinfo,  slice_enc_t *currSlice, mbinfo_t *currMB, SyntaxElement *se, EncodingEnvironmentPtr eep)
 {
-	int curr_len = arienco_bits_written(eep);
+	int curr_len = algorithm_enc_bits_written(eep);
 
 	//--- accumulate run-level information ---
 	if (se->value1 != 0)
@@ -1406,7 +1388,7 @@ void writeRunLevel_CABAC(frameinfo_t * frameinfo,  slice_enc_t *currSlice, mbinf
 		//=====  CBP-BIT =====
 		if (currSlice->coeff_ctr > 0)
 		{
-			write_and_store_CBP_block_bit(frameinfo, currSlice, currMB, eep, se->context, 1, tex_ctx);
+			write_and_store_cbp_block_bit(frameinfo, currSlice, currMB, eep, se->context, 1, tex_ctx);
 			//=====  significance map =====
 			write_significance_map(currMB, eep, se->context, currSlice->coeff, currSlice->coeff_ctr, tex_ctx);
 			//=====  significant coefficients =====
@@ -1415,12 +1397,12 @@ void writeRunLevel_CABAC(frameinfo_t * frameinfo,  slice_enc_t *currSlice, mbinf
 			memset(currSlice->coeff, 0, 64 * sizeof(int));
 		}
 		else
-			write_and_store_CBP_block_bit(frameinfo, currSlice, currMB, eep, se->context, 0, tex_ctx);
+			write_and_store_cbp_block_bit(frameinfo, currSlice, currMB, eep, se->context, 0, tex_ctx);
 
 		//--- reset counters ---
 		currSlice->pos = currSlice->coeff_ctr = 0;
 	}
-	se->len = (arienco_bits_written(eep) - curr_len);
+	se->len = (algorithm_enc_bits_written(eep) - curr_len);
 }
 
 
@@ -1428,11 +1410,10 @@ void writeRunLevel_CABAC(frameinfo_t * frameinfo,  slice_enc_t *currSlice, mbinf
 
 /*!
 ************************************************************************
-* \brief
 *    Writes Coeffs of an 4x4 block, just for luma
 ************************************************************************
 */
-int writeCoeff4x4_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, int plane, int b8, int b4, int is_intra, EncodingEnvironmentPtr eep)
+int write_coeff4x4_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, int plane, int b8, int b4, int is_intra, EncodingEnvironmentPtr eep)
 {
 	int             rate = 0;
 	SyntaxElement   se;
@@ -1455,7 +1436,7 @@ int writeCoeff4x4_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_
 	se.value1 = (sign[0] == 0)?level[0]:-(int)level[0];  // level
 	se.value2 = run[0];                                  // run
 
-	writeRunLevel_CABAC(frameinfo, currSlice, currMB, &se, eep);
+	write_run_level_cabac(frameinfo, currSlice, currMB, &se, eep);
 	rate += se.len;
 
 	// AC coeff
@@ -1468,13 +1449,13 @@ int writeCoeff4x4_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_
 			se.value1 = 0; // level
 			se.value2 = 0; // run   
 			//terminate and really encoding
-			writeRunLevel_CABAC(frameinfo, currSlice, currMB, &se, eep);
+			write_run_level_cabac(frameinfo, currSlice, currMB, &se, eep);
 		}
 		else
 		{
 			se.value1 = (sign[k] == 0) ? level[k] : -(int)level[k]; // level
 			se.value2 = run[k]; // run    
-			writeRunLevel_CABAC(frameinfo, currSlice, currMB, &se, eep);
+			write_run_level_cabac(frameinfo, currSlice, currMB, &se, eep);
 		}
 		
 		rate += se.len;
@@ -1487,33 +1468,29 @@ int writeCoeff4x4_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_
 
 /*!
 ************************************************************************
-* \brief
 *    Writes Luma Coeff of an 8x8 block
 ************************************************************************
 */
-int writeCoeff8x8_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, int plane, int b8, int is_intra, EncodingEnvironmentPtr eep)
+int write_coeff8x8_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, int plane, int b8, int is_intra, EncodingEnvironmentPtr eep)
 {
 	int  rate = 0;
 	
-	rate += writeCoeff4x4_CABAC(frameinfo, currSlice, currMB, plane, b8, 0, is_intra, eep);
-	rate += writeCoeff4x4_CABAC(frameinfo, currSlice, currMB, plane, b8, 1, is_intra, eep);
-	rate += writeCoeff4x4_CABAC(frameinfo, currSlice, currMB, plane, b8, 2, is_intra, eep);
-	rate += writeCoeff4x4_CABAC(frameinfo, currSlice, currMB, plane, b8, 3, is_intra, eep);
+	rate += write_coeff4x4_cabac(frameinfo, currSlice, currMB, plane, b8, 0, is_intra, eep);
+	rate += write_coeff4x4_cabac(frameinfo, currSlice, currMB, plane, b8, 1, is_intra, eep);
+	rate += write_coeff4x4_cabac(frameinfo, currSlice, currMB, plane, b8, 2, is_intra, eep);
+	rate += write_coeff4x4_cabac(frameinfo, currSlice, currMB, plane, b8, 3, is_intra, eep);
 
 	return rate;
 }
 
 
 
-
-
 /*!
 ************************************************************************
-* \brief
 *    Write Luma 16x16 Coeffcients 
 ************************************************************************
 */
-int writeCoeff16x16_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, int plane, EncodingEnvironmentPtr eep)
+int write_coeff16x16_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, int plane, EncodingEnvironmentPtr eep)
 {
 	int             cbp = currMB->cbp;
 	int             mb_x, mb_y, i, j, k;
@@ -1532,7 +1509,7 @@ int writeCoeff16x16_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinf
 			{
 				if (cbp & (1 << b8))
 				{
-					rate += writeCoeff8x8_CABAC(frameinfo, currSlice, currMB, plane, b8 , is_intra, eep);
+					rate += write_coeff8x8_cabac(frameinfo, currSlice, currMB, plane, b8 , is_intra, eep);
 				}
 			}
 		}
@@ -1559,13 +1536,13 @@ int writeCoeff16x16_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinf
 				se.value1 = 0; // level
 				se.value2 = 0; // run   
 				//terminate and really encoding
-				writeRunLevel_CABAC(frameinfo, currSlice, currMB, &se, eep);
+				write_run_level_cabac(frameinfo, currSlice, currMB, &se, eep);
 			}
 			else
 			{
 				se.value1 = (sign[k] == 0) ? level[k] : -(int)level[k]; // level
 				se.value2 = run[k];                                     // run    
-				writeRunLevel_CABAC(frameinfo, currSlice, currMB, &se, eep);
+				write_run_level_cabac(frameinfo, currSlice, currMB, &se, eep);
 			}
 			block_rate += se.len;
 		}
@@ -1609,13 +1586,13 @@ int writeCoeff16x16_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinf
 									se.value1 = 0; // level
 									se.value2 = 0; // run   
 									//terminate and really encoding
-									writeRunLevel_CABAC(frameinfo, currSlice, currMB, &se, eep);
+									write_run_level_cabac(frameinfo, currSlice, currMB, &se, eep);
 								}
 								else
 								{
 									se.value1 = (sign[k] == 0) ? level[k] : -(int)level[k]; // level , for luma/chroma ac , coeff start from pos 1
 									se.value2 = run[k];                                     // run 
-									writeRunLevel_CABAC(frameinfo, currSlice, currMB, &se, eep);
+									write_run_level_cabac(frameinfo, currSlice, currMB, &se, eep);
 								}
 								block_rate += se.len;
 							}
@@ -1634,11 +1611,10 @@ int writeCoeff16x16_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinf
 
 /*!
 ************************************************************************
-* \brief
-*    Writes chrominance coefficients
+*    Writes chroma coefficients
 ************************************************************************
 */
-static int write_chroma_coeff(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, EncodingEnvironmentPtr eep)
+int write_chroma_coeff(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, EncodingEnvironmentPtr eep)
 {
 
 	int             rate = 0;
@@ -1674,13 +1650,13 @@ static int write_chroma_coeff(frameinfo_t * frameinfo, slice_enc_t *currSlice, m
 						se.value1 = 0; // level
 						se.value2 = 0; // run   
 						//terminate and really encoding
-						writeRunLevel_CABAC(frameinfo, currSlice, currMB, &se, eep);
+						write_run_level_cabac(frameinfo, currSlice, currMB, &se, eep);
 					}
 					else
 					{
 						se.value1 = (sign[k] == 0) ? level[k] : (-level[k]); // level
 						se.value2 = run[k]; // run 
-						writeRunLevel_CABAC(frameinfo, currSlice, currMB, &se, eep);
+						write_run_level_cabac(frameinfo, currSlice, currMB, &se, eep);
 					}
 					block_rate += se.len;
 				}
@@ -1722,13 +1698,13 @@ static int write_chroma_coeff(frameinfo_t * frameinfo, slice_enc_t *currSlice, m
 							se.value1 = 0; // level
 							se.value2 = 0; // run   
 							//terminate and really encoding
-							writeRunLevel_CABAC(frameinfo, currSlice, currMB, &se, eep);
+							write_run_level_cabac(frameinfo, currSlice, currMB, &se, eep);
 						}
 						else
 						{
 							se.value1 = (sign[k] == 0) ? level[k] : (-level[k]); // level , for luma/chroma ac , coeff start from pos 1
 							se.value2 = run[k];                                  // run  
-							writeRunLevel_CABAC(frameinfo, currSlice, currMB, &se, eep);
+							write_run_level_cabac(frameinfo, currSlice, currMB, &se, eep);
 						}
 						block_rate += se.len;
 					}
@@ -1744,8 +1720,11 @@ static int write_chroma_coeff(frameinfo_t * frameinfo, slice_enc_t *currSlice, m
 
 
 
-
-
+/*!
+************************************************************************
+*    Codes macroblock header in p slice
+************************************************************************
+*/
 int write_i_slice_mb_layer_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, EncodingEnvironmentPtr eep)
 {
 
@@ -1758,7 +1737,7 @@ int write_i_slice_mb_layer_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice
 	se.value2 = 0;
 	se.type = SE_MBTYPE;
 
-	writeMB_I_typeInfo_CABAC(frameinfo, currSlice, currMB, &se, eep);
+	write_mb_I_type_cabac(frameinfo, currSlice, currMB, &se, eep);
 
 	no_bits += se.len;
 
@@ -1769,15 +1748,15 @@ int write_i_slice_mb_layer_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice
 	}
 
 	//===== BITS FOR INTRA PREDICTION MODES ====
-	no_bits += writeIntraModes(frameinfo, currSlice, currMB, eep);
+	no_bits += write_intra_modes(frameinfo, currSlice, currMB, eep);
 
 	//===== BITS FOR CHROMA INTRA PREDICTION MODE ====
 	no_bits += write_chroma_intra_pred_mode(frameinfo, currSlice, currMB, eep);
 
-	no_bits += write_CBP_and_Dquant(frameinfo, currSlice, currMB, eep);
+	no_bits += write_cbp_and_dquant(frameinfo, currSlice, currMB, eep);
 
     //===== LUMA CHROMA COEFF ====
-	no_bits += writeCoeff16x16_CABAC(frameinfo, currSlice, currMB, 0, eep);
+	no_bits += write_coeff16x16_cabac(frameinfo, currSlice, currMB, 0, eep);
 
 	no_bits += write_chroma_coeff(frameinfo, currSlice, currMB, eep);
 	printf("range: %d\n", (eep)->Erange);
@@ -1788,18 +1767,15 @@ int write_i_slice_mb_layer_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice
 
 
 
-
-
 /*!
 ***************************************************************************
-* \brief
 *    This function is used to arithmetically encode the mb_skip_flag.
 ***************************************************************************
 */
-void writeMB_Pskip_flagInfo_CABAC(slice_enc_t *currSlice, mbinfo_t *currMB, SyntaxElement *se, EncodingEnvironmentPtr eep)
+void write_mb_pskip_flag_cabac(slice_enc_t *currSlice, mbinfo_t *currMB, SyntaxElement *se, EncodingEnvironmentPtr eep)
 {
 
-	int curr_len = arienco_bits_written(eep);
+	int curr_len = algorithm_enc_bits_written(eep);
 	motionInfoContext_t *ctx = &(currSlice->mot_ctx);
 	int        curr_mb_type = se->value1;
 	int a = (currMB->mb_left != NULL && (currMB->mb_left->skip == 0)) ? 1 : 0;
@@ -1807,33 +1783,30 @@ void writeMB_Pskip_flagInfo_CABAC(slice_enc_t *currSlice, mbinfo_t *currMB, Synt
 	int act_ctx = a + b;
 
 	if (curr_mb_type == 0) // SKIP
-		biari_encode_symbol(eep, 1, &ctx->mb_type_contexts[1][act_ctx]);
+		binary_encode_symbol(eep, 1, &ctx->mb_type_contexts[1][act_ctx]);
 	else
-		biari_encode_symbol(eep, 0, &ctx->mb_type_contexts[1][act_ctx]);
+		binary_encode_symbol(eep, 0, &ctx->mb_type_contexts[1][act_ctx]);
 
 	currMB->skip_flag = (curr_mb_type == 0) ? 1 : 0;
 
 	se->context = act_ctx;
 	se->value1 = 1 - currMB->skip_flag;
 
-	se->len = (arienco_bits_written(eep) - curr_len);
+	se->len = (algorithm_enc_bits_written(eep) - curr_len);
 }
-
-
 
 
 
 /*!
 ****************************************************************************
-* \brief
 *    This function is used to arithmetically encode the motion
-*    vector data of a B-frame MB.
+*    vector data of a MB.
 ****************************************************************************
 */
-int writeMVD_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, SyntaxElement *se, EncodingEnvironmentPtr eep)
+int write_mvd_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, SyntaxElement *se, EncodingEnvironmentPtr eep)
 {
 
-	int curr_len = arienco_bits_written(eep);
+	int curr_len = algorithm_enc_bits_written(eep);
 	motionInfoContext_t  *ctx = &currSlice->mot_ctx;
 
 	int i = currMB->subblock_x;
@@ -1887,28 +1860,25 @@ int writeMVD_CABAC(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *cu
 	act_sym = iabs(mv_pred_res);
 
 	if (act_sym == 0)
-		biari_encode_symbol(eep, 0, &ctx->mv_res_contexts[0][act_ctx]);
+		binary_encode_symbol(eep, 0, &ctx->mv_res_contexts[0][act_ctx]);
 	else
 	{
-		biari_encode_symbol(eep, 1, &ctx->mv_res_contexts[0][act_ctx]);
+		binary_encode_symbol(eep, 1, &ctx->mv_res_contexts[0][act_ctx]);
 		act_sym--;
 		act_ctx = 5 * k;
 		unary_exp_golomb_mv_encode(eep, act_sym, ctx->mv_res_contexts[1] + act_ctx, 3);
 		mv_sign = (mv_pred_res<0) ? 1 : 0;
-		biari_encode_symbol_eq_prob(eep, mv_sign);
+		binary_encode_symbol_eq_prob(eep, mv_sign);
 	}
 
-	se->len = (arienco_bits_written(eep) - curr_len);
+	se->len = (algorithm_enc_bits_written(eep) - curr_len);
 
 	return se->len;
 }
 
 
-
-
 /*!
 ************************************************************************
-* \brief
 *    Writes motion info (p slice)
 ************************************************************************
 */
@@ -1948,11 +1918,11 @@ int write_p_slice_motion_info(frameinfo_t * frameinfo, slice_enc_t *currSlice, m
 
 		se.value1 = currMB->mv1.x - currMB->pred1.x;
 		se.value2 = 0; // identifies the component and the direction; only used for context determination
-		no_bits += writeMVD_CABAC(frameinfo, currSlice, currMB, &se, eep);
+		no_bits += write_mvd_cabac(frameinfo, currSlice, currMB, &se, eep);
 
 		se.value1 = currMB->mv1.y - currMB->pred1.y;
 		se.value2 = 1<<1; // identifies the component and the direction; only used for context determination
-		no_bits += writeMVD_CABAC(frameinfo, currSlice, currMB, &se, eep);
+		no_bits += write_mvd_cabac(frameinfo, currSlice, currMB, &se, eep);
 
 		if (num_parts[currMB->mbtype] == 2)
 		{
@@ -1960,11 +1930,11 @@ int write_p_slice_motion_info(frameinfo_t * frameinfo, slice_enc_t *currSlice, m
 
 			se.value1 = currMB->mv2.x - currMB->pred2.x;
 			se.value2 = 0; // identifies the component and the direction; only used for context determination
-			no_bits += writeMVD_CABAC(frameinfo, currSlice, currMB, &se, eep);
+			no_bits += write_mvd_cabac(frameinfo, currSlice, currMB, &se, eep);
 
 			se.value1 = currMB->mv2.y - currMB->pred2.y;
 			se.value2 = 1 << 1; // identifies the component and the direction; only used for context determination
-			no_bits += writeMVD_CABAC(frameinfo, currSlice, currMB, &se, eep);
+			no_bits += write_mvd_cabac(frameinfo, currSlice, currMB, &se, eep);
 		}
 
 	}
@@ -1974,17 +1944,9 @@ int write_p_slice_motion_info(frameinfo_t * frameinfo, slice_enc_t *currSlice, m
 
 
 
-
 /*!
 ************************************************************************
-* \brief
-*    Codes macroblock header
-* \param currMB
-*    current macroblock
-* \param rdopt
-*    true for calls during RD-optimization
-* \param coeff_rate
-*    bitrate of Luma and Chroma coeff
+*    Codes macroblock header in p slice
 ************************************************************************
 */
 int write_p_slice_mb_layer_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, EncodingEnvironmentPtr eep)
@@ -2004,7 +1966,7 @@ int write_p_slice_mb_layer_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice
 	se.value2 = currMB->cbp;
 	se.type = SE_MBTYPE;
 
-	writeMB_Pskip_flagInfo_CABAC(currSlice, currMB, &se,  eep);
+	write_mb_pskip_flag_cabac(currSlice, currMB, &se,  eep);
 
 	no_bits += se.len;
 
@@ -2015,7 +1977,7 @@ int write_p_slice_mb_layer_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice
 		se.value2 = 0;
 		se.type = SE_MBTYPE;
 
-		writeMB_P_typeInfo_CABAC(frameinfo, currSlice, currMB, &se, eep);
+		write_mb_P_type_cabac(frameinfo, currSlice, currMB, &se, eep);
 
 		no_bits += se.len;
 	}
@@ -2041,7 +2003,7 @@ int write_p_slice_mb_layer_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice
 		}
 		*/
 		assert(0);
-		//no_bits += writeMotionInfo2NAL();
+		//no_bits += write_motion_info();
 	}
 
 
@@ -2049,7 +2011,7 @@ int write_p_slice_mb_layer_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice
 	//===== BITS FOR CHROMA INTRA PREDICTION MODE ====
 	if (MB_TYPE_IS_INTRA(currMB->mbtype))
 	{
-		no_bits += writeIntraModes(frameinfo, currSlice, currMB, eep);
+		no_bits += write_intra_modes(frameinfo, currSlice, currMB, eep);
 		no_bits += write_chroma_intra_pred_mode(frameinfo, currSlice, currMB, eep);
 	}
 
@@ -2061,8 +2023,8 @@ int write_p_slice_mb_layer_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice
 
 	if (currMB->mbtype != P_SKIP)
 	{
-		coeff_rate = write_CBP_and_Dquant(frameinfo, currSlice, currMB, eep);
-		coeff_rate += writeCoeff16x16_CABAC(frameinfo, currSlice, currMB, 0, eep);
+		coeff_rate = write_cbp_and_dquant(frameinfo, currSlice, currMB, eep);
+		coeff_rate += write_coeff16x16_cabac(frameinfo, currSlice, currMB, 0, eep);
 		coeff_rate += write_chroma_coeff(frameinfo, currSlice, currMB, eep);
 		no_bits += coeff_rate;
 	}
@@ -2072,11 +2034,8 @@ int write_p_slice_mb_layer_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice
 
 
 
-
-
 /*!
 ************************************************************************
-* \brief
 *    add slice bin number to picture bin counter
 *    should be only used when slice is terminated
 ************************************************************************
@@ -2094,19 +2053,18 @@ void reset_pic_bin_count(frameinfo_t * frameinfo)
 
 void write_terminating_bit(EncodingEnvironmentPtr eep, int bit)
 {
-	biari_encode_symbol_final(eep, bit);
+	binary_encode_symbol_final(eep, bit);
 }
+
 
 
 /*!
 ************************************************************************
-* \brief
 *    This function terminates a slice (but doesn't write it out),
 *    the old terminate_slice (0)
 * \return
 *    0 if OK,                                                         \n
 *    1 in case of error
-*
 ************************************************************************
 */
 int terminate_slice_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *currMB, EncodingEnvironmentPtr eep, int lastslice)
@@ -2117,7 +2075,7 @@ int terminate_slice_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinf
 
 
 	// terminate the arithmetic code
-	arienco_done_encoding(eep);
+	algorithm_enc_done(eep);
 	set_pic_bin_count(frameinfo, eep);
 
 	if (lastslice)
@@ -2127,7 +2085,7 @@ int terminate_slice_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinf
 		//assert(0);
 	}
 
-	return 0;
+	return 0;  //todo: check the return
 }
 
 
@@ -2136,7 +2094,6 @@ int terminate_slice_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinf
 
 /*!
 ************************************************************************
-* \brief
 *    Initializes the EncodingEnvironment for the arithmetic coder
 ************************************************************************
 */
@@ -2151,7 +2108,6 @@ void enc_cabac_start_encoding(EncodingEnvironmentPtr eep, bitwriter_t *writer,
 	eep->Epbuf = -1;  // to remove redundant chunk ^^
 	eep->Ebits_to_go = BITS_TO_LOAD + 1; // to swallow first redundant bit
 
-	//eep->Ecodestrm = code_buffer;
 	eep->Ecodestrm_len = code_len;
 
 	eep->Erange = HALF;
@@ -2162,10 +2118,7 @@ void enc_cabac_start_encoding(EncodingEnvironmentPtr eep, bitwriter_t *writer,
 
 
 
-void enc_init_slice(const sequence_t * sequence, slice_enc_t *currSlice,
-int first_mb_in_slice,
-short                slice_type,
-int                  slice_qp         )
+void enc_init_slice(const sequence_t * sequence, slice_enc_t *currSlice, int first_mb_in_slice, short slice_type, int slice_qp)
 {
 	memset(currSlice, 0, sizeof(slice_enc_t));
 	currSlice->first_mb_in_slice = first_mb_in_slice;
