@@ -814,7 +814,6 @@ int write_cbp_and_dquant(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo
 
 /*!
 ************************************************************************
-* \brief
 *    Converts macroblock type to coding value
 ************************************************************************
 */
@@ -929,6 +928,9 @@ int enc_update_mb_assist_info(const frameinfo_t * frameinfo, const slice_enc_t *
 	int  cbp_chroma = taa_h264_get_cbp_chroma(currMB);
 	int  cbp = 0;
 
+	frameinfo->mbinfo_stored[currMB->mbpos].mbx = currMB->mbx;
+	frameinfo->mbinfo_stored[currMB->mbpos].mby = currMB->mby;
+
 	if (currMB->mbtype == I_16x16)
 	{
 		const int ycbp = currMB->mbcoeffs.luma_cbp;
@@ -1001,7 +1003,6 @@ int enc_update_mb_assist_info(const frameinfo_t * frameinfo, const slice_enc_t *
 
 /*!
 ****************************************************************************
-* \brief
 *    Write Significance MAP
 ****************************************************************************
 */
@@ -1310,7 +1311,6 @@ static void unary_exp_golomb_mv_encode(EncodingEnvironmentPtr eep,
 
 /*!
 ****************************************************************************
-* \brief
 *    Write Levels
 ****************************************************************************
 */
@@ -1464,8 +1464,6 @@ int write_coeff4x4_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo
 }
 
 
-
-
 /*!
 ************************************************************************
 *    Writes Luma Coeff of an 8x8 block
@@ -1482,7 +1480,6 @@ int write_coeff8x8_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo
 
 	return rate;
 }
-
 
 
 /*!
@@ -1715,8 +1712,6 @@ int write_chroma_coeff(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t
 
 	return rate;
 }
-
-
 
 
 
@@ -2105,7 +2100,7 @@ void enc_cabac_start_encoding(EncodingEnvironmentPtr eep, bitwriter_t *writer,
 	eep->Elow = 0;
 	eep->Echunks_outstanding = 0;
 	eep->Ebuffer = 0;
-	eep->Epbuf = -1;  // to remove redundant chunk ^^
+	eep->Epbuf = -1;                     // to remove redundant chunk ^^
 	eep->Ebits_to_go = BITS_TO_LOAD + 1; // to swallow first redundant bit
 
 	eep->Ecodestrm_len = code_len;
@@ -2113,6 +2108,17 @@ void enc_cabac_start_encoding(EncodingEnvironmentPtr eep, bitwriter_t *writer,
 	eep->Erange = HALF;
 	eep->E = 0;
 	eep->C = 0;
+
+
+	eep->saved_Elow = eep->Elow;
+	eep->saved_Erange = eep->Erange;
+	eep->saved_Ebuffer = eep->Ebuffer;
+	eep->saved_Ebits_to_go = eep->Ebits_to_go;
+	eep->saved_Echunks_outstanding = eep->Echunks_outstanding;
+	eep->saved_Epbuf = eep->Epbuf;
+	eep->saved_Ecodestrm_len = *(eep->Ecodestrm_len);
+	eep->saved_C = eep->C;
+	eep->saved_E = eep->E;
 }
 
 
@@ -2145,3 +2151,34 @@ void enc_init_slice(const sequence_t * sequence, slice_enc_t *currSlice, int fir
 }
 
 
+
+
+/* Save the state of cabac so we can return to this state later. */
+void enc_save_cabac_eep_state(EncodingEnvironmentPtr eep)
+{
+	eep->saved_Elow                  = eep->Elow;
+	eep->saved_Erange                = eep->Erange;
+	eep->saved_Ebuffer               = eep->Ebuffer;
+	eep->saved_Ebits_to_go           = eep->Ebits_to_go;
+	eep->saved_Echunks_outstanding   = eep->Echunks_outstanding;
+	eep->saved_Epbuf                 = eep->Epbuf;
+	eep->saved_Ecodestrm_len         = *(eep->Ecodestrm_len);
+	eep->saved_C                     = eep->C;
+	eep->saved_E                     = eep->E;
+	
+}
+
+void enc_load_cabac_eep_state(EncodingEnvironmentPtr eep)
+{
+
+	eep->Elow = eep->saved_Elow;
+	eep->Erange = eep->saved_Erange;
+	eep->Ebuffer = eep->saved_Ebuffer;
+	eep->Ebits_to_go = eep->saved_Ebits_to_go;
+	eep->Echunks_outstanding = eep->saved_Echunks_outstanding;
+	eep->Epbuf = eep->saved_Epbuf;
+	*(eep->Ecodestrm_len) = eep->saved_Ecodestrm_len;
+	eep->C = eep->saved_C;
+	eep->E = eep->saved_E;
+
+}

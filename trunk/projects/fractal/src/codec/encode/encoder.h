@@ -247,6 +247,8 @@ struct slice_enc_s
 	short                slice_type;
 	int                  qp;         //last_coded_qp
 
+	int                  slice_size;
+
 	// Some Cabac related parameters (could be put in a different structure so we can dynamically allocate them when needed), using for ceff cabac
 	int  coeff[64];
 	int  coeff_ctr;

@@ -1,15 +1,7 @@
 
 /*!
  *************************************************************************************
- * \file ctx_tables.h
- *
- * \brief
  *    CABAC context initialization tables
- *
- * \author
- *    Main contributors (see contributors.h for copyright, address and affiliation details)
- *    - Detlev Marpe
- *    - Heiko Schwarz
  **************************************************************************************
  */
 

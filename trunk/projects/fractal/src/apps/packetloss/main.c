@@ -121,8 +121,7 @@ int main (
   FILE * outfile;
 
   const char * progname = argv[0];
-  getchar();
-  printf("------starting encoder-------\n");
+
   if (!parse_options (progname,
                       argc,
                       argv,

@@ -32,7 +32,8 @@ typedef BiContextType *BiContextTypePtr;
 struct encoding_environment
 {
 	int cabac_encoding;                   
-	unsigned int  Elow, Erange;
+	unsigned int  Elow;
+	unsigned int  Erange;
 	unsigned int  Ebuffer;
 	unsigned int  Ebits_to_go;
 	unsigned int  Echunks_outstanding;
@@ -41,7 +42,19 @@ struct encoding_environment
 	int           C;                      // processed bin counts % 8
 	int           E;                      //byte count of processed bins
 
+
+	unsigned int  saved_Elow;
+	unsigned int  saved_Erange;
+	unsigned int  saved_Ebuffer;
+	unsigned int  saved_Ebits_to_go;
+	unsigned int  saved_Echunks_outstanding;
+	int           saved_Epbuf;
+	int           saved_Ecodestrm_len;         //need ? maybe not, point to the stream buf length
+	int           saved_C;                      // processed bin counts % 8
+	int           saved_E;                      //byte count of processed bins
+
 	bitwriter_t *w;
+
 };
 
 //! struct for context management

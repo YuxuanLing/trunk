@@ -57,6 +57,8 @@ int  terminate_slice_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbin
 void reset_pic_bin_count(frameinfo_t * frameinfo);
 int  enc_update_mb_assist_info(const frameinfo_t * frameinfo, const slice_enc_t *currSlice, mbinfo_t *currMB);
 void write_terminating_bit(EncodingEnvironmentPtr eep, int bit);
+void enc_load_cabac_eep_state(EncodingEnvironmentPtr eep);
+void enc_save_cabac_eep_state(EncodingEnvironmentPtr eep);
 
 #endif
 

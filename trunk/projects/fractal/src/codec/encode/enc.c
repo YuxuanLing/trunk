@@ -491,6 +491,8 @@ static int taa_h264_process_frame2 (
   unsigned num_bits_in_mb = 0;
   unsigned first_mb_in_slice = 0;
   int frame_cabac_byte_len = 0;
+  unsigned slice_nr = 0;
+  int frame_size = 0;
   *num_skip_mbs = 0;
 
   const int mbxmax = frameinfo->width / MB_WIDTH_Y;
@@ -563,12 +565,14 @@ static int taa_h264_process_frame2 (
 	num_bytes_sps =  taa_h264_send_nonslice (
       writer, encoder->callbacks.output_nalu, encoder->callbacks.context,
       max_packet_size, &encoder->max_nalu_size);
+	frame_size += num_bytes_sps;
 	//write out pps
 	sequence->entropy_coding_mode_flag = 1;
 	num_bits_in_pps = taa_h264_write_picture_parameter_set (writer, sequence);
 	num_bytes_pps = taa_h264_send_nonslice (
       writer, encoder->callbacks.output_nalu, encoder->callbacks.context,
       max_packet_size, &encoder->max_nalu_size);
+	frame_size += num_bytes_pps;
 
     encoder->last_coded_qp = sequence->pps_qp;
     if (frameinfo->is_long_term)
@@ -885,8 +889,6 @@ static int taa_h264_process_frame2 (
 				encoder->last_coded_qp = (uint8_t)currmb.mquant;
 			}
 
-			//write_terminating_bit(eep, 0);
-			
 		}
 		else
 		{
@@ -908,10 +910,11 @@ static int taa_h264_process_frame2 (
        * to the current length. */
       const int extra_bits_compensation = 8 * 8;
 
-      if (num_bits_in_slice > encoder->max_nalu_size * 8 - extra_bits_compensation
-          && force_no_slice_split == false)
+      //if (num_bits_in_slice > encoder->max_nalu_size * 8 - extra_bits_compensation && force_no_slice_split == false)
+	  if ((currmb.mbpos >= (slice_nr + 1) *8) && force_no_slice_split == false)
       {
         taa_h264_load_writer_state (writer);
+		enc_load_cabac_eep_state(eep);
 
         if (currmb.mbtype == P_SKIP)
         {
@@ -940,7 +943,10 @@ static int taa_h264_process_frame2 (
                              encoder->callbacks.context,
                              max_packet_size,
                              &encoder->max_nalu_size,
-                             &current_nal_size, 0, mbxmax*mbymax);
+                             &current_nal_size, 0, 0, mbxmax*mbymax);
+		currSlice.slice_size = current_nal_size;
+		frame_size += current_nal_size;
+		slice_nr++;
 
 #ifdef TAA_SAVE_264_MEINFO
         if(encoder->debug_flag)
@@ -1013,7 +1019,9 @@ static int taa_h264_process_frame2 (
         num_bits_in_mb = num_bits_in_slice - num_bits_in_slice_prev;
         num_bits_in_slice_prev = num_bits_in_slice;
       }
+
       taa_h264_save_writer_state (writer);
+	  enc_save_cabac_eep_state(eep);
 
       /* HACK: QP storage should be redesigned. last_coded_qp at this point
        * holds current quant or previous quant for skip. */
@@ -1064,7 +1072,10 @@ static int taa_h264_process_frame2 (
                        encoder->callbacks.context,
                        max_packet_size,
                        &encoder->max_nalu_size,
-                       &current_nal_size, pic_bin_count, mbymax*mbymax);  //todo: change and check here
+                       &current_nal_size, pic_bin_count, frame_size, mbymax*mbymax);  //todo: change and check here
+  currSlice.slice_size = current_nal_size;
+  frame_size += current_nal_size;
+  slice_nr++;
 
 #ifdef TAA_SAVE_264_MEINFO
   if(encoder->debug_flag)
