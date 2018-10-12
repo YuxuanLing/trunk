@@ -30,7 +30,8 @@ unsigned taa_h264_write_slice_header (
   int                slice_qp,
   int                temporal_id,
   const rpm_t *      rpm,
-  rplr_t *           rplr);
+  rplr_t *           rplr,
+  slice_enc_t  *     curr_slice);
 
 unsigned taa_h264_write_mb_header (
   mbinfo_t *    mb,

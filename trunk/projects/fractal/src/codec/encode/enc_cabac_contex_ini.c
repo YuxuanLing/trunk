@@ -54,7 +54,7 @@ void enc_init_cabac_contexts(slice_enc_t *currSlice)
 {
 	motionInfoContext_t*  mc = &currSlice->mot_ctx;
 	textureInfoContexts_t* tc = &currSlice->text_ctx;
-	int model_number = 0;
+	int model_number = currSlice->model_number;
 	int qp = imax(0, currSlice->qp);
 	int i = 0, j = 0;
 

@@ -307,7 +307,8 @@ unsigned taa_h264_write_slice_header (
   int                slice_qp,
   int                temporal_id,
   const rpm_t *      rpm,
-  rplr_t *           rplr)
+  rplr_t *           rplr,
+  slice_enc_t  *     curr_slice)
 {
   unsigned bits = 0;
   slicetype_t slicetype = islice ? SLICE_TYPE_I : SLICE_TYPE_P;
@@ -365,6 +366,10 @@ unsigned taa_h264_write_slice_header (
 
   /* entropy_coding_mode_flag != 1 */
   //Bo Add cabac:
+  if (curr_slice->symbol_mode == CABAC && slicetype != SLICE_TYPE_I)
+  {
+	  bits += TAA_H264_WRITE_SE (writer, curr_slice->model_number, "cabac_init_idc");
+  }
 
   bits += TAA_H264_WRITE_SE (writer, slice_qp - sequence->pps_qp, "slice_qp_delta");
 

@@ -2024,6 +2024,7 @@ int write_p_slice_mb_layer_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice
 		no_bits += coeff_rate;
 	}
 
+	printf("range: %d\n", (eep)->Erange);
 	return no_bits;
 }
 
@@ -2133,6 +2134,7 @@ void enc_init_slice(const sequence_t * sequence, slice_enc_t *currSlice, int fir
 	currSlice->coeff;
 	currSlice->coeff_ctr = 0;
 	currSlice->pos = 0;
+	currSlice->model_number = 0;
 
 	if (sequence->entropy_coding_mode_flag)
 	{

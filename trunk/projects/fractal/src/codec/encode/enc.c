@@ -567,6 +567,7 @@ static int taa_h264_process_frame2 (
       max_packet_size, &encoder->max_nalu_size);
 	frame_size += num_bytes_sps;
 	//write out pps
+	//sequence->entropy_coding_mode_flag = 0;
 	sequence->entropy_coding_mode_flag = 1;
 	num_bits_in_pps = taa_h264_write_picture_parameter_set (writer, sequence);
 	num_bytes_pps = taa_h264_send_nonslice (
@@ -610,7 +611,8 @@ static int taa_h264_process_frame2 (
     encoder->last_coded_qp,
     frameinfo->temporal_id,
     &frameinfo->ref_meta->rpm,
-    frameinfo->rplr);
+    frameinfo->rplr,
+	&currSlice);
 
 
   // Configure load/resizing of input
@@ -707,8 +709,7 @@ static int taa_h264_process_frame2 (
       }
       memset(currmb.luma.do_4x4_enc, 0xff, 16);
 
-      int new_qp = taa_h264_control_mb (
-        encoder->control, encoder->last_coded_qp, num_bits_in_mb, (uint16_t) pos);
+	  int new_qp = 27; //taa_h264_control_mb(encoder->control, encoder->last_coded_qp, num_bits_in_mb, (uint16_t)pos);
 
       mv_t *  motion_vectors_curr = &frameinfo->motion_vectors_curr[pos * NUM_MVS_MB];
       const mv_t * motion_vectors_prev = &frameinfo->motion_vectors_prev[pos * NUM_MVS_MB];
@@ -910,10 +911,10 @@ static int taa_h264_process_frame2 (
        * to the current length. */
       const int extra_bits_compensation = 8 * 8;
 
-      //if (num_bits_in_slice > encoder->max_nalu_size * 8 - extra_bits_compensation && force_no_slice_split == false)
-	  if ((currmb.mbpos >= (slice_nr + 1) *8) && force_no_slice_split == false)
+      if (num_bits_in_slice > encoder->max_nalu_size * 8 - extra_bits_compensation && force_no_slice_split == false)
+	  //if ((currmb.mbpos >= (slice_nr + 1) *8) && force_no_slice_split == false)
       {
-        taa_h264_load_writer_state (writer);
+		if (currSlice.symbol_mode == CABAC)taa_h264_load_writer_state (writer);
 		enc_load_cabac_eep_state(eep);
 
         if (currmb.mbtype == P_SKIP)
@@ -1012,7 +1013,8 @@ static int taa_h264_process_frame2 (
           encoder->last_coded_qp,
           frameinfo->temporal_id,
           &frameinfo->ref_meta->rpm,
-          frameinfo->rplr);
+          frameinfo->rplr,
+		  &currSlice);
       }
       else
       {
@@ -1021,7 +1023,7 @@ static int taa_h264_process_frame2 (
       }
 
       taa_h264_save_writer_state (writer);
-	  enc_save_cabac_eep_state(eep);
+	  if(currSlice.symbol_mode == CABAC)enc_save_cabac_eep_state(eep);
 
       /* HACK: QP storage should be redesigned. last_coded_qp at this point
        * holds current quant or previous quant for skip. */
@@ -1109,6 +1111,7 @@ static int taa_h264_process_frame2 (
   taa_h264_enc_dpb_update (&encoder->dpb,
                            &frameinfo->frame_num,
                            frameinfo->temporal_id);
+  encoder->frames_encoded++;
 
 #ifdef TAA_SAVE_264_MEINFO
   // Calculate PSNR which is a measure of image quality.
@@ -1748,6 +1751,7 @@ bool taa_h264_enc_init (
  )
 {
   error_codes_t err = TAA_H264_NO_ERROR;
+  encoder->frames_encoded = 0;
 
 #ifdef TAA_DEBUG_READ_YUV_FILE
   encoder->used_yuvfile_flag = used_yuvfile_flag;

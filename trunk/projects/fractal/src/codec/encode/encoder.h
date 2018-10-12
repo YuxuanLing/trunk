@@ -248,6 +248,7 @@ struct slice_enc_s
 	int                  qp;         //last_coded_qp
 
 	int                  slice_size;
+	int                  model_number;
 
 	// Some Cabac related parameters (could be put in a different structure so we can dynamically allocate them when needed), using for ceff cabac
 	int  coeff[64];
@@ -341,6 +342,7 @@ struct encoder_s
   error_handler_t error_handler;
   taa_h264_enc_callbacks callbacks;
 
+  int frames_encoded;
 #ifdef TAA_SAVE_264_MEINFO
   unsigned frame_idx;
   unsigned char debug_flag;
