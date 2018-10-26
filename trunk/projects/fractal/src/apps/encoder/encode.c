@@ -17,7 +17,7 @@
 #endif
 
 static char * DEFAULT_FILENAME_LOG = "encoder.log";
-static const int MAX_NALU_SIZE = 14500;// 600;//1450;
+static const int MAX_NALU_SIZE = 1450;// 600;//1450;
 
 typedef struct context_t
 {
@@ -41,6 +41,9 @@ static void help (
           "                            RES is WIDTHxHEIGHT, e.g. 1280x720, or a special number:\n"
           "                              - 2  CIF\n"
           "                              - 3  720p\n"
+	      "    -s symbol,\n"
+	      "    --symbol-mode symbol    symbol is 0/1 0: CAVLC 1:CABAC ,default 0\n"
+	      "    --input-width WIDTH     width of input file if different from encoded width\n"
           "    --input-width WIDTH     width of input file if different from encoded width\n"
           "    --input-height HEGIHT   height of input file if different from encoded height\n"
           "    -f FPS\n"
@@ -209,7 +212,8 @@ static bool parse_options (
   char * *     filename_rec_ptr,
   char * *     filename_in_ptr,
   char * *     filename_out_ptr,
-  int *        num_frames)
+  int *        num_frames,
+  int *        use_cabac)
 {
   char * shortopts = "hq:b:x:r:l:t:e";
   struct option longopts[] =
@@ -232,6 +236,7 @@ static bool parse_options (
     { "reconstruct",    required_argument, 0,    'r' },
     { "log",            required_argument, 0,    'l' },
     { "handle-exceptions", no_argument,    0,    'e' },
+	{ "symbol-mode",    required_argument, 0,    's' },
     /* end-of-list marker */
     { 0, 0, 0, 0 }
   };
@@ -446,6 +451,26 @@ static bool parse_options (
       }
       break;
     }
+	case 's':         /* -coding-options=FLAGS */
+	{
+		char ignored;
+		if (sscanf(optarg, "%u%c", use_cabac, &ignored) != 1)
+		{
+			fprintf(stderr, "%s: use_cabac `%s' is not a number\n",
+				progname, optarg);
+			usage(progname);
+			return false;
+		}
+
+		if (*use_cabac != 0 && *use_cabac != 1)
+		{
+			fprintf(stderr, "%s: symbol mode `%s' is not a bool\n",
+				progname, optarg);
+			usage(progname);
+			return false;
+		}
+		break;
+	}
     case 'r':         /* -reconstruct=FILE */
     {
       *filename_rec_ptr = optarg;
@@ -640,6 +665,7 @@ int main(
   int intra_period;
   int gop_size;
   int t_levels;
+  int use_cabac = 0;
   int max_ref_frames;
   int width;
   int height;
@@ -659,8 +685,6 @@ int main(
   FILE * tracefile = NULL;
 
   const char * progname = argv[0];
-  printf("------start encoder------\n");
-  //getchar();
 
   if (!parse_options (progname,
                       argc,
@@ -683,7 +707,8 @@ int main(
                       &filename_rec,
                       &filename_in,
                       &filename_out,
-                      &frames))
+                      &frames,
+	                  &use_cabac))
   {
     return 1;
   }
@@ -775,7 +800,7 @@ int main(
   }
 
   int framesize = ysize + 2 * csize;
-  unsigned char * framebuf = _mm_malloc(framesize * frames, 64);
+  unsigned char * framebuf = _mm_malloc(framesize * frames, 16);
   if (!framebuf)
   {
     fprintf (stderr, "Error allocating memory for all frames\n");
@@ -816,6 +841,8 @@ int main(
   eparams.coding_options = coding_options;
   //eparams.coding_options = TAA_H264_HQ_DISABLE_EARLY_SKIP;
   eparams.output_buffer = outbuf;
+  eparams.use_high_profile = use_cabac;
+
 
   /* Config for MXP1700 compatibility */
   /* eparams.max_mbps = 35000; */

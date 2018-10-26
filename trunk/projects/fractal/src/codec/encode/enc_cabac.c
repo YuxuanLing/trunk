@@ -214,7 +214,7 @@ void write_mb_I_type_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbin
 	}
 	else if (act_sym == 25) // PCM-MODE,todo: not support now
 	{
-		assert(0);
+		TAA_H264_DEBUG_ASSERT(0);
 		binary_encode_symbol(eep, 1, ctx->mb_type_contexts[0] + act_ctx);
 		binary_encode_symbol_final(eep, 1);
 	}
@@ -315,7 +315,7 @@ void write_mb_P_type_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbin
 		break;
 	default:
 		printf("Unsupported MB-MODE in writeMB_I_typeInfo_CABAC!\n");
-		assert(0);                                             //todo
+		TAA_H264_DEBUG_ASSERT(0);                                             //todo
 	}
 
 	if (act_sym == mode16x16) // additional info for 16x16 Intra-mode
@@ -826,11 +826,9 @@ int MBType2Value(slice_enc_t *currSlice, mbinfo_t *currMB)
 			return ((currSlice->slice_type == I_SLICE) ? 0: 6);
 			break;
 		case I_16x16:
-			assert(currMB->i16offset != -1);
 			return ((currSlice->slice_type == I_SLICE) ?0:6) + currMB->i16offset;
 			break;
 		case I_PCM:
-			assert(0);
 			return ((currSlice->slice_type == I_SLICE) ? 25: 31);
 			break;
 		case P_8x8:
@@ -913,7 +911,6 @@ void mvd_flatten(mbinfo_t *currMB)
 	else
 	{
 		memset(&currMB->mvd[0][0][0], 0, sizeof(currMB->mvd));
-		assert(0);// not support
 	}
 
 }
@@ -975,7 +972,7 @@ int enc_update_mb_assist_info(const frameinfo_t * frameinfo, const slice_enc_t *
 
 	if (prev_mb)
 	{
-	  assert(currMB->mbpos > 0);
+	  TAA_H264_DEBUG_ASSERT(currMB->mbpos > 0);
 	  currMB->prevMb = &(frameinfo->mbinfo_stored[currMB->mbpos - 1]);
 	  currMB->prev_qp = currMB->prevMb->qp;
 	  currMB->prev_dqp = currMB->prev_qp - currMB->prevMb->prev_qp;
@@ -993,7 +990,7 @@ int enc_update_mb_assist_info(const frameinfo_t * frameinfo, const slice_enc_t *
 		currMB->i16offset = -1;
 	}
 
-	if (!MB_TYPE_IS_INTRA(currMB->mbtype))
+	//if (!MB_TYPE_IS_INTRA(currMB->mbtype))
 		mvd_flatten(currMB);
 
 	return  0;
@@ -1103,59 +1100,59 @@ void write_and_store_cbp_block_bit(frameinfo_t * frameinfo, slice_enc_t *currSli
 	{
 		if (type == LUMA_8x8_CABAC_BLK)
 		{
-			assert(0); //not support now
+			TAA_H264_DEBUG_ASSERT(0); //not support now
 			currMB->cbp_bits[0] |= ((int64_t)0x33 << bit);
 		}
 		else if (type == CB_8x8_CABAC_BLK)
 		{
-			assert(0); //not support now
+			TAA_H264_DEBUG_ASSERT(0); //not support now
 			//currMB->cbp_bits_8x8[1] |= ((int64_t)0x33 << bit);
 			currMB->cbp_bits[1] |= ((int64_t)0x33 << bit);
 		}
 		else if (type == CR_8x8_CABAC_BLK)
 		{
-			assert(0); //not support now
+			TAA_H264_DEBUG_ASSERT(0); //not support now
 			//currMB->cbp_bits_8x8[2] |= ((int64_t)0x33 << bit);
 			currMB->cbp_bits[2] |= ((int64_t)0x33 << bit);
 		}
 		else if (type == LUMA_8x4_CABAC_BLK)
 		{
-			assert(0); //not support now
+			TAA_H264_DEBUG_ASSERT(0); //not support now
 			currMB->cbp_bits[0] |= ((int64_t)0x03 << bit);
 		}
 		else if (type == LUMA_4x8_CABAC_BLK)
 		{
-			assert(0); //not support now
+			TAA_H264_DEBUG_ASSERT(0); //not support now
 			currMB->cbp_bits[0] |= ((int64_t)0x11 << bit);
 		}
 		else if (type == CB_8x4_CABAC_BLK)
 		{
-			assert(0); //not support now
+			TAA_H264_DEBUG_ASSERT(0); //not support now
 			currMB->cbp_bits[1] |= ((int64_t)0x03 << bit);
 		}
 		else if (type == CR_8x4_CABAC_BLK)
 		{
-			assert(0); //not support now
+			TAA_H264_DEBUG_ASSERT(0); //not support now
 			currMB->cbp_bits[2] |= ((int64_t)0x03 << bit);
 		}
 		else if (type == CB_4x8_CABAC_BLK)
 		{
-			assert(0); //not support now
+			TAA_H264_DEBUG_ASSERT(0); //not support now
 			currMB->cbp_bits[1] |= ((int64_t)0x11 << bit);
 		}
 		else if (type == CR_4x8_CABAC_BLK)
 		{
-			assert(0); //not support now
+			TAA_H264_DEBUG_ASSERT(0); //not support now
 			currMB->cbp_bits[2] |= ((int64_t)0x11 << bit);
 		}
 		else if ((type == CB_4x4_CABAC_BLK) || (type == CB_16AC_CABAC_BLK) || (type == CB_16DC_CABAC_BLK))
 		{
-			assert(0); //not support now
+			TAA_H264_DEBUG_ASSERT(0); //not support now
 			currMB->cbp_bits[1] |= ((int64_t)0x01 << bit);
 		}
 		else if ((type == CR_4x4_CABAC_BLK) || (type == CR_16AC_CABAC_BLK) || (type == CR_16DC_CABAC_BLK))
 		{
-			assert(0); //not support now
+			TAA_H264_DEBUG_ASSERT(0); //not support now
 			currMB->cbp_bits[2] |= ((int64_t)0x01 << bit);
 		}
 		else
@@ -1738,7 +1735,7 @@ int write_i_slice_mb_layer_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice
 
 	if (currMB->mbtype == I_PCM)
 	{
-		assert(0);
+		TAA_H264_DEBUG_ASSERT(0);
 		return no_bits;
 	}
 
@@ -1754,7 +1751,7 @@ int write_i_slice_mb_layer_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice
 	no_bits += write_coeff16x16_cabac(frameinfo, currSlice, currMB, 0, eep);
 
 	no_bits += write_chroma_coeff(frameinfo, currSlice, currMB, eep);
-	printf("range: %d\n", (eep)->Erange);
+//	printf("range: %d\n", (eep)->Erange);
 
 	return no_bits;
 }
@@ -1824,8 +1821,8 @@ int write_mvd_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinfo_t *c
 	if (block_b.available)
 	{
 		int x;
-		x = (block_b.mb_addr == currMB->mbpos) ? currMB->mvd[block_a.y][block_a.x][k] : frameinfo->mbinfo_stored[block_a.mb_addr].mvd[block_a.y][block_a.x][k];
-		b = iabs(frameinfo->mbinfo_stored[block_b.mb_addr].mvd[block_b.y][block_b.x][k]);
+		x = (block_b.mb_addr == currMB->mbpos) ? currMB->mvd[block_b.y][block_b.x][k] : frameinfo->mbinfo_stored[block_b.mb_addr].mvd[block_b.y][block_b.x][k];
+		b = iabs(x);
 	}
 	else
 		b = 0;
@@ -1909,8 +1906,9 @@ int write_p_slice_motion_info(frameinfo_t * frameinfo, slice_enc_t *currSlice, m
 		*/
 
 		//===== write forward motion vectors =====
-		assert(currMB->mv1.ref_num == 0);
-
+		TAA_H264_DEBUG_ASSERT(currMB->mv1.ref_num == 0);
+		currMB->subblock_x = 0;
+		currMB->subblock_y = 0;
 		se.value1 = currMB->mv1.x - currMB->pred1.x;
 		se.value2 = 0; // identifies the component and the direction; only used for context determination
 		no_bits += write_mvd_cabac(frameinfo, currSlice, currMB, &se, eep);
@@ -1921,7 +1919,20 @@ int write_p_slice_motion_info(frameinfo_t * frameinfo, slice_enc_t *currSlice, m
 
 		if (num_parts[currMB->mbtype] == 2)
 		{
-			assert(currMB->mv2.ref_num == 0);
+			TAA_H264_DEBUG_ASSERT(currMB->mv2.ref_num == 0);
+
+			if (currMB->mbtype == P_8x16)
+			{
+				//8x16
+				currMB->subblock_x = 8;
+				currMB->subblock_y = 0;
+			}
+			else
+			{
+				//16x8
+				currMB->subblock_x = 0;
+				currMB->subblock_y = 8;
+			}
 
 			se.value1 = currMB->mv2.x - currMB->pred2.x;
 			se.value2 = 0; // identifies the component and the direction; only used for context determination
@@ -1979,7 +1990,7 @@ int write_p_slice_mb_layer_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice
 
 	if (currMB->mbtype == I_PCM)
 	{
-		assert(0);
+		TAA_H264_DEBUG_ASSERT(0);
 		return no_bits;
 	}
 
@@ -1997,7 +2008,7 @@ int write_p_slice_mb_layer_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice
 			no_bits += se.len;
 		}
 		*/
-		assert(0);
+		TAA_H264_DEBUG_ASSERT(0);
 		//no_bits += write_motion_info();
 	}
 
@@ -2024,7 +2035,7 @@ int write_p_slice_mb_layer_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice
 		no_bits += coeff_rate;
 	}
 
-	printf("range: %d\n", (eep)->Erange);
+//	printf("range: %d\n", (eep)->Erange);
 	return no_bits;
 }
 
@@ -2074,12 +2085,11 @@ int terminate_slice_cabac(frameinfo_t * frameinfo, slice_enc_t *currSlice, mbinf
 	algorithm_enc_done(eep);
 	set_pic_bin_count(frameinfo, eep);
 
-	if (lastslice)
-	{
+	//if (lastslice)
+	//{
 		//impl this to Inserting  cabac_zero_word syntax elements/bytes (Clause 7.4.2.10)
 		//addCabacZeroWords(); this has been impl in the taa_h264_postprocess_output_buffer
-		//assert(0);
-	}
+	//}
 
 	return 0;  //todo: check the return
 }

@@ -40,7 +40,6 @@ void taa_h264_control_init (
   ctrl->enable_frame_skip = false;
   ctrl->skip_frames = 0;
   ctrl->fixed_qp = false;
-  //ctrl->fixed_qp = true;
   ctrl->intra_period = 0;
   ctrl->frames_since_intra = 0;
 

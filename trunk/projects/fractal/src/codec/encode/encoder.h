@@ -324,6 +324,7 @@ struct encoder_s
   unsigned output_height;
 
   unsigned coding_options;
+  unsigned using_high_profile;
 
   sequence_t sequence;
   slice_enc_t    slice;

@@ -86,7 +86,6 @@ bool taa_h264_dpb_init (
     pic->is_longterm = false;
     pic->picid = 0;
 
-	__assume_aligned(memptr, 64);
     memptr += taa_h264_init_framebuf (&ipbuf->full,
                                       padded_width, padded_height,
                                       memptr);

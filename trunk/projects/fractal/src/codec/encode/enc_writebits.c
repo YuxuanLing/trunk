@@ -167,7 +167,7 @@ static int taa_h264_postprocess_output_buffer (
 	 stuffing_bytes = cabacZeroWords_need_added(pic_bin_count, pic_size_in_mbs, latest_frame_size);
 	 if (stuffing_bytes)
 	 {
-		 assert(0);
+		 TAA_H264_DEBUG_ASSERT(0);  //remove this latter
 		 latest_nalu_size += addCabacZeroWords((w->latest_nalu_start + latest_nalu_size), stuffing_bytes);
 	 }
  }

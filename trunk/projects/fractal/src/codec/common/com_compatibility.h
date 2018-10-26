@@ -77,8 +77,8 @@ uint32_t inline  ffs(uint32_t x)
 # define _bit_scan_forward(a) (ffs(a) - 1)
 # define _popcnt32(x) (popcnt(x))
 
-#define __assume_aligned(ptr, alignment)  assert(((uint64_t)ptr&(alignment - 1)) == 0)
-//#define __assume_aligned(ptr, alignment) 
+//#define __assume_aligned(ptr, alignment)  assert(((uint64_t)ptr&(alignment - 1)) == 0)
+#define __assume_aligned(ptr, alignment) 
 
 
 #else

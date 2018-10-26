@@ -5668,8 +5668,7 @@ void taa_h264_save_8x16_0(
   uint8_t const *    fpel,
   uint8_t *  best)
 {
-  //__assume_aligned(best, 64);
-  __assume_aligned(best, 8);
+  __assume_aligned(best, 64);
   for (int y = 0; y < 16; y++)
   {
     _mm_storel_epi64((__m128i *)&best[y * 16], _mm_loadl_epi64((__m128i *)&fpel[y * stride]));
@@ -5682,8 +5681,7 @@ void taa_h264_save_8x16_1(
   uint8_t const *    fpel,
   uint8_t *  best)
 {
-  //__assume_aligned(best, 64);
-  __assume_aligned(best, 8);
+  __assume_aligned(best, 64);
   for (int y = 0; y < 16; y += 2)
   {
     const __m128i O = _mm_setzero_si128();
@@ -5743,8 +5741,7 @@ void taa_h264_save_8x16_2(
   uint8_t const *    fpel,
   uint8_t *  best)
 {
-  //__assume_aligned(best, 64);
-  __assume_aligned(best, 8);
+  __assume_aligned(best, 64);
   for (int y = 0; y < 16; y += 2)
   {
     const __m128i O = _mm_setzero_si128();
@@ -5803,8 +5800,7 @@ void taa_h264_save_8x16_3(
   uint8_t const *    fpel,
   uint8_t *  best)
 {
-  //__assume_aligned(best, 64);
-  __assume_aligned(best, 8);
+  __assume_aligned(best, 64);
   for (int y = 0; y < 16; y += 2)
   {
     const __m128i O = _mm_setzero_si128();
@@ -6273,8 +6269,7 @@ void taa_h264_save_8x16_7(
   uint8_t const *    fpel,
   uint8_t *  best)
 {
-  //__assume_aligned(best, 64);
-  __assume_aligned(best, 8);
+  __assume_aligned(best, 64);
   for (int y = 0; y < 16; y += 2)
   {
     const __m128i O = _mm_setzero_si128();
@@ -6372,8 +6367,7 @@ void taa_h264_save_8x16_8(
   uint8_t const *    fpel,
   uint8_t *  best)
 {
-  //__assume_aligned(best, 64);
-  __assume_aligned(best, 8);
+  __assume_aligned(best, 64);
   for (int y = 0; y < 16; y += 2)
   {
     const __m128i O = _mm_setzero_si128();
@@ -7135,8 +7129,7 @@ void taa_h264_save_8x16_12(
   uint8_t const *    fpel,
   uint8_t *  best)
 {
-  //__assume_aligned(best, 64);
-  __assume_aligned(best, 8);
+  __assume_aligned(best, 64);
   for (int y = 0; y < 16; y += 2)
   {
     const __m128i O = _mm_setzero_si128();
@@ -7191,8 +7184,7 @@ void taa_h264_save_8x16_13(
   uint8_t const *    fpel,
   uint8_t *  best)
 {
-  //__assume_aligned(best, 64);
-  __assume_aligned(best, 8);
+  __assume_aligned(best, 64);
   for (int y = 0; y < 16; y += 2)
   {
     const __m128i O = _mm_setzero_si128();
@@ -7544,8 +7536,7 @@ void taa_h264_save_8x16_15(
   uint8_t const *    fpel,
   uint8_t *  best)
 {
-  //__assume_aligned(best, 64);
-  __assume_aligned(best, 8);
+  __assume_aligned(best, 64);
   for (int y = 0; y < 16; y += 2)
   {
     const __m128i O = _mm_setzero_si128();

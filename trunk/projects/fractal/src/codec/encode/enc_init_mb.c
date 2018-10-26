@@ -1023,6 +1023,7 @@ void taa_h264_init_mb (
   
   memset(&(mb->mbcoeffs), 0, sizeof(mb->mbcoeffs));
   memset(&(mb->mvd[0][0][0]), 0, sizeof(mb->mvd));
+  mb->best_i8x8_mode_chroma = 0;
 
   taa_h264_set_mb_availability (
     mbx,

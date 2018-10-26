@@ -57,5 +57,6 @@ int taa_h264_process_frame (
   const flux_t *     flux,
   const uint32_t     max_nalu_size,
   const unsigned     coding_options,
+  const unsigned     use_high_profile,
   uint8_t *          outbuf);
 #endif

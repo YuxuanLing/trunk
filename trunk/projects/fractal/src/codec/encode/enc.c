@@ -491,8 +491,9 @@ static int taa_h264_process_frame2 (
   unsigned num_bits_in_mb = 0;
   unsigned first_mb_in_slice = 0;
   int frame_cabac_byte_len = 0;
-  unsigned slice_nr = 0;
+  int slice_nr = 0;
   int frame_size = 0;
+  int qp_lists[10] = { 26,28,29,23,32,20,20,20,25,36 };
   *num_skip_mbs = 0;
 
   const int mbxmax = frameinfo->width / MB_WIDTH_Y;
@@ -510,6 +511,7 @@ static int taa_h264_process_frame2 (
 #ifdef TAA_DEBUG_SAVE_MEINFO
   int saved_avail_flags[mbxmax * mbymax];
 #endif
+  sequence->entropy_coding_mode_flag = encoder->using_high_profile ? 1 : 0;
 
   if (flux && flux->ack_status && !idr_frame)
   {
@@ -567,8 +569,7 @@ static int taa_h264_process_frame2 (
       max_packet_size, &encoder->max_nalu_size);
 	frame_size += num_bytes_sps;
 	//write out pps
-	//sequence->entropy_coding_mode_flag = 0;
-	sequence->entropy_coding_mode_flag = 1;
+	//sequence->entropy_coding_mode_flag = 1; //encoder->using_high_profile ? 1 : 0;
 	num_bits_in_pps = taa_h264_write_picture_parameter_set (writer, sequence);
 	num_bytes_pps = taa_h264_send_nonslice (
       writer, encoder->callbacks.output_nalu, encoder->callbacks.context,
@@ -709,7 +710,7 @@ static int taa_h264_process_frame2 (
       }
       memset(currmb.luma.do_4x4_enc, 0xff, 16);
 
-	  int new_qp = 27; //taa_h264_control_mb(encoder->control, encoder->last_coded_qp, num_bits_in_mb, (uint16_t)pos);
+	  int new_qp = taa_h264_control_mb(encoder->control, encoder->last_coded_qp, num_bits_in_mb, (uint16_t)pos); //qp_lists[(mby * mbxmax + mbx)%(sizeof(qp_lists)/4)]; //taa_h264_control_mb(encoder->control, encoder->last_coded_qp, num_bits_in_mb, (uint16_t)pos);
 
       mv_t *  motion_vectors_curr = &frameinfo->motion_vectors_curr[pos * NUM_MVS_MB];
       const mv_t * motion_vectors_prev = &frameinfo->motion_vectors_prev[pos * NUM_MVS_MB];
@@ -774,6 +775,7 @@ static int taa_h264_process_frame2 (
       {
         motion_vectors_curr_16x16->x[pos] = currmb.mvskip.x;
         motion_vectors_curr_16x16->y[pos] = currmb.mvskip.y;
+		currmb.best_i8x8_mode_chroma = 0;
 
         for (int i = 0; i < NUM_MVS_MB; i++)
           motion_vectors_curr[i] = currmb.mvskip;
@@ -852,6 +854,20 @@ static int taa_h264_process_frame2 (
         /* If we are at the last MB, we need to code the run of skips */
         mbrun = pos - last_pos;
         num_bits_current_mb = 0;
+		if (currSlice.symbol_mode == CABAC)
+		{
+			currmb.mquant = encoder->last_coded_qp;
+			enc_update_mb_assist_info(frameinfo, &currSlice, &currmb);
+			TAA_H264_DEBUG_ASSERT(currmb.prev_qp == encoder->last_coded_qp);
+			if (currmb.mbpos != currSlice.first_mb_in_slice)
+			{
+				write_terminating_bit(eep, 0);
+			}
+			
+			num_bits_current_mb = write_p_slice_mb_layer_cabac(frameinfo, &currSlice, &currmb, eep);
+			encoder->last_coded_qp = (uint8_t)currmb.mquant;
+		}
+
         if (pos == mbymax * mbxmax - 1)
         {
 			if (currSlice.symbol_mode != CABAC)
@@ -873,7 +889,7 @@ static int taa_h264_process_frame2 (
 		{
 			
 			enc_update_mb_assist_info(frameinfo, &currSlice, &currmb);
-			assert(currmb.prev_qp == encoder->last_coded_qp);
+			TAA_H264_DEBUG_ASSERT(currmb.prev_qp == encoder->last_coded_qp);
 			if (currmb.mbpos != currSlice.first_mb_in_slice)
 			{
 				write_terminating_bit(eep, 0);
@@ -882,19 +898,26 @@ static int taa_h264_process_frame2 (
 			if (currSlice.slice_type == I_SLICE)
 			{
 				num_bits_current_mb = write_i_slice_mb_layer_cabac(frameinfo, &currSlice, &currmb, eep);
-				encoder->last_coded_qp = (uint8_t)currmb.mquant;
 			}
 			else
 			{
 				num_bits_current_mb = write_p_slice_mb_layer_cabac(frameinfo, &currSlice, &currmb, eep);
-				encoder->last_coded_qp = (uint8_t)currmb.mquant;
+			}
+
+			if (currmb.cbp != 0 || currmb.mbtype == I_16x16)
+			{
+				encoder->last_coded_qp = currmb.mquant;
+			}
+			else
+			{
+				currmb.mquant = encoder->last_coded_qp;
 			}
 
 		}
 		else
 		{
 			enc_update_mb_assist_info(frameinfo, &currSlice, &currmb);
-			assert(currmb.prev_qp == encoder->last_coded_qp);
+			TAA_H264_DEBUG_ASSERT(currmb.prev_qp == encoder->last_coded_qp);
 			num_bits_current_mb = taa_h264_write_mb(frameinfo, &currmb, mbrun, intra_frame, &encoder->last_coded_qp, writer);
 		}
         
@@ -912,11 +935,11 @@ static int taa_h264_process_frame2 (
       const int extra_bits_compensation = 8 * 8;
 
       if (num_bits_in_slice > encoder->max_nalu_size * 8 - extra_bits_compensation && force_no_slice_split == false)
-	  //if ((currmb.mbpos >= (slice_nr + 1) *8) && force_no_slice_split == false)
+	  //if ((currmb.mbpos >= (slice_nr + 1) *21) && force_no_slice_split == false)
       {
-		if (currSlice.symbol_mode == CABAC)taa_h264_load_writer_state (writer);
-		enc_load_cabac_eep_state(eep);
-
+		taa_h264_load_writer_state(writer);
+		if (currSlice.symbol_mode == CABAC)enc_load_cabac_eep_state(eep);
+		
         if (currmb.mbtype == P_SKIP)
         {
           mbrun--;
@@ -1061,7 +1084,6 @@ static int taa_h264_process_frame2 (
   int cabac_padding_bytes = 0, pic_bin_count = 0;
   if (currSlice.symbol_mode == CABAC)
   {
-	  //cabac_padding_bytes = cabacZeroWords_need_added(frameinfo, int pic_size_in_mbs, int bytes_in_picture);
 	  terminate_slice_cabac(frameinfo, &currSlice, &currmb, eep, 1);
 	  pic_bin_count = frameinfo->pic_bin_count;
   }
@@ -1271,6 +1293,7 @@ int taa_h264_process_frame (
   const flux_t *     flux,
   const uint32_t     max_packet_size,
   const unsigned     coding_options,
+  const unsigned     use_high_profile,
   uint8_t *          outbuf)
 {
 
@@ -1324,9 +1347,10 @@ int taa_h264_process_frame (
 #endif
 
   encoder->coding_options = coding_options;
+  encoder->using_high_profile = use_high_profile;
   encoder->max_nalu_size = max_packet_size;
   taa_h264_reset_writer (writer, outbuf, false);
-
+  //encoder->sequence.entropy_coding_mode_flag = high_profile ? 1 : 0;
   if (flux && flux->message)
   {
     /* Send flux message as early as possible. Even send flux messages if rate

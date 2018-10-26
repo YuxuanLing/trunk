@@ -115,8 +115,7 @@ void taa_h264_qp_sad8x16h2(
   int i, j;
   uint32_t sad0 = 0;
   uint32_t sad1 = 0;
-  //__assume_aligned(curr, 16);
-  __assume_aligned(curr, 8);
+  __assume_aligned(curr, 16);
   for (i = 0; i < 8; i++)
   {
     TAA_H264_ALIGN(64) uint8_t avg0[16], cur[16], fp0[16], fp1[16];
@@ -500,8 +499,7 @@ void taa_h264_qp_sad8x16v2(
   int i, j;
   uint32_t sad0 = 0;
   uint32_t sad1 = 0;
-  //__assume_aligned(curr, 16);
-  __assume_aligned(curr, 8);
+  __assume_aligned(curr, 16);
   for (i = 0; i < 8; i++)
   {
     TAA_H264_ALIGN(64) uint8_t avg0[16], cur[16], fp0[16], fp1[16];
@@ -629,8 +627,7 @@ void taa_h264_qp_sad8x16h4(
   uint32_t sad1 = 0;
   uint32_t sad2 = 0;
   uint32_t sad3 = 0;
-  //__assume_aligned(curr, 16);
-  __assume_aligned(curr, 8);
+  __assume_aligned(curr, 16);
   for (i = 0; i < 8; i++)
   {
     TAA_H264_ALIGN(64) uint8_t avg0[16], avg1[16], avg2[16], avg3[16],  avg4[16], cur[16];
@@ -821,8 +818,7 @@ void taa_h264_qp_sad8x16x4d4(
   uint32_t sad5 = 0;
   uint32_t sad6 = 0;
   uint32_t sad7 = 0;
-  //__assume_aligned(curr, 16);
-  __assume_aligned(curr, 8);
+  __assume_aligned(curr, 16);
 #ifdef AVG_HPEL
   for (i = 0; i < 8; i++)
   {
@@ -976,8 +972,7 @@ void taa_h264_qp_sad8x16v4(
   uint32_t sad1 = 0;
   uint32_t sad2 = 0;
   uint32_t sad3 = 0;
-  //__assume_aligned(curr, 16);
-  __assume_aligned(curr, 8);
+  __assume_aligned(curr, 16);
   for (i = 0; i < 8; i++)
   {
     TAA_H264_ALIGN(64) uint8_t avg0[16], avg1[16], avg2[16], avg3[16], avg4[16], cur[16];
@@ -1260,8 +1255,7 @@ void taa_h264_diamond_sad8x16(
   uint32_t sad1 = 0;
   uint32_t sad2 = 0;
   uint32_t sad3 = 0;
-  //__assume_aligned(curr, 16);
-  __assume_aligned(curr, 8);
+  __assume_aligned(curr, 16);
 
   for(i = 0; i < 8; i++)
   {

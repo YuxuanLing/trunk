@@ -659,6 +659,10 @@ void taa_h264_load_resized_mb(
           resize_mb_cubic_ssse3(&ld_y[3 * READ + 3], &ld_u[3 * (READ/2) + 3], &ld_v[3 * (READ / 2) + 3], mb_y, mb_uv, resizer->cbf, READ, RSZ>>3);
         else
           resize_mb_cubic_sse2(&ld_y[3 * READ + 3], &ld_u[3 * (READ / 2) + 3], &ld_v[3 * (READ / 2) + 3], mb_y, mb_uv, resizer->cbf, READ, RSZ>>3);
+	  
+	    free(ld_y);
+		free(ld_u);
+		free(ld_v);
         break;
       default:
         // FIXME: There seems to be a bug when READ is 128 (e.g. 1080p -> 180p)
@@ -667,6 +671,10 @@ void taa_h264_load_resized_mb(
           resize_mb_octave_ssse3 (READ, resizer->filter, resizer->coeffs, &ld_y[3 * READ + 3], &ld_u[3 * (READ / 2) + 3], &ld_v[3 * (READ / 2) + 3], mb_y, mb_uv, READ, RSZ, fineH, fineV);
         else
           resize_mb_octave_sse2 (READ, resizer->filter, resizer->coeffs, &ld_y[3 * READ + 3], &ld_u[3 * (READ / 2) + 3], &ld_v[3 * (READ / 2) + 3], mb_y, mb_uv, READ, RSZ, fineH, fineV);
+	  
+	    free(ld_y);
+		free(ld_u);
+		free(ld_v);
         break;
       }
 

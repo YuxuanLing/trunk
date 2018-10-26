@@ -112,7 +112,9 @@ typedef struct taa_h264_enc_exec_params
   int active_temporal_levels; /* number of active temporal levels (higher levels will be skipped). negative number disables check. */
 
   unsigned max_nalu_size;
+  unsigned use_high_profile;          /* = 1 means using cabac */
   unsigned char * output_buffer;  /* Must be at least one MB bigger than max_nalu_size. */
+  
 
   taa_h264_flux_params * flux; /* information needed for packet loss scheme */
 } taa_h264_enc_exec_params;

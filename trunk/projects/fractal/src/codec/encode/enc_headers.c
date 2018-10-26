@@ -125,14 +125,15 @@ static unsigned taa_h264_write_sps_data (
   bits += TAA_H264_WRITE_U (writer, 0, 5, "reserved_zero_5bits");
   bits += TAA_H264_WRITE_U (writer, sequence->level, 8, "profile_idc");
   bits += TAA_H264_WRITE_UE (writer, sequence->sps_id, "seq_parameter_set_id");
-  if (profile == SCALABLE_BASELINE_PROFILE)
+  if (profile == SCALABLE_BASELINE_PROFILE || profile == HIGH_PROFILE)
   {
     bits += TAA_H264_WRITE_UE (writer, 1, "chroma_format_idc");
     bits += TAA_H264_WRITE_UE (writer, 0, "bit_depth_luma_minus8");
     bits += TAA_H264_WRITE_UE (writer, 0, "bit_depth_chroma_minus8");
-    bits += TAA_H264_WRITE_U (writer, 0, 1, "qpprime_y_zero_transform_bypass_flag");
+    bits += TAA_H264_WRITE_U (writer, 0, 1, "lossless_qpprime_y_zero_flag");
     bits += TAA_H264_WRITE_U (writer, 0, 1, "seq_scaling_matrix_present_flag");
   }
+
   bits += TAA_H264_WRITE_UE (writer, LOG2_MAX_FRAME_NUM - 4, "log2_max_frame_num_minus4");
   /* picture order count 2 results in an output order that is the same as
    * the decoding order.  */
@@ -168,14 +169,15 @@ unsigned taa_h264_write_sequence_parameter_set (
   unsigned               width,
   unsigned               height)
 {
-  unsigned bits = 0;
+  unsigned bits = 0, profile = BASELINE_PROFILE;
   bits += taa_h264_write_nalu_header (
     writer,
     taa_h264_get_priority (NALU_TYPE_SPS, 0),
     NALU_TYPE_SPS,
     true);
   TAA_H264_TRACE (TAA_H264_TRACE_HEADERS, "\n\n******* SEQUENCE PARAMETER SET *******\n\n");
-  bits += taa_h264_write_sps_data (writer, sequence, BASELINE_PROFILE, width, height);
+  if (sequence->entropy_coding_mode_flag == 1)profile = HIGH_PROFILE;
+  bits += taa_h264_write_sps_data (writer, sequence, profile, width, height);
   return bits;
 }
 

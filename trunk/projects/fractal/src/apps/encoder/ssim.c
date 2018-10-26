@@ -32,17 +32,11 @@ ssim_pixel(const float *original,
            const int width, 
            const int height)
 {
-  //__assume_aligned(original, 64);
-  //__assume_aligned(encoded, 64);
-  //__assume_aligned(orig_sq, 64);
-  //__assume_aligned(enc_sq, 64);
-  //__assume_aligned(orig_enc, 64);
-
-  __assume_aligned(original, 16);
-  __assume_aligned(encoded,  16);
-  __assume_aligned(orig_sq,  16);
-  __assume_aligned(enc_sq,   16);
-  __assume_aligned(orig_enc, 16);
+  __assume_aligned(original, 64);
+  __assume_aligned(encoded, 64);
+  __assume_aligned(orig_sq, 64);
+  __assume_aligned(enc_sq, 64);
+  __assume_aligned(orig_enc, 64);
 
   int row, col;
   float mu_x, mu_y, mu_xy, sigma_x, sigma_y, sigma_xy;
@@ -144,8 +138,7 @@ ssim(const uint8_t *original,
      const int stride)
 {
   __assume_aligned(original, 64);
-  //__assume_aligned(encoded, 64);
-  __assume_aligned(encoded, 32);
+  __assume_aligned(encoded, 64);
 
   float mssim = 0.0;
 

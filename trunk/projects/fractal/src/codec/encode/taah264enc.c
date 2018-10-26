@@ -101,6 +101,7 @@ int taa_h264_enc_execute (
                                  params->flux,
                                  params->max_nalu_size,
                                  params->coding_options,
+	                             params->use_high_profile,
                                  params->output_buffer);
 }
 
@@ -142,6 +143,7 @@ void taa_h264_enc_default_exec_params (
   params->max_static_mbps = 0;
   params->enable_frame_skip = false;
   params->max_nalu_size = 1344;
+  params->use_high_profile = 0;
   params->output_buffer = NULL;
   params->flux = NULL;
 }

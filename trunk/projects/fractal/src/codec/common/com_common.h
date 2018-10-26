@@ -31,7 +31,6 @@
 #define PAD_VERT_UV 16
 #define PAD_HORZ_UV 16
 
-
 #define MBTYPE_ISLICE_OFFSET 5
 
 
@@ -42,7 +41,8 @@
 typedef enum
 {
   BASELINE_PROFILE  = 66,
-  SCALABLE_BASELINE_PROFILE = 83
+  SCALABLE_BASELINE_PROFILE = 83,
+  HIGH_PROFILE      = 100
 } profile_t;
 
 typedef enum

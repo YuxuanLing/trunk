@@ -37,6 +37,9 @@ void taa_h264_enc_store_mbinfo( \
 	mb->cbp = currMB->cbp;
 	const bool left_avail = MB_LEFT(flags);
 	const bool top_avail = MB_UP(flags);
+
+	memcpy(&mb->mvd[0][0][0], &currMB->mvd[0][0][0], sizeof(mb->mvd)); //cabac use
+
 	if (left_avail && top_avail)
 	{
 		const mbinfo_store_t * mb_left = mb - 1;
@@ -66,10 +69,7 @@ void taa_h264_enc_store_mbinfo( \
 	{
 		new_flags |= MB_TYPE_INTRA_;
 	}
-	else
-	{
-		memcpy(&mb->mvd[0][0][0], &currMB->mvd[0][0][0], sizeof(mb->mvd)); //cabac use
-	}
+
 
 
 	/* HACK: TODO: Do proper initialization of ycbp for skip mbs. */
